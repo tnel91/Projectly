@@ -54,7 +54,7 @@ A user will be able to log in and create new projects which will store informati
 
 #### _Entity Relationship Diagram_
 
-![Entity Relationship Diagram](https://i.imgur.com/EQxjvQV.png)
+![Entity Relationship Diagram](https://i.imgur.com/x6uh7lT.png)
 
 ---
 
