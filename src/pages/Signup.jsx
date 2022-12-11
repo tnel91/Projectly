@@ -21,18 +21,27 @@ const Signup = () => {
     e.preventDefault()
     if (formState.password === formState.confirmPass) {
       document.getElementById('signup-msg').innerHTML = ' '
-      await RegisterUser({
+      const res = await RegisterUser({
         username: formState.username,
         email: formState.email,
         password: formState.password
       })
-      setFormState({
-        email: '',
-        username: '',
-        password: '',
-        confirmPass: ''
-      })
-      navigate('/')
+      console.log(res)
+      if (res.msg === 'unique violation: email must be unique') {
+        document.getElementById('signup-msg').innerHTML =
+          'Account with that email address already exists!'
+      } else if (res.msg === 'unique violation: username must be unique') {
+        document.getElementById('signup-msg').innerHTML =
+          'Account with that username already exists!'
+      } else {
+        setFormState({
+          email: '',
+          username: '',
+          password: '',
+          confirmPass: ''
+        })
+        navigate('/')
+      }
     } else {
       document.getElementById('signup-msg').innerHTML =
         'Password does not match.'
