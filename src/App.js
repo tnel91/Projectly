@@ -1,5 +1,6 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
 import Navbar from './components/Navbar'
 import Landing from './pages/Landing'
 import About from './pages/About'
@@ -9,6 +10,9 @@ import ProjectDetails from './pages/ProjectDetails'
 import Signup from './pages/Signup'
 
 function App() {
+  const [authenticated, toggleAuthenticated] = useState(false)
+  const [user, setUser] = useState(null)
+
   return (
     <div className="App">
       <header>

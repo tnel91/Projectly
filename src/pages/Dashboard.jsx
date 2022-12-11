@@ -28,19 +28,40 @@ const Dashboard = () => {
   }, [])
   return (
     <div>
-      <header>Header</header>
-      <div id="public_projects">
-        <h2>Public Projects</h2>
-        {publicProjects.map((project) => (
-          <div key={project.id}>
-            <ProjectCard
-              id={project.id}
-              name={project.projectName}
-              owner={project.owner.userName}
-              onClick={navProjectDetails}
-            />
+      <header>
+        <button>Create New Project</button>
+      </header>
+      <div className="row">
+        <section className="container p-5">
+          <h2>Public Projects</h2>
+          <div id="public_projects">
+            {publicProjects.map((project) => (
+              <div key={project.id}>
+                <ProjectCard
+                  id={project.id}
+                  name={project.projectName}
+                  owner={project.owner.userName}
+                  onClick={navProjectDetails}
+                />
+              </div>
+            ))}
           </div>
-        ))}
+        </section>
+        <section>
+          <h2>My Projects</h2>
+          <div id="my_projects">
+            {publicProjects.map((project) => (
+              <div key={project.id}>
+                <ProjectCard
+                  id={project.id}
+                  name={project.projectName}
+                  owner={project.owner.userName}
+                  onClick={navProjectDetails}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   )

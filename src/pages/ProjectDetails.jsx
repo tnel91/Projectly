@@ -29,7 +29,7 @@ const ProjectDetails = (props) => {
       })
     setDetails({
       name: response.projectName,
-      owner: response.owner.userName,
+      owner: response.owner.username,
       type: response.projectType,
       description: response.description,
       startDate: response.startDate,

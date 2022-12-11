@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react'
+import { RegisterUser } from '../services/Auth'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { BASE_URL } from '../globals'
 
 const Signup = () => {
+  let navigate = useNavigate()
   const [formState, setFormState] = useState({
     email: '',
     username: '',
@@ -12,10 +17,22 @@ const Signup = () => {
     setFormState({ ...formState, [e.target.id]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (formState.password === formState.confirmPass) {
-      document.getElementById('signup-msg').innerHTML = ''
+      document.getElementById('signup-msg').innerHTML = ' '
+      await RegisterUser({
+        username: formState.username,
+        email: formState.email,
+        password: formState.password
+      })
+      setFormState({
+        email: '',
+        username: '',
+        password: '',
+        confirmPass: ''
+      })
+      navigate('/')
     } else {
       document.getElementById('signup-msg').innerHTML =
         'Password does not match.'
@@ -65,9 +82,19 @@ const Signup = () => {
           value={formState.confirmPass}
           required
         />
-        <button type="submit">Log In</button>
+        <button
+          disabled={
+            !formState.email ||
+            !formState.username ||
+            !formState.password ||
+            !formState.confirmPass
+          }
+          type="submit"
+        >
+          Log In
+        </button>
       </form>
-      <p id="signup-msg"></p>
+      <p id="signup-msg"> </p>
     </div>
   )
 }
