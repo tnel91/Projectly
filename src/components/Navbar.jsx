@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
-const Navbar = ({ handleLogout }) => {
-  return (
+const Navbar = ({ handleLogout, user, authenticated }) => {
+  return user && authenticated ? (
     <nav className="d-flex align-items-right navbar navbar-expand-lg bg-dark  navbar-dark border-bottom border-secondary nav-container">
       <div className=" container">
         <Link className="text-white px-2 nav-item" to="/">
@@ -19,6 +19,14 @@ const Navbar = ({ handleLogout }) => {
         <button className="text-black px-2 nav-item" onClick={handleLogout}>
           Log Out
         </button>
+      </div>
+    </nav>
+  ) : (
+    <nav className="d-flex align-items-right navbar navbar-expand-lg bg-dark  navbar-dark border-bottom border-secondary nav-container">
+      <div className=" container">
+        <Link className="text-white px-2 nav-item" to="/">
+          <h3>Home</h3>
+        </Link>
       </div>
     </nav>
   )
