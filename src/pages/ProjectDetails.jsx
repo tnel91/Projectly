@@ -8,15 +8,19 @@ const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
   const [details, setDetails] = useState({
-    name: '',
     owner: '',
-    type: '',
+    ownerId: '',
+    projectName: '',
+    projectType: '',
     description: '',
+    materials: [],
+    images: [],
+    budget: '',
     startDate: '',
     endDate: '',
-    budget: '',
-    materials: [],
-    images: []
+    isPublic: false,
+    createdAt: null,
+    updatedAt: null
   })
 
   const getProjectDetails = async () => {
@@ -29,15 +33,19 @@ const ProjectDetails = ({ user, authenticated }) => {
         console.log(error)
       })
     setDetails({
-      name: response.projectName,
       owner: response.owner.username,
-      type: response.projectType,
+      ownerId: response.owner.id,
+      projectName: response.projectName,
+      projectType: response.projectType,
       description: response.description,
+      materials: response.materials.list,
+      images: response.images,
+      budget: response.budget,
       startDate: response.startDate,
       endDate: response.endDate,
-      budget: response.budget,
-      materials: response.materials.list,
-      images: response.images
+      isPublic: response.isPublic,
+      createdAt: response.createdAt,
+      updatedAt: response.updatedAt
     })
   }
 
