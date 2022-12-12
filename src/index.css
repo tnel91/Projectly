@@ -12,8 +12,15 @@ code {
     monospace;
 }
 
-#project-section {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+main {
+  margin: 1em
+}
+
+#form-signin {
+  /* align-items: center; */
+  max-width: 400px;
+}
+
+#form-register {
+  max-width: 500px;
 }

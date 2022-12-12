@@ -1,4 +1,4 @@
-// import './index.css'
+import './index.css'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
@@ -38,7 +38,11 @@ function App() {
   return (
     <div className="App">
       <header>
-        <Navbar handleLogout={handleLogout} />
+        <Navbar
+          user={user}
+          authenticated={authenticated}
+          handleLogout={handleLogout}
+        />
       </header>
       <main>
         <Routes>

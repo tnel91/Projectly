@@ -41,49 +41,62 @@ const Signup = () => {
   }
 
   return (
-    <div>
-      <h2>Create Account</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email: </label>
-        <input
-          id="email"
-          type="email"
-          placeholder="email"
-          autoComplete="email"
-          onChange={handleChange}
-          value={formState.email}
-          required
-        />
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          placeholder="Username"
-          autoComplete="none"
-          onChange={handleChange}
-          value={formState.username}
-          required
-        />
-        <label htmlFor="password">Password: </label>
-        <input
-          id="password"
-          type="password"
-          placeholder="password"
-          autoComplete="new-password"
-          onChange={handleChange}
-          value={formState.password}
-          required
-        />
-        <label htmlFor="confirmPass">Confirm Password:</label>
-        <input
-          id="confirmPass"
-          type="password"
-          placeholder="confirm password"
-          autoComplete="none"
-          onChange={handleChange}
-          value={formState.confirmPass}
-          required
-        />
+    <div className="text-center">
+      <form className="m-auto" id="form-register" onSubmit={handleSubmit}>
+        <h2>Create Account</h2>
+        <div className="form-floating">
+          <input
+            className="form-control"
+            id="email"
+            type="email"
+            // placeholder="email"
+            autoComplete="email"
+            onChange={handleChange}
+            value={formState.email}
+            required
+          />
+          <label htmlFor="email">Email: </label>
+        </div>
+        <div className="form-floating">
+          <input
+            className="form-control"
+            id="username"
+            // placeholder="Username"
+            autoComplete="none"
+            onChange={handleChange}
+            value={formState.username}
+            required
+          />
+          <label htmlFor="username">Username</label>
+        </div>
+        <div className="form-floating">
+          <input
+            className="form-control"
+            id="password"
+            type="password"
+            // placeholder="password"
+            autoComplete="new-password"
+            onChange={handleChange}
+            value={formState.password}
+            required
+          />
+          <label htmlFor="password">Password: </label>
+        </div>
+        <div className="form-floating">
+          <input
+            className="form-control"
+            id="confirmPass"
+            type="password"
+            // placeholder="confirm password"
+            autoComplete="none"
+            onChange={handleChange}
+            value={formState.confirmPass}
+            required
+          />
+          <label htmlFor="confirmPass">Confirm Password:</label>
+        </div>
         <button
+          className="w-100 mt-2 btn btn-lg btn-primary"
           disabled={
             !formState.email ||
             !formState.username ||
@@ -92,7 +105,7 @@ const Signup = () => {
           }
           type="submit"
         >
-          Log In
+          Register
         </button>
       </form>
       <p id="signup-error-msg"> </p>

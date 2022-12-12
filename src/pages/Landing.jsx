@@ -27,33 +27,47 @@ const Landing = (props) => {
   }
 
   return (
-    <div>
-      <h2>Log In</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email: </label>
-        <input
-          id="email"
-          type="email"
-          placeholder="email"
-          autoComplete="email"
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="password">Password: </label>
-        <input
-          id="password"
-          type="password"
-          placeholder="password"
-          autoComplete="current-password"
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Log In</button>
+    <div className="text-center">
+      <form id="form-signin" className="m-auto" onSubmit={handleSubmit}>
+        <h1 className="h3 m-3">Please sign in</h1>
+        <div className="form-floating">
+          <input
+            className="form-control"
+            id="email"
+            type="email"
+            // placeholder="email"
+            autoComplete="email"
+            onChange={handleChange}
+            required
+          />
+          <label htmlFor="email">Email: </label>
+        </div>
+        <div className="form-floating">
+          <input
+            className="form-control"
+            id="password"
+            type="password"
+            // placeholder="password"
+            autoComplete="current-password"
+            onChange={handleChange}
+            required
+          />
+          <label htmlFor="password">Password: </label>
+        </div>
+        <div className="row">
+          <button className="m-2 col btn btn-lg btn-primary" type="submit">
+            Log In
+          </button>
+          <button
+            className="m-2 col btn btn-lg btn-secondary"
+            type="button"
+            onClick={() => navigate('./signup')}
+          >
+            Create Account
+          </button>
+        </div>
+        <p id="login-error-msg"> </p>
       </form>
-      <p id="login-error-msg"> </p>
-      <Link to="./signup">
-        <h2>Create Account</h2>
-      </Link>
     </div>
   )
 }
