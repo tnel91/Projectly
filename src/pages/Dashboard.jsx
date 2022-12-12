@@ -69,11 +69,11 @@ const Dashboard = ({ user, authenticated }) => {
       <header>
         <button onClick={createNewProject}>Create New Project</button>
       </header>
-      <section id="project-section" className="r">
-        <div className="container p-5">
-          <h2>Public Projects</h2>
-          <div id="public_projects">
-            {publicProjects.map((project) => (
+      <section id="project-section" className="row container">
+        <div className="col-12 col-sm-6">
+          <h2>My Projects</h2>
+          <div id="my_projects">
+            {userProjects.map((project) => (
               <div key={project.id}>
                 <ProjectCard
                   id={project.id}
@@ -85,10 +85,10 @@ const Dashboard = ({ user, authenticated }) => {
             ))}
           </div>
         </div>
-        <div className="container p-5">
-          <h2>My Projects</h2>
-          <div id="my_projects">
-            {userProjects.map((project) => (
+        <div className="col-12 col-sm-6">
+          <h2>Public Projects</h2>
+          <div id="public_projects">
+            {publicProjects.map((project) => (
               <div key={project.id}>
                 <ProjectCard
                   id={project.id}
