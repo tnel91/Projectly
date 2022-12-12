@@ -6,6 +6,7 @@ import { BASE_URL } from '../globals'
 
 const Signup = () => {
   let navigate = useNavigate()
+  const errorMessage = document.getElementById('signup-error-msg')
   const [formState, setFormState] = useState({
     email: '',
     username: '',
@@ -20,31 +21,22 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (formState.password === formState.confirmPass) {
-      document.getElementById('signup-msg').innerHTML = ' '
-      const res = await RegisterUser({
+      errorMessage.innerHTML = ' '
+      await RegisterUser({
         username: formState.username,
         email: formState.email,
         password: formState.password
       })
-      console.log(res)
-      if (res.msg === 'unique violation: email must be unique') {
-        document.getElementById('signup-msg').innerHTML =
-          'Account with that email address already exists!'
-      } else if (res.msg === 'unique violation: username must be unique') {
-        document.getElementById('signup-msg').innerHTML =
-          'Account with that username already exists!'
-      } else {
-        setFormState({
-          email: '',
-          username: '',
-          password: '',
-          confirmPass: ''
-        })
-        navigate('/')
-      }
+      setFormState({
+        email: '',
+        username: '',
+        password: '',
+        confirmPass: ''
+      })
+      alert('Account Created! Please log in to continue.')
+      navigate('/')
     } else {
-      document.getElementById('signup-msg').innerHTML =
-        'Password does not match.'
+      errorMessage.innerHTML = 'Password does not match.'
     }
   }
 
@@ -103,7 +95,7 @@ const Signup = () => {
           Log In
         </button>
       </form>
-      <p id="signup-msg"> </p>
+      <p id="signup-error-msg"> </p>
     </div>
   )
 }

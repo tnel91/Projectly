@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { SignInUser } from '../services/Auth'
 
-const Landing = () => {
+const Landing = (props) => {
   const navigate = useNavigate()
+  const errorMessage = document.getElementById('login-error-msg')
   const [formState, setFormState] = useState({
     email: '',
     password: ''
@@ -12,9 +14,15 @@ const Landing = () => {
     setFormState({ ...formState, [e.target.id]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(formState)
+    const payload = await SignInUser(formState)
+    setFormState({
+      email: '',
+      password: ''
+    })
+    props.setUser(payload)
+    props.toggleAuthenticated(true)
     navigate('/dashboard')
   }
 
@@ -42,6 +50,7 @@ const Landing = () => {
         />
         <button type="submit">Log In</button>
       </form>
+      <p id="login-error-msg"> </p>
       <Link to="./signup">
         <h2>Create Account</h2>
       </Link>
