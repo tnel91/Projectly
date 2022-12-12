@@ -4,7 +4,7 @@ import ProjectCard from '../components/ProjectCard'
 import axios from 'axios'
 import { BASE_URL } from '../globals'
 
-const Dashboard = () => {
+const Dashboard = ({ user, authenticated }) => {
   let navigate = useNavigate()
   const [publicProjects, setPublicProjects] = useState([])
 
@@ -26,7 +26,7 @@ const Dashboard = () => {
   useEffect(() => {
     getPublicRecipes()
   }, [])
-  return (
+  return user && authenticated ? (
     <div>
       <header>
         <button>Create New Project</button>
@@ -63,6 +63,11 @@ const Dashboard = () => {
           </div>
         </section>
       </div>
+    </div>
+  ) : (
+    <div>
+      <h3>You must be signed in to use this feature.</h3>
+      <button onClick={() => navigate('/')}>Sign In</button>
     </div>
   )
 }
