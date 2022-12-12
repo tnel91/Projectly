@@ -58,7 +58,12 @@ function App() {
             path="/dashboard"
             element={<Dashboard user={user} authenticated={authenticated} />}
           />
-          <Route path="/project/:projectId" element={<ProjectDetails />} />
+          <Route
+            path="/project/:projectId"
+            element={
+              <ProjectDetails user={user} authenticated={authenticated} />
+            }
+          />
         </Routes>
       </main>
     </div>

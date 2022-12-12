@@ -16,7 +16,9 @@ const Navbar = ({ handleLogout }) => {
         <Link className="text-white px-2 nav-item" to="/profile">
           <h3>Profile</h3>
         </Link>
-        <button onClick={handleLogout}>Log Out</button>
+        <button className="text-black px-2 nav-item" onClick={handleLogout}>
+          Log Out
+        </button>
       </div>
     </nav>
   )

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ProjectCard from '../components/ProjectCard'
 import axios from 'axios'
+import Client from '../services/api'
 import { BASE_URL } from '../globals'
 
 const Dashboard = ({ user, authenticated }) => {
@@ -9,8 +10,7 @@ const Dashboard = ({ user, authenticated }) => {
   const [publicProjects, setPublicProjects] = useState([])
 
   const getPublicRecipes = async () => {
-    await axios
-      .get(`${BASE_URL}/projects`)
+    await Client.get(`${BASE_URL}/projects`)
       .then((response) => {
         setPublicProjects(response.data)
       })

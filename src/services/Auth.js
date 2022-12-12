@@ -31,7 +31,6 @@ export const SignInUser = async (data) => {
 export const CheckSession = async () => {
   try {
     const res = await Client.get('/session')
-    console.log(res.data)
     return res.data
   } catch (error) {
     throw error
