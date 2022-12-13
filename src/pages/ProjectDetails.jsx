@@ -3,11 +3,21 @@ import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
+import ImageCard from '../components/imageCard'
 
 const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
+
   const [editMode, setEditMode] = useState(false)
+
+  const [imgUrl, setImgUrl] = useState('')
+
+  const [materialForm, setMaterialForm] = useState({
+    name: '',
+    amount: ''
+  })
+
   const [details, setDetails] = useState({
     owner: '',
     ownerId: '',
@@ -23,11 +33,6 @@ const ProjectDetails = ({ user, authenticated }) => {
     isPublic: false,
     createdAt: null,
     updatedAt: null
-  })
-
-  const [materialForm, setMaterialForm] = useState({
-    name: '',
-    amount: ''
   })
 
   const getProjectDetails = async () => {
@@ -65,14 +70,31 @@ const ProjectDetails = ({ user, authenticated }) => {
     setMaterialForm({ ...materialForm, [e.target.id]: e.target.value })
   }
 
+  const handleUrlChange = (e) => {
+    setImgUrl(e.target.value)
+  }
+
+  const handleCheckbox = (e) => {
+    if (details.isPublic === false) {
+      setDetails({ ...details, [e.target.id]: true })
+    } else {
+      setDetails({ ...details, [e.target.id]: false })
+    }
+  }
+
   const addMaterial = (e) => {
     e.preventDefault()
-    console.log(materialForm)
     details.materials.push(materialForm)
     setMaterialForm({
       name: '',
       amount: ''
     })
+  }
+
+  const addImage = (e) => {
+    e.preventDefault()
+    details.images.push(imgUrl)
+    setImgUrl('')
   }
 
   const toggleEditMode = () => {
@@ -88,12 +110,12 @@ const ProjectDetails = ({ user, authenticated }) => {
     editButton.removeAttribute('hidden')
   }
 
-  const handleCheckbox = (e) => {
-    if (details.isPublic === false) {
-      setDetails({ ...details, [e.target.id]: true })
-    } else {
-      setDetails({ ...details, [e.target.id]: false })
-    }
+  const saveProject = () => {
+    setEditMode((current) => !current)
+    setTimeout(() => {
+      let editButton = document.getElementById('edit-project-button')
+      editButton.removeAttribute('hidden')
+    }, 100)
   }
 
   useEffect(() => {
@@ -109,8 +131,9 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   if (user && authenticated) {
     return editMode ? (
+      // Renders if project owner clicks the Edit button
       <div>
-        <button onClick={toggleEditMode}>Save (just toggles for now)</button>
+        <button onClick={saveProject}>Save (just toggles for now)</button>
         <form>
           <div className="form-floating">
             <input
@@ -188,52 +211,78 @@ const ProjectDetails = ({ user, authenticated }) => {
           </div>
         </form>
         {/* //////////////////////////////////////////// */}
-        <form id="material-form" onSubmit={addMaterial}>
+        <section id="material-section">
           <h4>Materials</h4>
-          <div className="form-floating">
-            <input
-              id="name"
-              className="form-control"
-              onChange={handleMatChange}
-              placeholder="Material Name:"
-              value={materialForm.name}
-              required
-            />
-            <label htmlFor="name">Material Name:</label>
-          </div>
-          <div className="form-floating">
-            <input
-              id="amount"
-              className="form-control"
-              onChange={handleMatChange}
-              placeholder="Amount:"
-              value={materialForm.amount}
-              required
-            />
-            <label htmlFor="amount">Amount:</label>
-          </div>
-          <button type="submit" form="material-form">
-            Add Material
-          </button>
-        </form>
-        <div>
-          {details.materials.map((material, i) => (
-            <div key={i}>
-              <h5>{material.name}</h5>
-              <p>{material.amount}</p>
+          <form id="material-form" onSubmit={addMaterial}>
+            <div className="form-floating">
+              <input
+                id="name"
+                className="form-control"
+                onChange={handleMatChange}
+                placeholder="Material Name:"
+                value={materialForm.name}
+                required
+              />
+              <label htmlFor="name">Material Name:</label>
             </div>
-          ))}
-        </div>
-        <div>
+            <div className="form-floating">
+              <input
+                id="amount"
+                className="form-control"
+                onChange={handleMatChange}
+                placeholder="Amount:"
+                value={materialForm.amount}
+                required
+              />
+              <label htmlFor="amount">Amount:</label>
+            </div>
+            <button type="submit" form="material-form">
+              Add Material
+            </button>
+          </form>
+          <div>
+            {details.materials.map((material, i) => (
+              <div key={i}>
+                <h5>{material.name}</h5>
+                <p>{material.amount}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section id="image-section">
           <h4>Images</h4>
-          {details.images.map((image, i) => (
-            <div key={i}>
-              <img src={image} alt="Image" />
+          <form id="image-form" onSubmit={addImage}>
+            <div className="form-floating">
+              <input
+                id="img-url"
+                className="form-control"
+                onChange={handleUrlChange}
+                placeholder="Image URL:"
+                value={imgUrl}
+                required
+              />
+              <label htmlFor="img-url">Image URL:</label>
             </div>
-          ))}
-        </div>
+            <button type="submit" form="image-form">
+              Add Image
+            </button>
+          </form>
+          <div>
+            {details.images.map((image, i) => (
+              <div key={i}>
+                <ImageCard
+                  i={i}
+                  image={image}
+                  editMode={editMode}
+                  images={details.images}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     ) : (
+      // Renders initially for logged in user.
       <div>
         <button id="edit-project-button" hidden onClick={toggleEditMode}>
           Edit
@@ -262,6 +311,7 @@ const ProjectDetails = ({ user, authenticated }) => {
     )
   } else {
     return (
+      // Renders if not logged in.
       <div>
         <h3>You must be signed in to use this feature.</h3>
         <button onClick={() => navigate('/')}>Sign In</button>
