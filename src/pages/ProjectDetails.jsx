@@ -10,6 +10,10 @@ const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
 
+  const cancelButton = document.getElementById('cancel-changes-button')
+  const saveButton = document.getElementById('save-changes-button')
+  const editButton = document.getElementById('edit-project-button')
+
   const [editMode, setEditMode] = useState(false)
 
   // const [imgUrl, setImgUrl] = useState('')
@@ -77,22 +81,46 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   const toggleEditMode = () => {
     if (details.ownerId === user.id) {
-      setEditMode((current) => !current)
+      if (!editMode) {
+        setEditMode(true)
+        showCancSaveButtons()
+        hideEditButton()
+      } else if (editMode) {
+        setEditMode(false)
+        hideCancSaveButtons()
+        showEditButton()
+      }
     } else {
       console.log('unauthorized')
     }
   }
 
   const showEditButton = () => {
-    let editButton = document.getElementById('edit-project-button')
     editButton.removeAttribute('hidden')
+  }
+
+  const hideEditButton = () => {
+    editButton.setAttribute('hidden', 'hidden')
+  }
+
+  const showCancSaveButtons = () => {
+    cancelButton.removeAttribute('hidden')
+    saveButton.removeAttribute('hidden')
+  }
+
+  const hideCancSaveButtons = () => {
+    cancelButton.setAttribute('hidden', 'hidden')
+    saveButton.setAttribute('hidden', 'hidden')
+  }
+
+  const cancelChanges = () => {
+    toggleEditMode()
   }
 
   const saveProject = () => {
     toggleEditMode()
     setTimeout(() => {
-      let editButton = document.getElementById('edit-project-button')
-      editButton.removeAttribute('hidden')
+      showEditButton()
     }, 100)
   }
 
@@ -118,8 +146,20 @@ const ProjectDetails = ({ user, authenticated }) => {
         >
           Edit
         </button>
-        <button className="col-1">Cancel</button>
-        <button className="col-3" onClick={saveProject}>
+        <button
+          className="col-1"
+          id="cancel-changes-button"
+          hidden
+          onClick={cancelChanges}
+        >
+          Cancel
+        </button>
+        <button
+          className="col-3"
+          id="save-changes-button"
+          hidden
+          onClick={saveProject}
+        >
           Save (just toggles for now)
         </button>
       </div>
