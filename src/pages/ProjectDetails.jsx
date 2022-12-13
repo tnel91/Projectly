@@ -143,21 +143,6 @@ const ProjectDetails = ({ user, authenticated }) => {
     deleteButton.setAttribute('hidden', 'hidden')
   }
 
-  // const renderMatGrid = () => {
-  //   return details.materials.list.map((material, i) => (
-  //     <div key={i}>
-  //       <h5>{material.name}</h5>
-  //       <p>{material.amount}</p>
-  //     </div>
-  //   ))
-  // }
-
-  // const [matGrid, setMatGrid] = useState(
-  //   <div>
-  //     <p>No Materials</p>
-  //   </div>
-  // )
-
   useEffect(() => {
     console.log(details.materials.list)
     if (!details.id) {
@@ -168,7 +153,7 @@ const ProjectDetails = ({ user, authenticated }) => {
         showEditButton()
       }
     }
-  }, [user, details.id, details.materials.list])
+  }, [user, details.id])
 
   return user && authenticated ? (
     <div>
@@ -211,6 +196,7 @@ const ProjectDetails = ({ user, authenticated }) => {
         editMode={editMode}
         handleChange={handleChange}
         handleCheckbox={handleCheckbox}
+        setDetails={setDetails}
       />
       <section className="border" id="material-section">
         <h5>Materials</h5>
@@ -219,11 +205,12 @@ const ProjectDetails = ({ user, authenticated }) => {
             <div key={i}>
               <MaterialCard
                 i={i}
-                material={material}
                 name={material.name}
                 amount={material.amount}
                 materials={details.materials}
                 editMode={editMode}
+                details={details}
+                setDetails={setDetails}
               />
             </div>
           ))}
@@ -239,6 +226,8 @@ const ProjectDetails = ({ user, authenticated }) => {
                 image={image}
                 editMode={editMode}
                 images={details.images}
+                details={details}
+                setDetails={setDetails}
               />
             </div>
           ))}

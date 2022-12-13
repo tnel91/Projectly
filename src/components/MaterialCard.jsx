@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const MaterialCard = ({ i, material, name, amount, materials, editMode }) => {
+const MaterialCard = ({ i, name, amount, editMode, details, setDetails }) => {
   const showButtons = () => {
     let deleteButton = document.getElementById(`mat-del ${i}`)
     deleteButton.removeAttribute('hidden')
@@ -11,6 +11,17 @@ const MaterialCard = ({ i, material, name, amount, materials, editMode }) => {
     deleteButton.setAttribute('hidden', 'hidden')
   }
 
+  const handleDelete = () => {
+    let newList = details.materials.list
+    newList.splice(i, i + 1)
+    setDetails({
+      ...details,
+      materials: {
+        list: newList
+      }
+    })
+  }
+
   useEffect(() => {
     if (editMode) {
       showButtons()
@@ -18,6 +29,7 @@ const MaterialCard = ({ i, material, name, amount, materials, editMode }) => {
       hideButtons()
     }
   }, [editMode])
+
   return (
     <div className="container row">
       <h5 className="col-2">{name}</h5>
@@ -25,9 +37,7 @@ const MaterialCard = ({ i, material, name, amount, materials, editMode }) => {
       <button
         className="col-2"
         id={`mat-del ${i}`}
-        onClick={() => {
-          materials.list.splice(i, i + 1)
-        }}
+        onClick={handleDelete}
         hidden
       >
         Delete

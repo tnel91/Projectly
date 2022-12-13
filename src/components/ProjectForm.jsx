@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 
-const ProjectForm = ({ details, editMode, handleChange, handleCheckbox }) => {
+const ProjectForm = ({
+  details,
+  setDetails,
+  editMode,
+  handleChange,
+  handleCheckbox
+}) => {
   const [imgUrl, setImgUrl] = useState('')
 
   const [materialForm, setMaterialForm] = useState({
@@ -18,7 +24,14 @@ const ProjectForm = ({ details, editMode, handleChange, handleCheckbox }) => {
 
   const addMaterial = (e) => {
     e.preventDefault()
-    details.materials.list.push(materialForm)
+    let list = details.materials.list
+    list.push(materialForm)
+    setDetails({
+      ...details,
+      materials: {
+        list: list
+      }
+    })
     setMaterialForm({
       name: '',
       amount: ''
@@ -27,7 +40,12 @@ const ProjectForm = ({ details, editMode, handleChange, handleCheckbox }) => {
 
   const addImage = (e) => {
     e.preventDefault()
-    details.images.push(imgUrl)
+    let imgArr = details.images
+    imgArr.push(imgUrl)
+    setDetails({
+      ...details,
+      images: imgArr
+    })
     setImgUrl('')
   }
 

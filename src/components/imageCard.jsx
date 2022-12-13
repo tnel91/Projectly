@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const ImageCard = ({ i, image, images, editMode }) => {
+const ImageCard = ({ i, image, editMode, details, setDetails }) => {
   const showButtons = () => {
     let deleteButton = document.getElementById(`img-del ${i}`)
     deleteButton.removeAttribute('hidden')
@@ -9,6 +9,15 @@ const ImageCard = ({ i, image, images, editMode }) => {
   const hideButtons = () => {
     let deleteButton = document.getElementById(`img-del ${i}`)
     deleteButton.setAttribute('hidden', 'hidden')
+  }
+
+  const handleDelete = () => {
+    let newList = details.images
+    newList.splice(i, i + 1)
+    setDetails({
+      ...details,
+      images: newList
+    })
   }
 
   useEffect(() => {
@@ -22,13 +31,7 @@ const ImageCard = ({ i, image, images, editMode }) => {
   return (
     <div className="container">
       <img className="w-25" src={image} alt={`Image URL: ${image}`} />
-      <button
-        id={`img-del ${i}`}
-        onClick={() => {
-          images.splice(i, i + 1)
-        }}
-        hidden
-      >
+      <button id={`img-del ${i}`} onClick={handleDelete} hidden>
         Delete
       </button>
     </div>
