@@ -7,12 +7,13 @@ import { BASE_URL } from '../globals'
 const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
-  const [editMode, toggleEditMode] = useState(true)
+  const [editMode, setEditMode] = useState(false)
   const [details, setDetails] = useState({
     owner: '',
     ownerId: '',
+    id: null,
     projectName: '',
-    projectType: '',
+    tags: '',
     description: '',
     materials: [],
     images: [],
@@ -41,8 +42,9 @@ const ProjectDetails = ({ user, authenticated }) => {
     setDetails({
       owner: response.owner.username,
       ownerId: response.owner.id,
+      id: response.id,
       projectName: response.projectName,
-      projectType: response.projectType,
+      tags: '' + response.projectType,
       description: '' + response.description,
       materials: response.materials.list,
       images: response.images,
@@ -63,7 +65,8 @@ const ProjectDetails = ({ user, authenticated }) => {
     setMaterialForm({ ...materialForm, [e.target.id]: e.target.value })
   }
 
-  const addMaterial = () => {
+  const addMaterial = (e) => {
+    e.preventDefault()
     console.log(materialForm)
     details.materials.push(materialForm)
     setMaterialForm({
@@ -72,13 +75,34 @@ const ProjectDetails = ({ user, authenticated }) => {
     })
   }
 
+  const toggleEditMode = () => {
+    if (details.ownerId === user.id) {
+      setEditMode((current) => !current)
+    } else {
+      console.log('unauthorized')
+    }
+  }
+
+  const showEditButton = () => {
+    let editButton = document.getElementById('edit-project-button')
+    editButton.removeAttribute('hidden')
+  }
+
   useEffect(() => {
-    getProjectDetails()
-  }, [])
+    if (!details.id) {
+      getProjectDetails()
+    }
+    if (user) {
+      if (user.id === details.ownerId) {
+        showEditButton()
+      }
+    }
+  }, [user, details.id])
 
   if (user && authenticated) {
     return editMode ? (
       <div>
+        <button onClick={toggleEditMode}>Save (just toggles for now)</button>
         <form>
           <div className="form-floating">
             <input
@@ -101,50 +125,77 @@ const ProjectDetails = ({ user, authenticated }) => {
             />
             <label htmlFor="description">Description</label>
           </div>
-          <div id="materials-form">
-            <h4>Materials</h4>
-            <div className="form-floating">
-              <input
-                id="name"
-                className="form-control"
-                onChange={handleMatChange}
-                placeholder="Material Name:"
-                value={materialForm.name}
-              />
-              <label htmlFor="name">Material Name:</label>
-            </div>
-            <div className="form-floating">
-              <input
-                id="amount"
-                className="form-control"
-                onChange={handleMatChange}
-                placeholder="Amount:"
-                value={materialForm.amount}
-              />
-              <label htmlFor="amount">Amount:</label>
-            </div>
-            {details.materials.map((material, i) => (
-              <div key={i}>
-                <h5>{material.name}</h5>
-                <p>{material.amount}</p>
-              </div>
-            ))}
-            <button type="button" onClick={addMaterial}>
-              Add Material
-            </button>
+          <div className="form-floating">
+            <input
+              id="tags"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="Tags"
+              value={details.tags}
+            />
+            <label htmlFor="tags">Tags (separate by commas):</label>
           </div>
-          <div>
-            <h4>Images</h4>
-            {details.images.map((image, i) => (
-              <div key={i}>
-                <img src={image} alt="Image" />
-              </div>
-            ))}
+          <div className="form-floating">
+            <input
+              id="budget"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="Budget"
+              value={details.budget}
+            />
+            <label htmlFor="budget">Budget:</label>
           </div>
         </form>
+        <form id="material-form" onSubmit={addMaterial}>
+          <h4>Materials</h4>
+          <div className="form-floating">
+            <input
+              id="name"
+              className="form-control"
+              onChange={handleMatChange}
+              placeholder="Material Name:"
+              value={materialForm.name}
+              required
+            />
+            <label htmlFor="name">Material Name:</label>
+          </div>
+          <div className="form-floating">
+            <input
+              id="amount"
+              className="form-control"
+              onChange={handleMatChange}
+              placeholder="Amount:"
+              value={materialForm.amount}
+              required
+            />
+            <label htmlFor="amount">Amount:</label>
+          </div>
+          <button type="submit" form="material-form">
+            Add Material
+          </button>
+        </form>
+        <div>
+          {details.materials.map((material, i) => (
+            <div key={i}>
+              <h5>{material.name}</h5>
+              <p>{material.amount}</p>
+            </div>
+          ))}
+        </div>
+        <div>
+          <h4>Images</h4>
+          {details.images.map((image, i) => (
+            <div key={i}>
+              <img src={image} alt="Image" />
+            </div>
+          ))}
+        </div>
       </div>
     ) : (
       <div>
+        <button id="edit-project-button" hidden onClick={toggleEditMode}>
+          Edit
+        </button>
         <h2>Project Name: {details.projectName}</h2>
         <p>Creator: {details.owner}</p>
         <p>Description: {details.description}</p>
