@@ -10,18 +10,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
 
-  const cancelButton = document.getElementById('cancel-changes-button')
-  const saveButton = document.getElementById('save-changes-button')
-  const editButton = document.getElementById('edit-project-button')
-
   const [editMode, setEditMode] = useState(false)
-
-  // const [imgUrl, setImgUrl] = useState('')
-
-  // const [materialForm, setMaterialForm] = useState({
-  //   name: '',
-  //   amount: ''
-  // })
 
   const [details, setDetails] = useState({
     owner: '',
@@ -39,6 +28,18 @@ const ProjectDetails = ({ user, authenticated }) => {
     createdAt: null,
     updatedAt: null
   })
+
+  const handleChange = (e) => {
+    setDetails({ ...details, [e.target.id]: e.target.value })
+  }
+
+  const handleCheckbox = (e) => {
+    if (details.isPublic === false) {
+      setDetails({ ...details, [e.target.id]: true })
+    } else {
+      setDetails({ ...details, [e.target.id]: false })
+    }
+  }
 
   const getProjectDetails = async () => {
     const response = await Client.get(`${BASE_URL}/projects/${projectId}`)
@@ -67,27 +68,29 @@ const ProjectDetails = ({ user, authenticated }) => {
     })
   }
 
-  const handleChange = (e) => {
-    setDetails({ ...details, [e.target.id]: e.target.value })
+  const saveProject = async () => {
+    await Client.put(`/projects/${projectId}`, details)
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
-  const handleCheckbox = (e) => {
-    if (details.isPublic === false) {
-      setDetails({ ...details, [e.target.id]: true })
-    } else {
-      setDetails({ ...details, [e.target.id]: false })
-    }
+  const deleteProject = async () => {
+    console.log('deleted')
   }
 
   const toggleEditMode = () => {
     if (details.ownerId === user.id) {
       if (!editMode) {
         setEditMode(true)
-        showCancSaveButtons()
+        showCancSaveDelButtons()
         hideEditButton()
       } else if (editMode) {
         setEditMode(false)
-        hideCancSaveButtons()
+        hideCancSaveDelButtons()
         showEditButton()
       }
     } else {
@@ -95,33 +98,36 @@ const ProjectDetails = ({ user, authenticated }) => {
     }
   }
 
-  const showEditButton = () => {
-    editButton.removeAttribute('hidden')
-  }
-
-  const hideEditButton = () => {
-    editButton.setAttribute('hidden', 'hidden')
-  }
-
-  const showCancSaveButtons = () => {
-    cancelButton.removeAttribute('hidden')
-    saveButton.removeAttribute('hidden')
-  }
-
-  const hideCancSaveButtons = () => {
-    cancelButton.setAttribute('hidden', 'hidden')
-    saveButton.setAttribute('hidden', 'hidden')
-  }
-
   const cancelChanges = () => {
     toggleEditMode()
   }
 
-  const saveProject = () => {
-    toggleEditMode()
-    setTimeout(() => {
-      showEditButton()
-    }, 100)
+  const showEditButton = () => {
+    let editButton = document.getElementById('edit-project-button')
+    editButton.removeAttribute('hidden')
+  }
+
+  const hideEditButton = () => {
+    let editButton = document.getElementById('edit-project-button')
+    editButton.setAttribute('hidden', 'hidden')
+  }
+
+  const showCancSaveDelButtons = () => {
+    let cancelButton = document.getElementById('cancel-changes-button')
+    let saveButton = document.getElementById('save-changes-button')
+    let deleteButton = document.getElementById('delete-project-button')
+    cancelButton.removeAttribute('hidden')
+    saveButton.removeAttribute('hidden')
+    deleteButton.removeAttribute('hidden')
+  }
+
+  const hideCancSaveDelButtons = () => {
+    let cancelButton = document.getElementById('cancel-changes-button')
+    let saveButton = document.getElementById('save-changes-button')
+    let deleteButton = document.getElementById('delete-project-button')
+    cancelButton.setAttribute('hidden', 'hidden')
+    saveButton.setAttribute('hidden', 'hidden')
+    deleteButton.setAttribute('hidden', 'hidden')
   }
 
   useEffect(() => {
@@ -155,12 +161,20 @@ const ProjectDetails = ({ user, authenticated }) => {
           Cancel
         </button>
         <button
-          className="col-3"
+          className="col-1"
           id="save-changes-button"
           hidden
           onClick={saveProject}
         >
-          Save (just toggles for now)
+          Save
+        </button>
+        <button
+          className="col-1"
+          id="delete-project-button"
+          hidden
+          onClick={deleteProject}
+        >
+          Delete
         </button>
       </div>
       <ProjectForm
