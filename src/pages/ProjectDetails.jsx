@@ -24,6 +24,11 @@ const ProjectDetails = ({ user, authenticated }) => {
     updatedAt: null
   })
 
+  const [materialForm, setMaterialForm] = useState({
+    name: '',
+    amount: ''
+  })
+
   const getProjectDetails = async () => {
     const response = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((response) => {
@@ -54,10 +59,16 @@ const ProjectDetails = ({ user, authenticated }) => {
     setDetails({ ...details, [e.target.id]: e.target.value })
   }
 
+  const handleMatChange = (e) => {
+    setMaterialForm({ ...materialForm, [e.target.id]: e.target.value })
+  }
+
   const addMaterial = () => {
-    details.materials.push({
-      name: 'new material',
-      amount: '...'
+    console.log(materialForm)
+    details.materials.push(materialForm)
+    setMaterialForm({
+      name: '',
+      amount: ''
     })
   }
 
@@ -71,8 +82,8 @@ const ProjectDetails = ({ user, authenticated }) => {
         <form>
           <div className="form-floating">
             <input
-              className="form-control"
               id="projectName"
+              className="form-control"
               onChange={handleChange}
               placeholder="Project Name"
               value={details.projectName}
@@ -82,22 +93,38 @@ const ProjectDetails = ({ user, authenticated }) => {
           </div>
           <div className="form-floating">
             <input
-              className="form-control"
               id="description"
+              className="form-control"
               onChange={handleChange}
               placeholder="Description"
               value={details.description}
             />
             <label htmlFor="description">Description</label>
           </div>
-          {/* <div>
+          <div id="materials-form">
             <h4>Materials</h4>
+            <div className="form-floating">
+              <input
+                id="name"
+                className="form-control"
+                onChange={handleMatChange}
+                placeholder="Material Name:"
+                value={materialForm.name}
+              />
+              <label htmlFor="name">Material Name:</label>
+            </div>
+            <div className="form-floating">
+              <input
+                id="amount"
+                className="form-control"
+                onChange={handleMatChange}
+                placeholder="Amount:"
+                value={materialForm.amount}
+              />
+              <label htmlFor="amount">Amount:</label>
+            </div>
             {details.materials.map((material, i) => (
               <div key={i}>
-                <div className="form-floating">
-                  <input className="form-control" />
-                  <p>hi</p>
-                </div>
                 <h5>{material.name}</h5>
                 <p>{material.amount}</p>
               </div>
@@ -113,7 +140,7 @@ const ProjectDetails = ({ user, authenticated }) => {
                 <img src={image} alt="Image" />
               </div>
             ))}
-          </div> */}
+          </div>
         </form>
       </div>
     ) : (
