@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
-import ImageCard from '../components/imageCard'
+import ImageCard from '../components/ImageCard'
+import MaterialCard from '../components/MaterialCard'
 import ProjectForm from '../components/ProjectForm'
 
 const ProjectDetails = ({ user, authenticated }) => {
@@ -44,7 +45,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   const getProjectDetails = async () => {
     const response = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         return response.data
       })
       .catch((error) => {
@@ -80,14 +81,17 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const deleteProject = async () => {
-    await Client.delete(`/projects/${details.id}`)
-      .then((response) => {
-        console.log(response)
-        navigate('/dashboard')
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    let res = window.confirm('Delete project forever?')
+    if (res) {
+      await Client.delete(`/projects/${details.id}`)
+        .then((response) => {
+          console.log(response)
+          navigate('/dashboard')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   }
 
   const toggleEditMode = () => {
@@ -208,17 +212,17 @@ const ProjectDetails = ({ user, authenticated }) => {
         handleCheckbox={handleCheckbox}
       />
       <section className="border" id="material-section">
-        <h5>matGrid</h5>
+        <h5>Materials</h5>
         <div>
           {details.materials.list.map((material, i) => (
             <div key={i}>
-              <h5>{material.name}</h5>
-              <p>{material.amount}</p>
+              <MaterialCard name={material.name} amount={material.amount} />
             </div>
           ))}
         </div>
       </section>
-      <section id="image-section">
+      <section className="border" id="image-section">
+        <h5>Images</h5>
         <div>
           {details.images.map((image, i) => (
             <div key={i}>
