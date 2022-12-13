@@ -80,7 +80,14 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const deleteProject = async () => {
-    console.log('deleted')
+    await Client.delete(`/projects/${details.id}`)
+      .then((response) => {
+        console.log(response)
+        navigate('/dashboard')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   const toggleEditMode = () => {
