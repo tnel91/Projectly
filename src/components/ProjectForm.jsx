@@ -18,7 +18,7 @@ const ProjectForm = ({ details, editMode, handleChange, handleCheckbox }) => {
 
   const addMaterial = (e) => {
     e.preventDefault()
-    details.materials.push(materialForm)
+    details.materials.list.push(materialForm)
     setMaterialForm({
       name: '',
       amount: ''

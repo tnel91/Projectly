@@ -72,6 +72,7 @@ const ProjectDetails = ({ user, authenticated }) => {
     await Client.put(`/projects/${details.id}`, details)
       .then((response) => {
         console.log(response)
+        toggleEditMode()
       })
       .catch((error) => {
         console.log(error)
@@ -100,6 +101,7 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   const cancelChanges = () => {
     toggleEditMode()
+    getProjectDetails()
   }
 
   const showEditButton = () => {

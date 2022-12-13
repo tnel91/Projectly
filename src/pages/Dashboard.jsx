@@ -38,7 +38,7 @@ const Dashboard = ({ user, authenticated }) => {
     let newProject = {
       userId: user.id,
       projectName: 'New Project',
-      projectType: 'test',
+      tags: 'test',
       materials: {
         list: []
       },
