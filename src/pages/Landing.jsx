@@ -35,24 +35,24 @@ const Landing = (props) => {
             className="form-control"
             id="email"
             type="email"
-            // placeholder="email"
+            placeholder="Email:"
             autoComplete="email"
             onChange={handleChange}
             required
           />
-          <label htmlFor="email">Email: </label>
+          <label htmlFor="email">Email:</label>
         </div>
         <div className="form-floating">
           <input
             className="form-control"
             id="password"
             type="password"
-            // placeholder="password"
+            placeholder="Password:"
             autoComplete="current-password"
             onChange={handleChange}
             required
           />
-          <label htmlFor="password">Password: </label>
+          <label htmlFor="password">Password:</label>
         </div>
         <div className="row">
           <button className="m-2 col btn btn-lg btn-primary" type="submit">

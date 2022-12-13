@@ -49,45 +49,45 @@ const Signup = () => {
             className="form-control"
             id="email"
             type="email"
-            // placeholder="email"
+            placeholder="Email:"
             autoComplete="email"
             onChange={handleChange}
             value={formState.email}
             required
           />
-          <label htmlFor="email">Email: </label>
+          <label htmlFor="email">Email:</label>
         </div>
         <div className="form-floating">
           <input
             className="form-control"
             id="username"
-            // placeholder="Username"
+            placeholder="Username:"
             autoComplete="none"
             onChange={handleChange}
             value={formState.username}
             required
           />
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">Username:</label>
         </div>
         <div className="form-floating">
           <input
             className="form-control"
             id="password"
             type="password"
-            // placeholder="password"
+            placeholder="Password:"
             autoComplete="new-password"
             onChange={handleChange}
             value={formState.password}
             required
           />
-          <label htmlFor="password">Password: </label>
+          <label htmlFor="password">Password:</label>
         </div>
         <div className="form-floating">
           <input
             className="form-control"
             id="confirmPass"
             type="password"
-            // placeholder="confirm password"
+            placeholder="Confirm password:"
             autoComplete="none"
             onChange={handleChange}
             value={formState.confirmPass}
