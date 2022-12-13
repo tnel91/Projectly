@@ -55,13 +55,13 @@ const ProjectDetails = ({ user, authenticated }) => {
       ownerId: response.owner.id,
       id: response.id,
       projectName: response.projectName,
-      tags: '' + response.tags,
-      description: '' + response.description,
+      tags: response.tags,
+      description: response.description,
       materials: { list: response.materials.list },
       images: response.images,
-      budget: '' + response.budget,
-      startDate: '' + response.startDate,
-      endDate: '' + response.endDate,
+      budget: response.budget,
+      startDate: response.startDate,
+      endDate: response.endDate,
       isPublic: response.isPublic,
       createdAt: response.createdAt,
       updatedAt: response.updatedAt
@@ -71,7 +71,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   const saveProject = async () => {
     await Client.put(`/projects/${details.id}`, details)
       .then((response) => {
-        console.log(response)
+        console.log(response.data[1][0])
         toggleEditMode()
       })
       .catch((error) => {
@@ -156,10 +156,7 @@ const ProjectDetails = ({ user, authenticated }) => {
         showEditButton()
       }
     }
-    if (details.materials.list.length > 0) {
-      setMatGrid(renderMatGrid())
-    }
-  }, [user, details.id, details.materials])
+  }, [user, details.id])
 
   return user && authenticated ? (
     <div>
@@ -205,7 +202,14 @@ const ProjectDetails = ({ user, authenticated }) => {
       />
       <section className="border" id="material-section">
         <h5>matGrid</h5>
-        {matGrid}
+        <div>
+          {details.materials.list.map((material, i) => (
+            <div key={i}>
+              <h5>{material.name}</h5>
+              <p>{material.amount}</p>
+            </div>
+          ))}
+        </div>
       </section>
       <section id="image-section">
         <div>

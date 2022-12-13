@@ -36,19 +36,11 @@ const Dashboard = ({ user, authenticated }) => {
 
   const createNewProject = async () => {
     let newProject = {
-      userId: user.id,
-      projectName: 'New Project',
-      tags: 'test',
-      materials: {
-        list: []
-      },
-      images: [],
-      isPublic: true
+      userId: user.id
     }
     await Client.post('/projects', newProject)
       .then((response) => {
-        console.log(response.data.id)
-        navigate(`/project/${response.data.id}`)
+        navProjectDetails(response.data.id)
       })
       .catch((error) => {
         console.log(error)
