@@ -49,8 +49,8 @@ const ProjectDetails = ({ user, authenticated }) => {
       materials: response.materials.list,
       images: response.images,
       budget: '' + response.budget,
-      startDate: response.startDate,
-      endDate: response.endDate,
+      startDate: '' + response.startDate,
+      endDate: '' + response.endDate,
       isPublic: response.isPublic,
       createdAt: response.createdAt,
       updatedAt: response.updatedAt
@@ -153,6 +153,28 @@ const ProjectDetails = ({ user, authenticated }) => {
             />
             <label htmlFor="budget">Budget:</label>
           </div>
+          <div className="form-floating">
+            <input
+              type="date"
+              id="startDate"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="Start Date"
+              value={details.startDate}
+            />
+            <label htmlFor="startDate">Start Date:</label>
+          </div>
+          <div className="form-floating">
+            <input
+              type="date"
+              id="endDate"
+              className="form-control"
+              onChange={handleChange}
+              placeholder="End Date"
+              value={details.endDate}
+            />
+            <label htmlFor="endDate">End Date:</label>
+          </div>
           <div className="checkbox mb-3">
             <label>
               <input
@@ -165,6 +187,7 @@ const ProjectDetails = ({ user, authenticated }) => {
             </label>
           </div>
         </form>
+        {/* //////////////////////////////////////////// */}
         <form id="material-form" onSubmit={addMaterial}>
           <h4>Materials</h4>
           <div className="form-floating">
