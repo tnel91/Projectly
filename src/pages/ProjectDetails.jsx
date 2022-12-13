@@ -88,6 +88,14 @@ const ProjectDetails = ({ user, authenticated }) => {
     editButton.removeAttribute('hidden')
   }
 
+  const handleCheckbox = (e) => {
+    if (details.isPublic === false) {
+      setDetails({ ...details, [e.target.id]: true })
+    } else {
+      setDetails({ ...details, [e.target.id]: false })
+    }
+  }
+
   useEffect(() => {
     if (!details.id) {
       getProjectDetails()
@@ -144,6 +152,17 @@ const ProjectDetails = ({ user, authenticated }) => {
               value={details.budget}
             />
             <label htmlFor="budget">Budget:</label>
+          </div>
+          <div className="checkbox mb-3">
+            <label>
+              <input
+                id="isPublic"
+                type="checkbox"
+                checked={details.isPublic}
+                onChange={handleCheckbox}
+              />
+              Viewable by other users?
+            </label>
           </div>
         </form>
         <form id="material-form" onSubmit={addMaterial}>
