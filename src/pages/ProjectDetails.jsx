@@ -19,7 +19,7 @@ const ProjectDetails = ({ user, authenticated }) => {
     projectName: '',
     tags: '',
     description: '',
-    materials: [],
+    materials: { list: [] },
     images: [],
     budget: '',
     startDate: '',
@@ -44,7 +44,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   const getProjectDetails = async () => {
     const response = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((response) => {
-        // console.log(response.data)
+        console.log(response.data)
         return response.data
       })
       .catch((error) => {
@@ -55,9 +55,9 @@ const ProjectDetails = ({ user, authenticated }) => {
       ownerId: response.owner.id,
       id: response.id,
       projectName: response.projectName,
-      tags: '' + response.projectType,
+      tags: '' + response.tags,
       description: '' + response.description,
-      materials: response.materials.list,
+      materials: { list: response.materials.list },
       images: response.images,
       budget: '' + response.budget,
       startDate: '' + response.startDate,
@@ -69,9 +69,9 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const saveProject = async () => {
-    await Client.put(`/projects/${projectId}`, details)
+    await Client.put(`/projects/${details.id}`, details)
       .then((response) => {
-        console.log(response.data)
+        console.log(response)
       })
       .catch((error) => {
         console.log(error)
@@ -130,6 +130,21 @@ const ProjectDetails = ({ user, authenticated }) => {
     deleteButton.setAttribute('hidden', 'hidden')
   }
 
+  const renderMatGrid = () => {
+    return details.materials.list.map((material, i) => (
+      <div key={i}>
+        <h5>{material.name}</h5>
+        <p>{material.amount}</p>
+      </div>
+    ))
+  }
+
+  const [matGrid, setMatGrid] = useState(
+    <div>
+      <p>No Materials</p>
+    </div>
+  )
+
   useEffect(() => {
     if (!details.id) {
       getProjectDetails()
@@ -139,7 +154,10 @@ const ProjectDetails = ({ user, authenticated }) => {
         showEditButton()
       }
     }
-  }, [user, details.id])
+    if (details.materials.list.length > 0) {
+      setMatGrid(renderMatGrid())
+    }
+  }, [user, details.id, details.materials])
 
   return user && authenticated ? (
     <div>
@@ -183,15 +201,9 @@ const ProjectDetails = ({ user, authenticated }) => {
         handleChange={handleChange}
         handleCheckbox={handleCheckbox}
       />
-      <section id="material-section">
-        <div>
-          {details.materials.map((material, i) => (
-            <div key={i}>
-              <h5>{material.name}</h5>
-              <p>{material.amount}</p>
-            </div>
-          ))}
-        </div>
+      <section className="border" id="material-section">
+        <h5>matGrid</h5>
+        {matGrid}
       </section>
       <section id="image-section">
         <div>
