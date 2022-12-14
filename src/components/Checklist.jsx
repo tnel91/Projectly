@@ -97,28 +97,28 @@ const Checklist = ({
   }
 
   const deleteChecklist = async () => {
-    await Client.delete(`${BASE_URL}/checklists/${id}`)
-      .then((response) => {
-        // console.log(response)
-        let arr = checklists.filter((checklist, index) => {
-          if (index !== i) {
-            return checklist
-          }
+    let res = window.confirm('Delete Checklist?')
+    if (res) {
+      await Client.delete(`${BASE_URL}/checklists/${id}`)
+        .then(() => {
+          let arr = checklists.filter((checklist, index) => {
+            if (index !== i) {
+              return checklist
+            }
+          })
+          setChecklists(arr)
         })
-        setChecklists(arr)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   }
 
   useEffect(() => {
     if (!edited && items.length === 0) {
-      // console.log('initial load')
       setItems(listItems.items)
     }
     if (edited) {
-      console.log('changed')
       showEditButtons()
     }
   }, [items])

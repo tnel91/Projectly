@@ -142,7 +142,13 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   const enableEditMode = () => {
     showEditButton()
+    showNewChecklistButton()
     setEditsEnabled(true)
+  }
+
+  const showNewChecklistButton = () => {
+    let button = document.getElementById('new-checklist-button')
+    button.removeAttribute('hidden')
   }
 
   const showEditButton = () => {
@@ -180,10 +186,8 @@ const ProjectDetails = ({ user, authenticated }) => {
     if (!details.id) {
       getProjectDetails()
     }
-    if (user) {
-      if (user.id === details.ownerId) {
-        enableEditMode()
-      }
+    if (user && user.id === details.ownerId) {
+      enableEditMode()
     }
   }, [user, details.id])
 
@@ -269,7 +273,9 @@ const ProjectDetails = ({ user, authenticated }) => {
       </section>
       <section className="border container" id="checklist-section">
         <h5>Checklists</h5>
-        <button onClick={createChecklist}>New Checklist</button>
+        <button id="new-checklist-button" onClick={createChecklist} hidden>
+          New Checklist
+        </button>
         <div className="row">
           {checklists.map((checklist, i) => (
             <div className="col" key={checklist.id}>
