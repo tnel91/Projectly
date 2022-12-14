@@ -5,7 +5,7 @@ import { BASE_URL } from '../globals'
 import MaterialCard from '../components/MaterialCard'
 import ProjectForm from '../components/ProjectForm'
 import Checklist from '../components/Checklist'
-import ImageCard from '../components/ImageCard'
+import PhotoComponent from '../components/PhotoComponent'
 
 const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
@@ -255,10 +255,10 @@ const ProjectDetails = ({ user, authenticated }) => {
       </section>
       <section className="border container" id="image-section">
         <h5>Images</h5>
-        {/* <div>
+        <div>
           {details.images.map((image, i) => (
             <div key={i}>
-              <ImageCard
+              <PhotoComponent
                 i={i}
                 image={image}
                 editMode={editMode}
@@ -268,7 +268,7 @@ const ProjectDetails = ({ user, authenticated }) => {
               />
             </div>
           ))}
-        </div> */}
+        </div>
       </section>
       <section className="border container" id="checklist-section">
         <h5>Checklists</h5>
