@@ -19,6 +19,19 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
     }
   }
 
+  const deleteItem = (e) => {
+    let index = parseInt(e.target.id)
+    let arr = items.filter((item, i) => {
+      if (index !== i) {
+        return item
+      }
+    })
+    setItems(arr)
+    if (!edited) {
+      setEdited(true)
+    }
+  }
+
   const handleChange = (e) => {
     let index = parseInt(e.target.id)
     let arr = items.map((item, i) => {
@@ -99,7 +112,7 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
               className="col-7"
               value={item.text}
             />
-            <button hidden id={`li-del-${i}`} className="li-del col-2">
+            <button id={i} className="col-2" onClick={deleteItem}>
               -
             </button>
           </div>
