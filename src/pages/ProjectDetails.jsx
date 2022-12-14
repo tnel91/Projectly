@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
 import ImageCard from '../components/ImageCard'
