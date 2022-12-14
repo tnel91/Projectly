@@ -271,12 +271,15 @@ const ProjectDetails = ({ user, authenticated }) => {
         <h5>Checklists</h5>
         <button onClick={createChecklist}>New Checklist</button>
         <div className="row">
-          {checklists.map((checklist) => (
+          {checklists.map((checklist, i) => (
             <div className="col" key={checklist.id}>
               <Checklist
+                i={i}
                 editsEnabled={editsEnabled}
                 id={checklist.id}
                 listItems={checklist.listItems}
+                setChecklists={setChecklists}
+                checklists={checklists}
               />
             </div>
           ))}

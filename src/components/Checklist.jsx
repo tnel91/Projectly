@@ -2,7 +2,14 @@ import { useState, useEffect } from 'react'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
 
-const Checklist = ({ listItems, id, editsEnabled }) => {
+const Checklist = ({
+  i,
+  listItems,
+  id,
+  editsEnabled,
+  checklists,
+  setChecklists
+}) => {
   const [items, setItems] = useState([])
   const [edited, setEdited] = useState(false)
 
@@ -89,9 +96,25 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
     saveButton.setAttribute('hidden', 'hidden')
   }
 
+  const deleteChecklist = async () => {
+    await Client.delete(`${BASE_URL}/checklists/${id}`)
+      .then((response) => {
+        // console.log(response)
+        let arr = checklists.filter((checklist, index) => {
+          if (index !== i) {
+            return checklist
+          }
+        })
+        setChecklists(arr)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   useEffect(() => {
     if (!edited && items.length === 0) {
-      console.log('initial load')
+      // console.log('initial load')
       setItems(listItems.items)
     }
     if (edited) {
@@ -108,6 +131,9 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
         </button>
         <button id={`li-save-${id}`} hidden onClick={saveChecklist}>
           Save
+        </button>
+        <button id={`li-del-${id}`} onClick={deleteChecklist}>
+          Del
         </button>
       </div>
       <div>
