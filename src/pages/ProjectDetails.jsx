@@ -97,7 +97,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   const saveProject = async () => {
     await Client.put(`/projects/${details.id}`, details)
       .then((response) => {
-        console.log(response.data[1][0])
+        // console.log(response.data[1][0])
         toggleEditMode()
       })
       .catch((error) => {
@@ -193,7 +193,7 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   return user && authenticated ? (
     <div>
-      <section className="navar navbar-expand-lare bg-light row m-2">
+      <section className="container border navar navbar-expand-lare bg-light row m-2">
         <button
           className="col-1"
           id="edit-project-button"
@@ -227,7 +227,7 @@ const ProjectDetails = ({ user, authenticated }) => {
           Delete
         </button>
       </section>
-      <section className="container">
+      <section className="border container">
         <ProjectForm
           details={details}
           editMode={editMode}
