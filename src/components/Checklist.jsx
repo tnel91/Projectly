@@ -71,7 +71,23 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
     saveButton.removeAttribute('hidden')
   }
 
-  const saveChecklist = async () => {}
+  const saveChecklist = async () => {
+    await Client.put(`${BASE_URL}/checklists/${id}`, {
+      listItems: {
+        items: items
+      }
+    })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    setEdited(false)
+    let saveButton = document.getElementById(`li-save-${id}`)
+    console.log(saveButton)
+    saveButton.setAttribute('hidden', 'hidden')
+  }
 
   useEffect(() => {
     if (!edited && items.length === 0) {
