@@ -6,12 +6,17 @@ import { BASE_URL } from '../globals'
 import ImageCard from '../components/ImageCard'
 import MaterialCard from '../components/MaterialCard'
 import ProjectForm from '../components/ProjectForm'
+import Checklist from '../components/Checklist'
 
 const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
 
+  const [editsEnabled, setEditsEnabled] = useState(false)
+
   const [editMode, setEditMode] = useState(false)
+
+  const [checklists, setChecklists] = useState([])
 
   const [details, setDetails] = useState({
     owner: '',
@@ -69,6 +74,16 @@ const ProjectDetails = ({ user, authenticated }) => {
     })
   }
 
+  const getChecklists = async () => {
+    await Client.get(`${BASE_URL}/checklists/${projectId}`)
+      .then((response) => {
+        setChecklists(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   const saveProject = async () => {
     await Client.put(`/projects/${details.id}`, details)
       .then((response) => {
@@ -115,6 +130,11 @@ const ProjectDetails = ({ user, authenticated }) => {
     getProjectDetails()
   }
 
+  const enableEditMode = () => {
+    showEditButton()
+    setEditsEnabled(true)
+  }
+
   const showEditButton = () => {
     let editButton = document.getElementById('edit-project-button')
     editButton.removeAttribute('hidden')
@@ -144,20 +164,22 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   useEffect(() => {
-    console.log(details.materials.list)
+    if (checklists.length === 0) {
+      getChecklists()
+    }
     if (!details.id) {
       getProjectDetails()
     }
     if (user) {
       if (user.id === details.ownerId) {
-        showEditButton()
+        enableEditMode()
       }
     }
   }, [user, details.id])
 
   return user && authenticated ? (
     <div>
-      <div className="header row m-2">
+      <section className="navar navbar-expand-lare bg-light row m-2">
         <button
           className="col-1"
           id="edit-project-button"
@@ -190,15 +212,17 @@ const ProjectDetails = ({ user, authenticated }) => {
         >
           Delete
         </button>
-      </div>
-      <ProjectForm
-        details={details}
-        editMode={editMode}
-        handleChange={handleChange}
-        handleCheckbox={handleCheckbox}
-        setDetails={setDetails}
-      />
-      <section className="border" id="material-section">
+      </section>
+      <section className="container">
+        <ProjectForm
+          details={details}
+          editMode={editMode}
+          handleChange={handleChange}
+          handleCheckbox={handleCheckbox}
+          setDetails={setDetails}
+        />
+      </section>
+      <section className="border container" id="material-section">
         <h5>Materials</h5>
         <div>
           {details.materials.list.map((material, i) => (
@@ -216,7 +240,7 @@ const ProjectDetails = ({ user, authenticated }) => {
           ))}
         </div>
       </section>
-      <section className="border" id="image-section">
+      <section className="border container" id="image-section">
         <h5>Images</h5>
         <div>
           {details.images.map((image, i) => (
@@ -228,6 +252,20 @@ const ProjectDetails = ({ user, authenticated }) => {
                 images={details.images}
                 details={details}
                 setDetails={setDetails}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="border container" id="checklist-section">
+        <h5>Checklists</h5>
+        <div className="row">
+          {checklists.map((checklist) => (
+            <div className="col" key={checklist.id}>
+              <Checklist
+                editsEnabled={editsEnabled}
+                id={checklist.id}
+                li={checklist.listItems}
               />
             </div>
           ))}
