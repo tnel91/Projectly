@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
+import Client from '../services/api'
+import { BASE_URL } from '../globals'
 
 const Checklist = ({ listItems, id, editsEnabled }) => {
   const [items, setItems] = useState([])
+  const [edited, setEdited] = useState(false)
 
   const addItem = () => {
     setItems([
@@ -11,19 +14,13 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
         completed: false
       }
     ])
-  }
-
-  if (listItems.items === items) {
-    //make save button invisible
-    console.log('ha')
-  } else {
-    // make visible
-    console.log('noooo')
+    if (!edited) {
+      setEdited(true)
+    }
   }
 
   const handleChange = (e) => {
     let index = parseInt(e.target.id)
-    console.log(items)
     let arr = items.map((item, i) => {
       if (index === i) {
         return {
@@ -34,11 +31,13 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
       return item
     })
     setItems(arr)
+    if (!edited) {
+      setEdited(true)
+    }
   }
 
   const handleCheckbox = (e) => {
     let index = parseInt(e.target.id)
-    console.log(items)
     let arr = items.map((item, i) => {
       if (index === i) {
         return {
@@ -49,17 +48,38 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
       return item
     })
     setItems(arr)
+    if (!edited) {
+      setEdited(true)
+    }
   }
 
+  const showEditButtons = () => {
+    let saveButton = document.getElementById(`li-save-${id}`)
+    saveButton.removeAttribute('hidden')
+  }
+
+  const saveChecklist = async () => {}
+
   useEffect(() => {
-    setItems(listItems.items)
-  }, [])
+    if (!edited && items.length === 0) {
+      console.log('initial load')
+      setItems(listItems.items)
+    }
+    if (edited) {
+      console.log('changed')
+      showEditButtons()
+    }
+  }, [items])
 
   return editsEnabled ? (
     <div className="border">
       <div>
-        <button>Save</button>
-        <button onClick={addItem}>+</button>
+        <button id={`li-add-${id}`} onClick={addItem}>
+          +
+        </button>
+        <button id={`li-save-${id}`} hidden onClick={saveChecklist}>
+          Save
+        </button>
       </div>
       <div>
         {items.map((item, i) => (
@@ -79,7 +99,9 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
               className="col-7"
               value={item.text}
             />
-            <button className="col-2">-</button>
+            <button hidden id={`li-del-${i}`} className="li-del col-2">
+              -
+            </button>
           </div>
         ))}
       </div>
