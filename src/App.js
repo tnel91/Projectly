@@ -29,6 +29,7 @@ function App() {
   }
 
   useEffect(() => {
+    console.log(process.env.NODE_ENV)
     const token = localStorage.getItem('token')
     if (token) {
       checkToken()
