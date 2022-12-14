@@ -13,22 +13,42 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
     ])
   }
 
+  if (listItems.items === items) {
+    //make save button invisible
+    console.log('ha')
+  } else {
+    // make visible
+    console.log('noooo')
+  }
+
   const handleChange = (e) => {
-    let index = e.target.id
-    console.log(index)
-    let x = items[index]
-    console.log(x.completed)
-    // console.log(items[index].text)
-    setItems([...items, x])
+    let index = parseInt(e.target.id)
+    console.log(items)
+    let arr = items.map((item, i) => {
+      if (index === i) {
+        return {
+          ...item,
+          [e.target.name]: e.target.value
+        }
+      }
+      return item
+    })
+    setItems(arr)
   }
 
   const handleCheckbox = (e) => {
-    // let index = e.target.name
-    // if (items[index].completed === false) {
-    //   setItems({ ...items, items[index].completed: true })
-    // } else {
-    //   setItems({ ...items, [e.target.id]: false })
-    // }
+    let index = parseInt(e.target.id)
+    console.log(items)
+    let arr = items.map((item, i) => {
+      if (index === i) {
+        return {
+          ...item,
+          [e.target.name]: e.target.checked
+        }
+      }
+      return item
+    })
+    setItems(arr)
   }
 
   useEffect(() => {
@@ -46,7 +66,7 @@ const Checklist = ({ listItems, id, editsEnabled }) => {
           <div className="border row" key={i}>
             <input
               name="completed"
-              id={id}
+              id={i}
               onChange={handleCheckbox}
               className="col-2"
               type="checkbox"
