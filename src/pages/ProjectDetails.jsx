@@ -84,6 +84,16 @@ const ProjectDetails = ({ user, authenticated }) => {
       })
   }
 
+  const createChecklist = async () => {
+    await Client.post(`${BASE_URL}/checklists/${projectId}`)
+      .then((response) => {
+        setChecklists([...checklists, response.data])
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   const saveProject = async () => {
     await Client.put(`/projects/${details.id}`, details)
       .then((response) => {
@@ -259,6 +269,7 @@ const ProjectDetails = ({ user, authenticated }) => {
       </section>
       <section className="border container" id="checklist-section">
         <h5>Checklists</h5>
+        <button onClick={createChecklist}>New Checklist</button>
         <div className="row">
           {checklists.map((checklist) => (
             <div className="col" key={checklist.id}>
