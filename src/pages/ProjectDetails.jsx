@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
-import ImageCard from '../components/ImageCard'
 import MaterialCard from '../components/MaterialCard'
 import ProjectForm from '../components/ProjectForm'
 import Checklist from '../components/Checklist'
+import ImageCard from '../components/ImageCard'
 
 const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()

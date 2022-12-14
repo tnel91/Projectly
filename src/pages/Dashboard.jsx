@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ProjectCard from '../components/ProjectCard'
-import axios from 'axios'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
 
