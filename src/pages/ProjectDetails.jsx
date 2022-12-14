@@ -5,7 +5,7 @@ import { BASE_URL } from '../globals'
 import MaterialCard from '../components/MaterialCard'
 import ProjectForm from '../components/ProjectForm'
 import Checklist from '../components/Checklist'
-// import ImageCard from '../components/ImageCard'
+import ImageCard from '../components/ImageCard'
 
 const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
