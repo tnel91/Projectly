@@ -265,7 +265,7 @@ const ProjectDetails = ({ user, authenticated }) => {
               <Checklist
                 editsEnabled={editsEnabled}
                 id={checklist.id}
-                li={checklist.listItems}
+                listItems={checklist.listItems}
               />
             </div>
           ))}
