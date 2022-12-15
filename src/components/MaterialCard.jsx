@@ -32,9 +32,9 @@ const MaterialCard = ({ i, name, amount, editMode, details, setDetails }) => {
 
   return (
     <div className="container border">
-      <div className="row">
-        <h5 className="col-7 align-self-center">{name}</h5>
-        <p className="col-3 align-self-center">{amount}</p>
+      <div className="row align-items-center">
+        <h5 className="col-7">{name}</h5>
+        <p className="col-3">{amount}</p>
         <button
           className="btn btn-secondary align-self-center border col-2 h-50"
           id={`mat-del ${i}`}

@@ -92,7 +92,6 @@ const Checklist = ({
       })
     setEdited(false)
     let saveButton = document.getElementById(`li-save-${id}`)
-    console.log(saveButton)
     saveButton.setAttribute('hidden', 'hidden')
   }
 
@@ -127,14 +126,14 @@ const Checklist = ({
     <div className="">
       <div className="btn-group-sm" role="group">
         <button
-          className="btn btn-success border"
+          className="btn btn-warning border"
           id={`li-add-${id}`}
           onClick={addItem}
         >
           +
         </button>
         <button
-          className="btn btn-warning border"
+          className="btn btn-success border"
           id={`li-save-${id}`}
           hidden
           onClick={saveChecklist}

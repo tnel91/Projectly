@@ -29,11 +29,30 @@ const PhotoComponent = ({ i, image, editMode, details, setDetails }) => {
   }, [editMode])
 
   return (
-    <div className="container">
-      <img className="w-25" src={image} alt={`Image URL: ${image}`} />
-      <button id={`img-del ${i}`} onClick={handleDelete} hidden>
-        Delete
-      </button>
+    <div className="container card">
+      <div className="row">
+        <img
+          className="col-11 img-flid"
+          src={image}
+          alt={`Image URL: ${image}`}
+        />
+        <div className="col-1 ow">
+          <button hidden className="col-12 btn btn-success">
+            ↑
+          </button>
+          <button
+            className="col-12 btn btn-danger"
+            id={`img-del ${i}`}
+            onClick={handleDelete}
+            hidden
+          >
+            X
+          </button>
+          <button hidden className="col-12 btn btn-success text-center">
+            ↓
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

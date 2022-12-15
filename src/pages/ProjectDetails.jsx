@@ -49,7 +49,6 @@ const ProjectDetails = ({ user, authenticated }) => {
   const getProjectDetails = async () => {
     const response = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((response) => {
-        // console.log(response.data)
         return response.data
       })
       .catch((error) => {
@@ -96,7 +95,6 @@ const ProjectDetails = ({ user, authenticated }) => {
   const saveProject = async () => {
     await Client.put(`/projects/${details.id}`, details)
       .then((response) => {
-        // console.log(response.data[1][0])
         toggleEditMode()
       })
       .catch((error) => {
@@ -241,25 +239,6 @@ const ProjectDetails = ({ user, authenticated }) => {
                 setDetails={setDetails}
               />
             </section>
-          </div>
-          <div className="col-lg-6">
-            <section className="border container" id="image-section">
-              <h5>Images</h5>
-              <div>
-                {details.images.map((image, i) => (
-                  <div key={i}>
-                    <PhotoComponent
-                      i={i}
-                      image={image}
-                      editMode={editMode}
-                      images={details.images}
-                      details={details}
-                      setDetails={setDetails}
-                    />
-                  </div>
-                ))}
-              </div>
-            </section>
             <section className="border container" id="material-section">
               <h5>Shopping List</h5>
               <div className="row">
@@ -271,6 +250,24 @@ const ProjectDetails = ({ user, authenticated }) => {
                       amount={material.amount}
                       materials={details.materials}
                       editMode={editMode}
+                      details={details}
+                      setDetails={setDetails}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+          <div className="col-lg-6">
+            <section className="border container" id="image-section">
+              <div className="row">
+                {details.images.map((image, i) => (
+                  <div className="col-sm-12" key={i}>
+                    <PhotoComponent
+                      i={i}
+                      image={image}
+                      editMode={editMode}
+                      images={details.images}
                       details={details}
                       setDetails={setDetails}
                     />
