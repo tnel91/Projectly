@@ -313,10 +313,8 @@ const ProjectDetails = ({ user, authenticated }) => {
       </section>
     </div>
   ) : (
-    // Renders if not logged in.
     <div>
       <h3>You must be signed in to use this feature.</h3>
-      <button onClick={() => navigate('/')}>Sign In</button>
     </div>
   )
 }
