@@ -127,7 +127,6 @@ const ProjectForm = ({
           </label>
         </div>
       </form>
-      {/* //////////////////////////////////////////// */}
       <section id="material-section">
         <h4>Materials</h4>
         <form id="material-form" onSubmit={addMaterial}>
@@ -183,6 +182,9 @@ const ProjectForm = ({
       <h2>Project Name: {details.projectName}</h2>
       <p>Creator: {details.owner}</p>
       <p>Description: {details.description}</p>
+      <p>Budget: {details.budget}</p>
+      <p>Start Date: {details.startDate}</p>
+      <p>Target End Date: {details.endDate}</p>
     </div>
   )
 }

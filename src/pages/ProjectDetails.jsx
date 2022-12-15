@@ -226,7 +226,7 @@ const ProjectDetails = ({ user, authenticated }) => {
           Delete
         </button>
       </section>
-      <section className="border container">
+      <section className="border container-lg">
         <ProjectForm
           details={details}
           editMode={editMode}
@@ -272,22 +272,32 @@ const ProjectDetails = ({ user, authenticated }) => {
       </section>
       <section className="border container" id="checklist-section">
         <h5>Checklists</h5>
-        <button id="new-checklist-button" onClick={createChecklist} hidden>
+        <button
+          className="btn btn-primary"
+          id="new-checklist-button"
+          onClick={createChecklist}
+          hidden
+        >
           New Checklist
         </button>
-        <div className="row">
-          {checklists.map((checklist, i) => (
-            <div className="col" key={checklist.id}>
-              <Checklist
-                i={i}
-                editsEnabled={editsEnabled}
-                id={checklist.id}
-                listItems={checklist.listItems}
-                setChecklists={setChecklists}
-                checklists={checklists}
-              />
-            </div>
-          ))}
+        <div className="container">
+          <div className="row">
+            {checklists.map((checklist, i) => (
+              <div
+                className="card m-1 g-2 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-2"
+                key={checklist.id}
+              >
+                <Checklist
+                  i={i}
+                  editsEnabled={editsEnabled}
+                  id={checklist.id}
+                  listItems={checklist.listItems}
+                  setChecklists={setChecklists}
+                  checklists={checklists}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>

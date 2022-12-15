@@ -124,56 +124,74 @@ const Checklist = ({
   }, [items])
 
   return editsEnabled ? (
-    <div className="border">
-      <div>
-        <button id={`li-add-${id}`} onClick={addItem}>
+    <div className="">
+      <div className="btn-group" role="group" aria-label="Baic example">
+        <button
+          className="btn btn-success border"
+          id={`li-add-${id}`}
+          onClick={addItem}
+        >
           +
         </button>
-        <button id={`li-save-${id}`} hidden onClick={saveChecklist}>
+        <button
+          className="btn btn-warning border"
+          id={`li-save-${id}`}
+          hidden
+          onClick={saveChecklist}
+        >
           Save
         </button>
-        <button id={`li-del-${id}`} onClick={deleteChecklist}>
-          Del
+        <button
+          className="btn btn-danger border"
+          id={`li-del-${id}`}
+          onClick={deleteChecklist}
+        >
+          Delete
         </button>
       </div>
-      <div>
-        {items.map((item, i) => (
-          <div className="border row" key={i}>
-            <input
-              name="completed"
-              id={i}
-              onChange={handleCheckbox}
-              className="col-2"
-              type="checkbox"
-              checked={item.completed}
-            />
-            <input
-              name="text"
-              id={i}
-              onChange={handleChange}
-              className="col-7"
-              value={item.text}
-            />
-            <button id={i} className="col-2" onClick={deleteItem}>
-              -
-            </button>
-          </div>
-        ))}
+      <div className="container">
+        <div className="row">
+          {items.map((item, i) => (
+            <div className="col-12 row justify-content-md-center g-0" key={i}>
+              <input
+                className="col-2"
+                name="completed"
+                id={i}
+                onChange={handleCheckbox}
+                type="checkbox"
+                checked={item.completed}
+              />
+              <textarea
+                className="col-8"
+                name="text"
+                id={i}
+                onChange={handleChange}
+                value={item.text}
+              />
+              <button
+                id={i}
+                className="btn btn-danger border col-2 h-50"
+                onClick={deleteItem}
+              >
+                -
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   ) : (
-    <div className="border">
-      <p>list</p>
-      <div>
+    <div className="container">
+      <div className="row">
         {items.map((item, i) => (
-          <div className="border row" key={i}>
+          <div className="col-12 row justify-content-md-center g-0" key={i}>
             <input
-              className="col"
+              className="col-2"
               type="checkbox"
               checked={item.completed}
               readOnly
             />
-            <p className="col">{item.text}</p>
+            <textarea className="col-10" value={item.text} readOnly />
           </div>
         ))}
       </div>
