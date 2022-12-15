@@ -58,7 +58,9 @@ const Dashboard = ({ user, authenticated }) => {
   return user && authenticated ? (
     <div>
       <header>
-        <button onClick={createNewProject}>Create New Project</button>
+        <button className="btn btn-primary" onClick={createNewProject}>
+          Create New Project
+        </button>
       </header>
       <section id="project-section" className="row container">
         <div className="col-12 col-sm-6">

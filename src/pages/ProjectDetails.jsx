@@ -192,84 +192,95 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   return user && authenticated ? (
     <div>
-      <section className="container border navar navbar-expand-lare bg-light row m-2">
-        <button
-          className="col-1"
-          id="edit-project-button"
-          hidden
-          onClick={toggleEditMode}
-        >
-          Edit
-        </button>
-        <button
-          className="col-1"
-          id="cancel-changes-button"
-          hidden
-          onClick={cancelChanges}
-        >
-          Cancel
-        </button>
-        <button
-          className="col-1"
-          id="save-changes-button"
-          hidden
-          onClick={saveProject}
-        >
-          Save
-        </button>
-        <button
-          className="col-1"
-          id="delete-project-button"
-          hidden
-          onClick={deleteProject}
-        >
-          Delete
-        </button>
-      </section>
-      <section className="border container-lg">
-        <ProjectForm
-          details={details}
-          editMode={editMode}
-          handleChange={handleChange}
-          handleCheckbox={handleCheckbox}
-          setDetails={setDetails}
-        />
-      </section>
-      <section className="border container" id="material-section">
-        <h5>Materials</h5>
-        <div>
-          {details.materials.list.map((material, i) => (
-            <div key={i}>
-              <MaterialCard
-                i={i}
-                name={material.name}
-                amount={material.amount}
-                materials={details.materials}
-                editMode={editMode}
+      <section className="container border bg-light m-2"></section>
+      <div className="container bg-light m-4">
+        <div className="row">
+          <div className="btn-group col-12">
+            <div className="btn-group">
+              <button
+                className="col-1 btn btn-primary border"
+                id="edit-project-button"
+                hidden
+                onClick={toggleEditMode}
+              >
+                Edit
+              </button>
+              <button
+                className="col-1 btn btn-warning border"
+                id="cancel-changes-button"
+                hidden
+                onClick={cancelChanges}
+              >
+                Cancel
+              </button>
+              <button
+                className="col-1 btn btn-success border"
+                id="save-changes-button"
+                hidden
+                onClick={saveProject}
+              >
+                Save
+              </button>
+              <button
+                className="col-1 btn btn-danger border"
+                id="delete-project-button"
+                hidden
+                onClick={deleteProject}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          <div className="col-lg-6">
+            <section className="border container-lg">
+              <ProjectForm
                 details={details}
+                editMode={editMode}
+                handleChange={handleChange}
+                handleCheckbox={handleCheckbox}
                 setDetails={setDetails}
               />
-            </div>
-          ))}
+            </section>
+          </div>
+          <div className="col-lg-6">
+            <section className="border container" id="image-section">
+              <h5>Images</h5>
+              <div>
+                {details.images.map((image, i) => (
+                  <div key={i}>
+                    <PhotoComponent
+                      i={i}
+                      image={image}
+                      editMode={editMode}
+                      images={details.images}
+                      details={details}
+                      setDetails={setDetails}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+            <section className="border container" id="material-section">
+              <h5>Shopping List</h5>
+              <div className="row">
+                {details.materials.list.map((material, i) => (
+                  <div className="col-sm-6" key={i}>
+                    <MaterialCard
+                      i={i}
+                      name={material.name}
+                      amount={material.amount}
+                      materials={details.materials}
+                      editMode={editMode}
+                      details={details}
+                      setDetails={setDetails}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
         </div>
-      </section>
-      <section className="border container" id="image-section">
-        <h5>Images</h5>
-        <div>
-          {details.images.map((image, i) => (
-            <div key={i}>
-              <PhotoComponent
-                i={i}
-                image={image}
-                editMode={editMode}
-                images={details.images}
-                details={details}
-                setDetails={setDetails}
-              />
-            </div>
-          ))}
-        </div>
-      </section>
+      </div>
       <section className="border container" id="checklist-section">
         <h5>Checklists</h5>
         <button

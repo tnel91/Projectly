@@ -125,7 +125,7 @@ const Checklist = ({
 
   return editsEnabled ? (
     <div className="">
-      <div className="btn-group" role="group" aria-label="Baic example">
+      <div className="btn-group-sm" role="group">
         <button
           className="btn btn-success border"
           id={`li-add-${id}`}
@@ -154,7 +154,7 @@ const Checklist = ({
           {items.map((item, i) => (
             <div className="col-12 row justify-content-md-center g-0" key={i}>
               <input
-                className="col-2"
+                className="col-2 align-self-center h-50"
                 name="completed"
                 id={i}
                 onChange={handleCheckbox}
@@ -170,7 +170,7 @@ const Checklist = ({
               />
               <button
                 id={i}
-                className="btn btn-danger border col-2 h-50"
+                className="btn btn-secondary align-self-center border col-2 h-50"
                 onClick={deleteItem}
               >
                 -

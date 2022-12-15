@@ -31,17 +31,19 @@ const MaterialCard = ({ i, name, amount, editMode, details, setDetails }) => {
   }, [editMode])
 
   return (
-    <div className="container row">
-      <h5 className="col-2">{name}</h5>
-      <p className="col-1">{amount}</p>
-      <button
-        className="col-2"
-        id={`mat-del ${i}`}
-        onClick={handleDelete}
-        hidden
-      >
-        Delete
-      </button>
+    <div className="container border">
+      <div className="row">
+        <h5 className="col-7 align-self-center">{name}</h5>
+        <p className="col-3 align-self-center">{amount}</p>
+        <button
+          className="btn btn-secondary align-self-center border col-2 h-50"
+          id={`mat-del ${i}`}
+          onClick={handleDelete}
+          hidden
+        >
+          -
+        </button>
+      </div>
     </div>
   )
 }

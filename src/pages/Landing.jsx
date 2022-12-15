@@ -28,7 +28,9 @@ const Landing = (props) => {
 
   return (
     <div className="text-center">
+      <h1>Spicy Burps</h1>
       <form id="form-signin" className="m-auto" onSubmit={handleSubmit}>
+        <h3>Welcome!</h3>
         <h1 className="h3 m-3">Please sign in</h1>
         <div className="form-floating">
           <input
