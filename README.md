@@ -4,7 +4,7 @@
 
 ---
 
-#### [Frontend-Repo](https://github.com/tnel91/project-planner-frontend) | [Backend-Repo](https://github.com/tnel91/project-planner-backend) | [Trello](https://trello.com/b/uhNfbuGR/project-planner)
+#### [Frontend-Repo](https://github.com/tnel91/project-planner-frontend) | [Backend-Repo](https://github.com/tnel91/project-planner-backend) | [Trello](https://trello.com/b/uhNfbuGR/project-planner) | [Heroku Deployment](https://project-planner.herokuapp.com/)
 
 ---
 
@@ -36,13 +36,39 @@ A user will be able to log in and create new projects which will store informati
 
 ### **_Getting Started_**
 
+#### _Production_
+
+- Navigate to [Heroku Deployment](https://project-planner.herokuapp.com/)
+
+- Create an account.
+
+#### _Development_
+
 - `Fork` and `Clone` this repo
+- run `npm install`
+- run `npm start`
+
+---
+
+### **_Screenshots_**
+
+#### \_Project Details Page
+
+![Project Details Page](https://i.imgur.com/Uq8uRLn.png)
+
+#### \_Project Update Form
+
+![Project Update Form](https://i.imgur.com/2jODO5Q.png)
 
 ---
 
 ### **_Post MVP features_**
 
 - Allow a user to invite other users to be a collaborator on a project, allowing both users to edit the project details.
+
+- Implement user settings page, including the ability to change username, password, or adjust settings.
+
+- Implement search and sort on the projects feed.
 
 ---
 
@@ -63,3 +89,9 @@ A user will be able to log in and create new projects which will store informati
 ##### Project Prompt: [Github](https://github.com/SEI-R-9-19/u4_project_prompt)
 
 ##### Image Hosting: [Imgur](https://imgur.com)
+
+##### Search Engine [Google](http://google.com)
+
+##### Stack Overflow [StackOverflow](https://stackoverflow.com/)
+
+##### Bootstrap Docs [Bootstrap](https://getbootstrap.com/docs/)
