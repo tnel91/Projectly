@@ -52,11 +52,11 @@ A user will be able to log in and create new projects which will store informati
 
 ### **_Screenshots_**
 
-#### \_Project Details Page
+#### _Project Details Page_
 
 ![Project Details Page](https://i.imgur.com/Uq8uRLn.png)
 
-#### \_Project Update Form
+#### _Project Update Form_
 
 ![Project Update Form](https://i.imgur.com/2jODO5Q.png)
 
