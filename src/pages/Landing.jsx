@@ -4,7 +4,6 @@ import { SignInUser } from '../services/Auth'
 
 const Landing = (props) => {
   const navigate = useNavigate()
-  const errorMessage = document.getElementById('login-error-msg')
   const [formState, setFormState] = useState({
     email: '',
     password: ''

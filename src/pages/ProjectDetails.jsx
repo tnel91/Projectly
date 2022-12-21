@@ -188,7 +188,7 @@ const ProjectDetails = ({ user, authenticated }) => {
     }
   }, [user, details.id])
 
-  return user && authenticated ? (
+  return (
     <div>
       <section className="container border bg-light m-2"></section>
       <div className="container bg-light m-4">
@@ -308,10 +308,6 @@ const ProjectDetails = ({ user, authenticated }) => {
           </div>
         </div>
       </section>
-    </div>
-  ) : (
-    <div>
-      <h3>You must be signed in to use this feature.</h3>
     </div>
   )
 }

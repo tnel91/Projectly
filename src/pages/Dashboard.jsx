@@ -20,6 +20,7 @@ const Dashboard = ({ user, authenticated }) => {
   }
 
   const getUserProjects = async () => {
+    document.getElementById('my-projects-section').removeAttribute('hidden')
     await Client.get(`${BASE_URL}/projects/user/${user.id}`)
       .then((response) => {
         setUserProjects(response.data)
@@ -55,16 +56,14 @@ const Dashboard = ({ user, authenticated }) => {
     }
   }, [user])
 
-  return user && authenticated ? (
+  return (
     <div>
-      <header>
-        <button className="btn btn-primary" onClick={createNewProject}>
-          Create New Project
-        </button>
-      </header>
       <section id="project-section" className="row container">
-        <div className="col-12 col-sm-6">
+        <div hidden id="my-projects-section" className="col-12 col-sm-6">
           <h2>My Projects</h2>
+          <button className="btn btn-primary" onClick={createNewProject}>
+            Create New Project
+          </button>
           <div id="my_projects">
             {userProjects.map((project) => (
               <div key={project.id}>
@@ -78,7 +77,7 @@ const Dashboard = ({ user, authenticated }) => {
             ))}
           </div>
         </div>
-        <div className="col-12 col-sm-6">
+        <div id="public-projects-section" className="col-12 col-sm-6">
           <h2>Public Projects</h2>
           <div id="public_projects">
             {publicProjects.map((project) => (
@@ -94,10 +93,6 @@ const Dashboard = ({ user, authenticated }) => {
           </div>
         </div>
       </section>
-    </div>
-  ) : (
-    <div>
-      <h3>You must be signed in to use this feature.</h3>
     </div>
   )
 }

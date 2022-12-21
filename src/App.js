@@ -13,13 +13,11 @@ import { CheckSession } from './services/Auth'
 function App() {
   const [authenticated, toggleAuthenticated] = useState(false)
   const [user, setUser] = useState(null)
-  let navigate = useNavigate()
 
   const handleLogout = () => {
     setUser(null)
     toggleAuthenticated(false)
     localStorage.clear()
-    navigate('/')
   }
 
   const checkToken = async () => {

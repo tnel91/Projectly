@@ -19,9 +19,12 @@ const Navbar = ({ handleLogout, user, authenticated }) => {
         </Link>
         <Link
           className="btn btn-outline-primary px-2 nav-item"
-          onClick={handleLogout}
+          onClick={() => {
+            handleLogout()
+          }}
+          to="/"
         >
-          <h3>Log Out</h3>
+          <h3>Sign Out</h3>
         </Link>
       </div>
     </nav>
@@ -30,6 +33,9 @@ const Navbar = ({ handleLogout, user, authenticated }) => {
       <div className="btn-group">
         <Link className="btn btn-outline-primary px-2 nav-item" to="/">
           <h3>Sign In</h3>
+        </Link>
+        <Link className="btn btn-outline-primary px-2 nav-item" to="/dashboard">
+          <h3>Dashboard</h3>
         </Link>
       </div>
     </nav>
