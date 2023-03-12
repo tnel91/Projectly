@@ -3,9 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
 import MaterialCard from '../components/MaterialCard'
-import ProjectForm from '../components/ProjectForm'
 import Checklist from '../components/Checklist'
 import PhotoComponent from '../components/PhotoComponent'
+import SideMenu from '../components/SideMenu'
+import ProjectHeader from '../components/ProjectHeader'
 
 const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
@@ -22,9 +23,7 @@ const ProjectDetails = ({ user, authenticated }) => {
     ownerId: '',
     id: null,
     projectName: '',
-    tags: '',
     description: '',
-    materials: { list: [] },
     images: [],
     budget: '',
     startDate: '',
@@ -32,6 +31,9 @@ const ProjectDetails = ({ user, authenticated }) => {
     isPublic: false,
     createdAt: null,
     updatedAt: null
+    // not using
+    // tags: '',
+    // materials: { list: [] }
   })
 
   const [holding, setHolding] = useState('')
@@ -72,16 +74,17 @@ const ProjectDetails = ({ user, authenticated }) => {
       ownerId: response.owner.id,
       id: response.id,
       projectName: response.projectName,
-      tags: response.tags,
       description: response.description,
-      materials: { list: response.materials.list },
       images: response.images,
       budget: response.budget,
       startDate: response.startDate,
       endDate: response.endDate,
       isPublic: response.isPublic,
       createdAt: response.createdAt,
-      updatedAt: response.updatedAt
+      updatedAt: response.updatedAt,
+      // not using
+      tags: response.tags,
+      materials: { list: response.materials.list }
     })
   }
 
@@ -210,85 +213,22 @@ const ProjectDetails = ({ user, authenticated }) => {
   return (
     <div className="row">
       <section className="col-2">
-        <h1>{details.owner}</h1>
-        <div className="form-floating">
-          <input
-            id="budget"
-            className="form-control"
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder="Budget"
-            value={details.budget}
-          />
-          <label htmlFor="budget">Budget:</label>
-        </div>
-        <div className="form-floating">
-          <input
-            type="date"
-            id="startDate"
-            className="form-control"
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder="Start Date"
-            value={details.startDate}
-          />
-          <label htmlFor="startDate">Start Date:</label>
-        </div>
-        <div className="form-floating">
-          <input
-            type="date"
-            id="endDate"
-            className="form-control"
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder="End Date"
-            value={details.endDate}
-          />
-          <label htmlFor="endDate">End Date:</label>
-        </div>
-        <div className="form-floating">
-          <textarea
-            id="description"
-            className="form-control"
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            placeholder="Description"
-            value={details.description}
-          />
-          <label htmlFor="description">Description</label>
-        </div>
+        <SideMenu
+          details={details}
+          handleBlur={handleBlur}
+          handleChange={handleChange}
+          handleFocus={handleFocus}
+        />
       </section>
       <div className="col-10">
         <section className="row">
-          <div className="form-floating col-3">
-            <input
-              id="projectName"
-              className="form-control"
-              onChange={handleChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              placeholder="Project Name"
-              value={details.projectName}
-              required
-            />
-            <label htmlFor="projectName">Project Name</label>
-          </div>
-          <div className="row col-3">
-            <label className="row align-items-center">
-              <input
-                className="col-2 h-50"
-                id="isPublic"
-                type="checkbox"
-                checked={details.isPublic}
-                onChange={handleCheckbox}
-              />
-              <p className="col-10 align-center">Viewable by other users?</p>
-            </label>
-          </div>
+          <ProjectHeader
+            details={details}
+            handleBlur={handleBlur}
+            handleChange={handleChange}
+            handleFocus={handleFocus}
+            handleCheckbox={handleCheckbox}
+          />
         </section>
         <section className="col-" id="checklist-section">
           <h5>Checklists</h5>
@@ -358,17 +298,6 @@ const ProjectDetails = ({ user, authenticated }) => {
                 Delete
               </button>
             </div>
-          </div>
-          <div className="border border-primary col-lg-6">
-            <section className="border container-lg">
-              <ProjectForm
-                details={details}
-                editMode={editMode}
-                handleChange={handleChange}
-                handleCheckbox={handleCheckbox}
-                setDetails={setDetails}
-              />
-            </section>
           </div>
           <div className="border border-danger col-lg-6">
             <section className="border container" id="image-section">
