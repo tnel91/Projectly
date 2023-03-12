@@ -52,17 +52,6 @@ const ProjectForm = ({
   return editMode ? (
     <div>
       <form className="row g-1">
-        <div className="form-floating col-6">
-          <input
-            id="projectName"
-            className="form-control"
-            onChange={handleChange}
-            placeholder="Project Name"
-            value={details.projectName}
-            required
-          />
-          <label htmlFor="projectName">Project Name</label>
-        </div>
         <div className="row mb-3 col-6">
           <label className="row align-items-center">
             <input
@@ -85,50 +74,8 @@ const ProjectForm = ({
           />
           <label htmlFor="tags">Tags (separate by commas):</label>
         </div> */}
-        <div className="form-floating col-4">
-          <input
-            id="budget"
-            className="form-control"
-            onChange={handleChange}
-            placeholder="Budget"
-            value={details.budget}
-          />
-          <label htmlFor="budget">Budget:</label>
-        </div>
-        <div className="form-floating col-4">
-          <input
-            type="date"
-            id="startDate"
-            className="form-control"
-            onChange={handleChange}
-            placeholder="Start Date"
-            value={details.startDate}
-          />
-          <label htmlFor="startDate">Start Date:</label>
-        </div>
-        <div className="form-floating col-4">
-          <input
-            type="date"
-            id="endDate"
-            className="form-control"
-            onChange={handleChange}
-            placeholder="End Date"
-            value={details.endDate}
-          />
-          <label htmlFor="endDate">End Date:</label>
-        </div>
-        <div className="form-floating col-12">
-          <textarea
-            id="description"
-            className="form-control"
-            onChange={handleChange}
-            placeholder="Description"
-            value={details.description}
-          />
-          <label htmlFor="description">Description</label>
-        </div>
       </form>
-      <section id="image-section">
+      {/* <section id="image-section">
         <form className="row g-1" id="image-form" onSubmit={addImage}>
           <div className="form-floating col-12">
             <input
@@ -149,7 +96,7 @@ const ProjectForm = ({
             Add Image
           </button>
         </form>
-      </section>
+      </section> */}
       {/* <section id="material-section">
         <form
           className="row container g-1"

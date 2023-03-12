@@ -14,7 +14,7 @@ code {
 }
 
 main {
-  margin: 1em
+  margin: 1em;
 }
 
 #form-signin {
@@ -26,5 +26,9 @@ main {
   max-width: 500px;
 }
 .project_card:hover {
-  box-shadow: 0 0 4px 2px black
+  box-shadow: 0 0 4px 2px black;
+}
+
+[class^='col-'] {
+  border: 1px solid red;
 }
