@@ -75,7 +75,7 @@ const ProjectForm = ({
             <p className="col-10 align-center">Viewable by other users?</p>
           </label>
         </div>
-        <div className="form-floating col-12">
+        {/* <div className="form-floating col-12">
           <input
             id="tags"
             className="form-control"
@@ -84,7 +84,7 @@ const ProjectForm = ({
             value={details.tags}
           />
           <label htmlFor="tags">Tags (separate by commas):</label>
-        </div>
+        </div> */}
         <div className="form-floating col-4">
           <input
             id="budget"
@@ -150,7 +150,7 @@ const ProjectForm = ({
           </button>
         </form>
       </section>
-      <section id="material-section">
+      {/* <section id="material-section">
         <form
           className="row container g-1"
           id="material-form"
@@ -186,7 +186,7 @@ const ProjectForm = ({
             Add Material
           </button>
         </form>
-      </section>
+      </section> */}
     </div>
   ) : (
     <div className="container">

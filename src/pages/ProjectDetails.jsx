@@ -13,7 +13,7 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   const [editsEnabled, setEditsEnabled] = useState(false)
 
-  const [editMode, setEditMode] = useState(false)
+  const [editMode, setEditMode] = useState(true)
 
   const [checklists, setChecklists] = useState([])
 
@@ -191,7 +191,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   return (
     <div>
       <section className="container border bg-light m-2"></section>
-      <div className="container bg-light m-4">
+      <div className=" container bg-light m-4">
         <div className="row">
           <div className="btn-group col-12">
             <div className="btn-group">
@@ -239,7 +239,7 @@ const ProjectDetails = ({ user, authenticated }) => {
                 setDetails={setDetails}
               />
             </section>
-            <section className="border container" id="material-section">
+            {/* <section className="border container" id="material-section">
               <h5>Shopping List</h5>
               <div className="row">
                 {details.materials.list.map((material, i) => (
@@ -256,7 +256,7 @@ const ProjectDetails = ({ user, authenticated }) => {
                   </div>
                 ))}
               </div>
-            </section>
+            </section> */}
           </div>
           <div className="col-lg-6">
             <section className="border container" id="image-section">
