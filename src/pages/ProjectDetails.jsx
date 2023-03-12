@@ -56,11 +56,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const handleCheckbox = (e) => {
-    if (details.isPublic === false) {
-      setDetails({ ...details, [e.target.id]: true })
-    } else {
-      setDetails({ ...details, [e.target.id]: false })
-    }
+    setDetails({ ...details, [e.target.id]: e.target.checked })
   }
 
   const getProjectDetails = async () => {
@@ -194,6 +190,12 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   useEffect(() => {
+    console.log('useEffect A')
+    saveProject()
+  }, [details.isPublic])
+
+  useEffect(() => {
+    console.log('useEffect B')
     if (checklists.length === 0) {
       getChecklists()
     }
@@ -261,8 +263,8 @@ const ProjectDetails = ({ user, authenticated }) => {
         </div>
       </section>
       <div className="col-10">
-        <section className="col-">
-          <div className="form-floating col-6">
+        <section className="row">
+          <div className="form-floating col-3">
             <input
               id="projectName"
               className="form-control"
@@ -274,6 +276,18 @@ const ProjectDetails = ({ user, authenticated }) => {
               required
             />
             <label htmlFor="projectName">Project Name</label>
+          </div>
+          <div className="row col-3">
+            <label className="row align-items-center">
+              <input
+                className="col-2 h-50"
+                id="isPublic"
+                type="checkbox"
+                checked={details.isPublic}
+                onChange={handleCheckbox}
+              />
+              <p className="col-10 align-center">Viewable by other users?</p>
+            </label>
           </div>
         </section>
         <section className="col-" id="checklist-section">
