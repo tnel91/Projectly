@@ -32,3 +32,23 @@ main {
 [class^='col-'] {
   border: 1px solid red;
 }
+
+#description {
+  height: 100px;
+}
+
+#project-img {
+  width: 100%;
+}
+
+#project-img-cont {
+  position: relative;
+}
+
+#project-img-btn {
+  color: white;
+  background-color: rgba(128, 128, 128, 0.5);
+  position: absolute;
+  top: 0;
+  right: 0;
+}

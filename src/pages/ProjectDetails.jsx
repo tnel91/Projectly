@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
-import MaterialCard from '../components/MaterialCard'
 import Checklist from '../components/Checklist'
-import PhotoComponent from '../components/PhotoComponent'
 import SideMenu from '../components/SideMenu'
 import ProjectHeader from '../components/ProjectHeader'
 
@@ -12,9 +10,9 @@ const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
 
-  const [editsEnabled, setEditsEnabled] = useState(false)
+  const [unsavedChanges, setUnsavedChanges] = useState(false)
 
-  const [editMode, setEditMode] = useState(true)
+  const [editsEnabled, setEditsEnabled] = useState(false)
 
   const [checklists, setChecklists] = useState([])
 
@@ -31,15 +29,13 @@ const ProjectDetails = ({ user, authenticated }) => {
     isPublic: false,
     createdAt: null,
     updatedAt: null
-    // not using
-    // tags: '',
-    // materials: { list: [] }
   })
 
   const [holding, setHolding] = useState('')
 
   const handleChange = (e) => {
     setDetails({ ...details, [e.target.id]: e.target.value })
+    setUnsavedChanges(true)
   }
 
   const handleFocus = (e) => {
@@ -81,10 +77,7 @@ const ProjectDetails = ({ user, authenticated }) => {
       endDate: response.endDate,
       isPublic: response.isPublic,
       createdAt: response.createdAt,
-      updatedAt: response.updatedAt,
-      // not using
-      tags: response.tags,
-      materials: { list: response.materials.list }
+      updatedAt: response.updatedAt
     })
   }
 
@@ -112,6 +105,7 @@ const ProjectDetails = ({ user, authenticated }) => {
     await Client.put(`/projects/${details.id}`, details)
       .then((response) => {
         console.log('Project Saved')
+        setUnsavedChanges(false)
       })
       .catch((error) => {
         console.log(error)
@@ -132,29 +126,7 @@ const ProjectDetails = ({ user, authenticated }) => {
     }
   }
 
-  // const toggleEditMode = () => {
-  //   if (details.ownerId === user.id) {
-  //     if (!editMode) {
-  //       setEditMode(true)
-  //       showCancSaveDelButtons()
-  //       hideEditButton()
-  //     } else if (editMode) {
-  //       setEditMode(false)
-  //       hideCancSaveDelButtons()
-  //       showEditButton()
-  //     }
-  //   } else {
-  //     console.log('unauthorized')
-  //   }
-  // }
-
-  const cancelChanges = () => {
-    // toggleEditMode()
-    getProjectDetails()
-  }
-
   const enableEditMode = () => {
-    showEditButton()
     showNewChecklistButton()
     setEditsEnabled(true)
   }
@@ -164,41 +136,11 @@ const ProjectDetails = ({ user, authenticated }) => {
     button.removeAttribute('hidden')
   }
 
-  const showEditButton = () => {
-    let editButton = document.getElementById('edit-project-button')
-    editButton.removeAttribute('hidden')
-  }
-
-  const hideEditButton = () => {
-    let editButton = document.getElementById('edit-project-button')
-    editButton.setAttribute('hidden', 'hidden')
-  }
-
-  const showCancSaveDelButtons = () => {
-    let cancelButton = document.getElementById('cancel-changes-button')
-    let saveButton = document.getElementById('save-changes-button')
-    let deleteButton = document.getElementById('delete-project-button')
-    cancelButton.removeAttribute('hidden')
-    saveButton.removeAttribute('hidden')
-    deleteButton.removeAttribute('hidden')
-  }
-
-  const hideCancSaveDelButtons = () => {
-    let cancelButton = document.getElementById('cancel-changes-button')
-    let saveButton = document.getElementById('save-changes-button')
-    let deleteButton = document.getElementById('delete-project-button')
-    cancelButton.setAttribute('hidden', 'hidden')
-    saveButton.setAttribute('hidden', 'hidden')
-    deleteButton.setAttribute('hidden', 'hidden')
-  }
-
   useEffect(() => {
-    console.log('useEffect A')
     saveProject()
-  }, [details.isPublic])
+  }, [details.isPublic, details.startDate, details.endDate])
 
   useEffect(() => {
-    console.log('useEffect B')
     if (checklists.length === 0) {
       getChecklists()
     }
@@ -212,7 +154,7 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   return (
     <div className="row">
-      <section className="col-2">
+      <section className="col-4">
         <SideMenu
           details={details}
           handleBlur={handleBlur}
@@ -220,7 +162,7 @@ const ProjectDetails = ({ user, authenticated }) => {
           handleFocus={handleFocus}
         />
       </section>
-      <div className="col-10">
+      <div className="col-8">
         <section className="row">
           <ProjectHeader
             details={details}
@@ -228,6 +170,7 @@ const ProjectDetails = ({ user, authenticated }) => {
             handleChange={handleChange}
             handleFocus={handleFocus}
             handleCheckbox={handleCheckbox}
+            unsavedChanges={unsavedChanges}
           />
         </section>
         <section className="col-" id="checklist-section">
@@ -260,64 +203,6 @@ const ProjectDetails = ({ user, authenticated }) => {
             </div>
           </div>
         </section>
-      </div>
-      <div hidden className="container bg-light m-4">
-        <div className="row">
-          <div className="border border-danger btn-group col-12">
-            <div className="btn-group">
-              <button
-                className="col-1 btn btn-primary border"
-                id="edit-project-button"
-                hidden
-                // onClick={toggleEditMode}
-              >
-                Edit
-              </button>
-              <button
-                className="col-1 btn btn-warning border"
-                id="cancel-changes-button"
-                hidden
-                onClick={cancelChanges}
-              >
-                Cancel
-              </button>
-              <button
-                className="col-1 btn btn-success border"
-                id="save-changes-button"
-                hidden
-                onClick={saveProject}
-              >
-                Save
-              </button>
-              <button
-                className="col-1 btn btn-danger border"
-                id="delete-project-button"
-                hidden
-                onClick={deleteProject}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-          <div className="border border-danger col-lg-6">
-            <section className="border container" id="image-section">
-              <div className="row">
-                {details.images.map((image, i) => (
-                  <div className="col-sm-12" key={i}>
-                    <PhotoComponent
-                      i={i}
-                      image={image}
-                      editMode={editMode}
-                      images={details.images}
-                      details={details}
-                      setDetails={setDetails}
-                    />
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-        </div>
       </div>
     </div>
   )

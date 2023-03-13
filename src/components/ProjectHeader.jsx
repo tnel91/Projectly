@@ -3,7 +3,8 @@ const ProjectHeader = ({
   handleFocus,
   handleBlur,
   handleCheckbox,
-  details
+  details,
+  unsavedChanges
 }) => {
   return (
     <div className="row">
@@ -31,6 +32,9 @@ const ProjectHeader = ({
           />
           <p className="col-10 align-center">Viewable by other users?</p>
         </label>
+      </div>
+      <div className="col-3">
+        {unsavedChanges && <p>there are unsaved changes</p>}
       </div>
     </div>
   )
