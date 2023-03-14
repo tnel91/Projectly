@@ -36,7 +36,7 @@ const Dashboard = ({ user, authenticated }) => {
 
   const createNewProject = async () => {
     let newProject = {
-      userId: user.id
+      user_id: user.id
     }
     await Client.post('/projects', newProject)
       .then((response) => {

@@ -1,14 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const SideMenu = ({ handleChange, handleFocus, handleBlur, details }) => {
+const SideMenu = ({
+  handleChange,
+  handleFocus,
+  handleBlur,
+  details,
+  setDetails
+}) => {
   const [isHovered, setIsHovered] = useState(false)
-  const [imageFile, setImageFile] = useState(null)
+  const [image, setImage] = useState('')
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0]
-    setImageFile(file)
     console.log(file)
+    setDetails({ ...details, image: file })
   }
+
+  const handleImage = (event) => {
+    setDetails({ ...details, image: event.target.value })
+  }
+
+  useEffect(() => {
+    if (details.image && details.image instanceof Blob) {
+      let parsedImg = URL.createObjectURL(details.image)
+      setImage(parsedImg)
+    } else {
+      setImage(details.image)
+    }
+  }, [details.image])
 
   return (
     <div className="row">
@@ -18,12 +37,7 @@ const SideMenu = ({ handleChange, handleFocus, handleBlur, details }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <img
-          id="project-img"
-          className=""
-          src={imageFile ? URL.createObjectURL(imageFile) : details.images[0]}
-          alt="project image"
-        />
+        <img id="project-img" className="" src={image} alt="not found" />
         {isHovered && (
           <button
             id="project-img-btn"
@@ -40,6 +54,7 @@ const SideMenu = ({ handleChange, handleFocus, handleBlur, details }) => {
           accept="image/*"
           onChange={handleImageUpload}
         />
+        <input type="URL" onChange={handleImage} />
       </div>
       <h4 className="col-12">
         Owner: <strong>{details.owner}</strong>

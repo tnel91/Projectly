@@ -1,3 +1,5 @@
+import saveIcon from '../assets/save-64.png'
+
 const ProjectHeader = ({
   handleChange,
   handleFocus,
@@ -8,7 +10,7 @@ const ProjectHeader = ({
 }) => {
   return (
     <div className="row">
-      <div className="form-floating col-3">
+      <div className="form-floating col-5">
         <input
           id="projectName"
           className="form-control"
@@ -30,11 +32,11 @@ const ProjectHeader = ({
             checked={details.isPublic}
             onChange={handleCheckbox}
           />
-          <p className="col-10 align-center">Viewable by other users?</p>
+          <p className="col-10 align-center">Public?</p>
         </label>
       </div>
       <div className="col-3">
-        {unsavedChanges && <p>there are unsaved changes</p>}
+        {unsavedChanges && <img src={saveIcon} alt="saveIcon" />}
       </div>
     </div>
   )

@@ -22,7 +22,7 @@ const ProjectDetails = ({ user, authenticated }) => {
     id: null,
     projectName: '',
     description: '',
-    images: [],
+    image: '',
     budget: '',
     startDate: '',
     endDate: '',
@@ -58,26 +58,28 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const getProjectDetails = async () => {
+    let imgBlob
     const response = await Client.get(`${BASE_URL}/projects/${projectId}`)
-      .then((response) => {
-        return response.data
+      .then((res) => {
+        return res.data
       })
       .catch((error) => {
         console.log(error)
       })
+    // imgBlob = URL.createObjectURL(response.images[0])
     setDetails({
       owner: response.owner.username,
       ownerId: response.owner.id,
       id: response.id,
-      projectName: response.projectName,
+      projectName: response.project_name,
       description: response.description,
-      images: response.images,
+      image: response.image,
       budget: response.budget,
-      startDate: response.startDate,
-      endDate: response.endDate,
-      isPublic: response.isPublic,
-      createdAt: response.createdAt,
-      updatedAt: response.updatedAt
+      startDate: response.start_date,
+      endDate: response.end_date,
+      isPublic: response.is_public,
+      createdAt: response.created_at,
+      updatedAt: response.updated_at
     })
   }
 
@@ -102,9 +104,12 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const saveProject = async () => {
+    console.log(`Request Body`)
+    console.log(details)
     await Client.put(`/projects/${details.id}`, details)
       .then((response) => {
-        console.log('Project Saved')
+        console.log(`Response Body`)
+        console.log(response.data)
         setUnsavedChanges(false)
       })
       .catch((error) => {
@@ -160,6 +165,7 @@ const ProjectDetails = ({ user, authenticated }) => {
           handleBlur={handleBlur}
           handleChange={handleChange}
           handleFocus={handleFocus}
+          setDetails={setDetails}
         />
       </section>
       <div className="col-8">
@@ -194,7 +200,7 @@ const ProjectDetails = ({ user, authenticated }) => {
                     i={i}
                     editsEnabled={editsEnabled}
                     id={checklist.id}
-                    listItems={checklist.listItems}
+                    listItems={checklist.list_items}
                     setChecklists={setChecklists}
                     checklists={checklists}
                   />
