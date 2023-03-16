@@ -50,6 +50,7 @@ const SideMenu = ({
         <input
           hidden
           type="file"
+          name="avatar"
           id="file-input"
           accept="image/*"
           onChange={handleImageUpload}

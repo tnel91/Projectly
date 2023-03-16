@@ -58,7 +58,6 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const getProjectDetails = async () => {
-    let imgBlob
     const response = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((res) => {
         return res.data
@@ -66,20 +65,37 @@ const ProjectDetails = ({ user, authenticated }) => {
       .catch((error) => {
         console.log(error)
       })
-    // imgBlob = URL.createObjectURL(response.images[0])
+    // console.log('RESPONSE')
+    let project = response.project
+    // console.log(response)
+    // console.log(response.image)
+    let image
+    if (typeof response.image === 'string') {
+      image = response.image
+    } else {
+      // console.log(response.image.data)
+      let uint8Array = new Uint8Array(response.image.data)
+      // console.log(uint8Array)
+      image = new Blob([uint8Array], {
+        type: 'image/jpeg'
+      })
+      // console.log(image)
+      // let newFile = new File([image], 'image.jpg', { type: 'image/jpeg' })
+      // console.log(newFile)
+    }
     setDetails({
-      owner: response.owner.username,
-      ownerId: response.owner.id,
-      id: response.id,
-      projectName: response.project_name,
-      description: response.description,
-      image: response.image,
-      budget: response.budget,
-      startDate: response.start_date,
-      endDate: response.end_date,
-      isPublic: response.is_public,
-      createdAt: response.created_at,
-      updatedAt: response.updated_at
+      owner: project.owner.username,
+      ownerId: project.owner.id,
+      id: project.id,
+      projectName: project.project_name,
+      description: project.description,
+      image: image,
+      budget: project.budget,
+      startDate: project.start_date,
+      endDate: project.end_date,
+      isPublic: project.is_public,
+      createdAt: project.created_at,
+      updatedAt: project.updated_at
     })
   }
 
@@ -104,17 +120,28 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const saveProject = async () => {
-    console.log(`Request Body`)
-    console.log(details)
-    await Client.put(`/projects/${details.id}`, details)
-      .then((response) => {
-        console.log(`Response Body`)
-        console.log(response.data)
-        setUnsavedChanges(false)
+    if (details.id) {
+      const form = new FormData()
+      form.append('project_name', details.projectName)
+      form.append('description', details.description)
+      form.append('image', details.image)
+      form.append('budget', details.budget)
+      form.append('start_date', details.startDate)
+      form.append('end_date', details.endDate)
+      form.append('is_public', details.isPublic)
+      await Client.put(`/projects/${details.id}`, details, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       })
-      .catch((error) => {
-        console.log(error)
-      })
+        .then((response) => {
+          console.log('saved')
+          setUnsavedChanges(false)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   }
 
   const deleteProject = async () => {
