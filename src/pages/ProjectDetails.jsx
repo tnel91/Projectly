@@ -22,7 +22,7 @@ const ProjectDetails = ({ user, authenticated }) => {
     id: null,
     projectName: '',
     description: '',
-    image: '',
+    // image: '',
     budget: '',
     startDate: '',
     endDate: '',
@@ -89,7 +89,7 @@ const ProjectDetails = ({ user, authenticated }) => {
       id: project.id,
       projectName: project.project_name,
       description: project.description,
-      image: image,
+      // image: image,
       budget: project.budget,
       startDate: project.start_date,
       endDate: project.end_date,
@@ -124,7 +124,7 @@ const ProjectDetails = ({ user, authenticated }) => {
       const form = new FormData()
       form.append('project_name', details.projectName)
       form.append('description', details.description)
-      form.append('image', details.image)
+      // form.append('image', details.image)
       form.append('budget', details.budget)
       form.append('start_date', details.startDate)
       form.append('end_date', details.endDate)
@@ -192,7 +192,7 @@ const ProjectDetails = ({ user, authenticated }) => {
           handleBlur={handleBlur}
           handleChange={handleChange}
           handleFocus={handleFocus}
-          setDetails={setDetails}
+          // setDetails={setDetails}
         />
       </section>
       <div className="col-8">

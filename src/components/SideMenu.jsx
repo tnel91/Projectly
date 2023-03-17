@@ -1,31 +1,61 @@
 import { useEffect, useState } from 'react'
+import Client from '../services/api'
+import { BASE_URL } from '../globals'
 
 const SideMenu = ({
   handleChange,
   handleFocus,
   handleBlur,
-  details,
-  setDetails
+  details
+  // setDetails
 }) => {
   const [isHovered, setIsHovered] = useState(false)
-  const [image, setImage] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
+  const [imageFile, setImageFile] = useState(null)
 
-  const handleImageUpload = (event) => {
+  const handleImageSet = (event) => {
     const file = event.target.files[0]
     console.log(file)
-    setDetails({ ...details, image: file })
+    setImageFile(file)
+    setImageUrl(URL.createObjectURL(file))
   }
 
-  const handleImage = (event) => {
-    setDetails({ ...details, image: event.target.value })
+  const handleImageUpload = async () => {
+    if (imageUrl.comtains('blob')) {
+      console.log('blob')
+      const formData = new FormData()
+      formData.append('image', imageFile)
+      const res = await Client.put(
+        `${BASE_URL}/projects/${details.id}/image`,
+        formData
+      )
+      console.log(res)
+    } else {
+      console.log('url')
+      const res = await Client.put(
+        `${BASE_URL}/projects/${details.id}/image`,
+        imageUrl
+      )
+      console.log(res)
+    }
+  }
+
+  // const res = await Client.post(
+  //   `${BASE_URL}/projects/${details.id}/image`,
+  //   formData
+  // ) //, { headers: { 'Content-Type': 'multipart/form-data' } })
+  // console.log(res)
+
+  const handleImageUrl = (event) => {
+    setImageUrl(event.target.value)
   }
 
   useEffect(() => {
     if (details.image && details.image instanceof Blob) {
       let parsedImg = URL.createObjectURL(details.image)
-      setImage(parsedImg)
+      setImageUrl(parsedImg)
     } else {
-      setImage(details.image)
+      setImageUrl(details.image)
     }
   }, [details.image])
 
@@ -37,7 +67,7 @@ const SideMenu = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <img id="project-img" className="" src={image} alt="not found" />
+        <img id="project-img" className="" src={imageUrl} alt="not found" />
         {isHovered && (
           <button
             id="project-img-btn"
@@ -53,9 +83,9 @@ const SideMenu = ({
           name="avatar"
           id="file-input"
           accept="image/*"
-          onChange={handleImageUpload}
+          onChange={handleImageSet}
         />
-        <input type="URL" onChange={handleImage} />
+        <input type="URL" onChange={handleImageUrl} />
       </div>
       <h4 className="col-12">
         Owner: <strong>{details.owner}</strong>
