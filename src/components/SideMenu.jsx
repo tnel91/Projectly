@@ -6,48 +6,59 @@ const SideMenu = ({
   handleChange,
   handleFocus,
   handleBlur,
-  details
-  // setDetails
+  details,
+  imageUrl,
+  setImageUrl,
+  imageFile,
+  setImageFile
 }) => {
   const [isHovered, setIsHovered] = useState(false)
-  const [imageUrl, setImageUrl] = useState('')
-  const [imageFile, setImageFile] = useState(null)
+
+  const handleImageUrl = (event) => {
+    setImageUrl(event.target.value)
+  }
 
   const handleImageSet = (event) => {
     const file = event.target.files[0]
-    console.log(file)
     setImageFile(file)
     setImageUrl(URL.createObjectURL(file))
   }
 
   const handleImageUpload = async () => {
-    if (imageUrl.comtains('blob')) {
+    if (imageUrl.includes('blob')) {
       console.log('blob')
       const formData = new FormData()
-      formData.append('image', imageFile)
+      formData.append('imageFile', imageFile)
+      formData.append('id', details.id)
+      console.log(formData)
       const res = await Client.put(
-        `${BASE_URL}/projects/${details.id}/image`,
-        formData
+        `${BASE_URL}/projects/${details.id}/image-file`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
       )
-      console.log(res)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     } else {
-      console.log('url')
-      const res = await Client.put(
-        `${BASE_URL}/projects/${details.id}/image`,
-        imageUrl
-      )
-      console.log(res)
+      console.log('url!')
+      await Client.put(`${BASE_URL}/projects/${details.id}/image-url`, {
+        imageUrl: imageUrl,
+        id: details.id
+      })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
-  }
-
-  // const res = await Client.post(
-  //   `${BASE_URL}/projects/${details.id}/image`,
-  //   formData
-  // ) //, { headers: { 'Content-Type': 'multipart/form-data' } })
-  // console.log(res)
-
-  const handleImageUrl = (event) => {
-    setImageUrl(event.target.value)
   }
 
   useEffect(() => {
@@ -55,7 +66,7 @@ const SideMenu = ({
       let parsedImg = URL.createObjectURL(details.image)
       setImageUrl(parsedImg)
     } else {
-      setImageUrl(details.image)
+      setImageUrl(imageUrl)
     }
   }, [details.image])
 
@@ -86,6 +97,8 @@ const SideMenu = ({
           onChange={handleImageSet}
         />
         <input type="URL" onChange={handleImageUrl} />
+        <p>{imageFile.name}</p>
+        <button onClick={handleImageUpload}>Upload</button>
       </div>
       <h4 className="col-12">
         Owner: <strong>{details.owner}</strong>

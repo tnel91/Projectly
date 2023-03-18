@@ -10,19 +10,17 @@ const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
 
+  const [imageUrl, setImageUrl] = useState('')
+  const [imageFile, setImageFile] = useState('')
   const [unsavedChanges, setUnsavedChanges] = useState(false)
-
   const [editsEnabled, setEditsEnabled] = useState(false)
-
   const [checklists, setChecklists] = useState([])
-
   const [details, setDetails] = useState({
     owner: '',
     ownerId: '',
     id: null,
     projectName: '',
     description: '',
-    // image: '',
     budget: '',
     startDate: '',
     endDate: '',
@@ -58,30 +56,30 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const getProjectDetails = async () => {
-    const response = await Client.get(`${BASE_URL}/projects/${projectId}`)
+    const project = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((res) => {
         return res.data
       })
       .catch((error) => {
         console.log(error)
       })
-    // console.log('RESPONSE')
-    let project = response.project
-    // console.log(response)
-    // console.log(response.image)
-    let image
-    if (typeof response.image === 'string') {
-      image = response.image
+    console.log('RESPONSE')
+    if (project.image.includes('uploads')) {
+      try {
+        let uint8Array = new Uint8Array(project.image_file.data)
+        let image = new Blob([uint8Array], {
+          type: 'image/jpeg'
+        })
+        let newFile = new File([image], 'image.jpg', { type: 'image/jpeg' })
+        setImageFile(newFile)
+        setImageUrl(URL.createObjectURL(newFile))
+      } catch (error) {
+        console.log(error)
+      }
     } else {
-      // console.log(response.image.data)
-      let uint8Array = new Uint8Array(response.image.data)
-      // console.log(uint8Array)
-      image = new Blob([uint8Array], {
-        type: 'image/jpeg'
-      })
-      // console.log(image)
-      // let newFile = new File([image], 'image.jpg', { type: 'image/jpeg' })
-      // console.log(newFile)
+      console.log('img is not a file')
+      setImageUrl(project.image)
+      setImageFile('')
     }
     setDetails({
       owner: project.owner.username,
@@ -89,7 +87,6 @@ const ProjectDetails = ({ user, authenticated }) => {
       id: project.id,
       projectName: project.project_name,
       description: project.description,
-      // image: image,
       budget: project.budget,
       startDate: project.start_date,
       endDate: project.end_date,
@@ -121,19 +118,8 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   const saveProject = async () => {
     if (details.id) {
-      const form = new FormData()
-      form.append('project_name', details.projectName)
-      form.append('description', details.description)
-      // form.append('image', details.image)
-      form.append('budget', details.budget)
-      form.append('start_date', details.startDate)
-      form.append('end_date', details.endDate)
-      form.append('is_public', details.isPublic)
-      await Client.put(`/projects/${details.id}`, details, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      // console.log(details)
+      await Client.put(`/projects/${details.id}`, details, {})
         .then((response) => {
           console.log('saved')
           setUnsavedChanges(false)
@@ -192,7 +178,10 @@ const ProjectDetails = ({ user, authenticated }) => {
           handleBlur={handleBlur}
           handleChange={handleChange}
           handleFocus={handleFocus}
-          // setDetails={setDetails}
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+          imageFile={imageFile}
+          setImageFile={setImageFile}
         />
       </section>
       <div className="col-8">
