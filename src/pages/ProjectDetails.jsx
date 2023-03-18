@@ -63,7 +63,6 @@ const ProjectDetails = ({ user, authenticated }) => {
       .catch((error) => {
         console.log(error)
       })
-    console.log('RESPONSE')
     if (project.image.includes('uploads')) {
       try {
         let uint8Array = new Uint8Array(project.image_file.data)
@@ -76,9 +75,13 @@ const ProjectDetails = ({ user, authenticated }) => {
       } catch (error) {
         console.log(error)
       }
-    } else {
+    } else if (project.image) {
       console.log('img is not a file')
       setImageUrl(project.image)
+      setImageFile('')
+    } else {
+      console.log('no image')
+      setImageUrl('')
       setImageFile('')
     }
     setDetails({

@@ -20,55 +20,64 @@ const SideMenu = ({
 
   const handleImageSet = (event) => {
     const file = event.target.files[0]
-    setImageFile(file)
     setImageUrl(URL.createObjectURL(file))
+    setImageFile(file)
   }
 
-  const handleImageUpload = async () => {
+  const saveImage = async () => {
     if (imageUrl.includes('blob')) {
-      console.log('blob')
+      console.log('saving file')
       const formData = new FormData()
       formData.append('imageFile', imageFile)
       formData.append('id', details.id)
       console.log(formData)
-      const res = await Client.put(
-        `${BASE_URL}/projects/${details.id}/image-file`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+      try {
+        const res = await Client.put(
+          `${BASE_URL}/projects/${details.id}/image-file`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           }
-        }
-      )
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+        )
+        // console.log(res)
+        return res
+      } catch (err) {
+        console.log(err)
+        throw err
+      }
+    } else if (imageUrl.includes('http', 'https', 'www')) {
+      console.log('saving url')
+      try {
+        const res = await Client.put(
+          `${BASE_URL}/projects/${details.id}/image-url`,
+          {
+            imageUrl: imageUrl,
+            id: details.id
+          }
+        )
+        console.log(res)
+        return res
+      } catch (err) {
+        console.log(err)
+        throw err
+      }
     } else {
-      console.log('url!')
-      await Client.put(`${BASE_URL}/projects/${details.id}/image-url`, {
-        imageUrl: imageUrl,
-        id: details.id
-      })
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      console.log('no image to save')
     }
   }
 
   useEffect(() => {
-    if (details.image && details.image instanceof Blob) {
-      let parsedImg = URL.createObjectURL(details.image)
-      setImageUrl(parsedImg)
-    } else {
-      setImageUrl(imageUrl)
-    }
-  }, [details.image])
+    console.log('image url changed')
+    saveImage()
+    // if (details.image && details.image instanceof Blob) {
+    //   let parsedImg = URL.createObjectURL(details.image)
+    //   setImageUrl(parsedImg)
+    // } else {
+    //   setImageUrl(imageUrl)
+    // }
+  }, [imageUrl])
 
   return (
     <div className="row">
@@ -98,7 +107,7 @@ const SideMenu = ({
         />
         <input type="URL" onChange={handleImageUrl} />
         <p>{imageFile.name}</p>
-        <button onClick={handleImageUpload}>Upload</button>
+        <button onClick={saveImage}>Upload</button>
       </div>
       <h4 className="col-12">
         Owner: <strong>{details.owner}</strong>
