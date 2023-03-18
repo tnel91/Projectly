@@ -13,12 +13,26 @@ const SideMenu = ({
   setImageFile
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [url, setUrl] = useState('')
 
   const handleImageUrl = (event) => {
-    setImageUrl(event.target.value)
+    setUrl(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setImageUrl(url)
+    document.querySelector('#url-input').setAttribute('hidden', true)
+  }
+
+  const handleCancel = (event) => {
+    event.preventDefault()
+    setUrl('')
+    document.querySelector('#url-input').setAttribute('hidden', true)
   }
 
   const handleImageSet = (event) => {
+    document.querySelector('#url-input').setAttribute('hidden', true)
     const file = event.target.files[0]
     setImageUrl(URL.createObjectURL(file))
     setImageFile(file)
@@ -71,12 +85,6 @@ const SideMenu = ({
   useEffect(() => {
     console.log('image url changed')
     saveImage()
-    // if (details.image && details.image instanceof Blob) {
-    //   let parsedImg = URL.createObjectURL(details.image)
-    //   setImageUrl(parsedImg)
-    // } else {
-    //   setImageUrl(imageUrl)
-    // }
   }, [imageUrl])
 
   return (
@@ -89,13 +97,40 @@ const SideMenu = ({
       >
         <img id="project-img" className="" src={imageUrl} alt="not found" />
         {isHovered && (
-          <button
-            id="project-img-btn"
-            className="btn"
-            onClick={() => document.querySelector('#file-input').click()}
-          >
-            change image
-          </button>
+          <div id="project-img-dropdown" className="dropdown">
+            <button
+              className="btn btn-secondary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Change Image
+            </button>
+            <ul className="dropdown-menu">
+              <li>
+                <a
+                  className="dropdown-item"
+                  href="#"
+                  onClick={() => document.querySelector('#file-input').click()}
+                >
+                  Upload
+                </a>
+              </li>
+              <li>
+                <a
+                  className="dropdown-item"
+                  href="#"
+                  onClick={() =>
+                    document
+                      .querySelector('#url-input')
+                      .removeAttribute('hidden')
+                  }
+                >
+                  Link
+                </a>
+              </li>
+            </ul>
+          </div>
         )}
         <input
           hidden
@@ -105,9 +140,28 @@ const SideMenu = ({
           accept="image/*"
           onChange={handleImageSet}
         />
-        <input type="URL" onChange={handleImageUrl} />
-        <p>{imageFile.name}</p>
-        <button onClick={saveImage}>Upload</button>
+        <form
+          hidden
+          id="url-input"
+          className="input-group"
+          onSubmit={handleSubmit}
+        >
+          <input
+            className="form-control"
+            type="url"
+            onChange={handleImageUrl}
+          />
+          <button className="btn btn-primary" type="submit">
+            Submit
+          </button>
+          <button
+            className="btn btn-primary"
+            type="button"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </form>
       </div>
       <h4 className="col-12">
         Owner: <strong>{details.owner}</strong>

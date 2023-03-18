@@ -45,10 +45,18 @@ main {
   position: relative;
 }
 
-#project-img-btn {
+#project-img-dropdown {
   color: white;
-  background-color: rgba(128, 128, 128, 0.5);
+  /* background-color: rgba(128, 128, 128, 0.5); */
   position: absolute;
   top: 0;
   right: 0;
 }
+
+/* #project-img-url-btn {
+  color: white;
+  background-color: rgba(128, 128, 128, 0.5);
+  position: absolute;
+  top: 38px;
+  right: 0;
+} */
