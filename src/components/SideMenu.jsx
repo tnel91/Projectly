@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
+import ImageWidget from './ImageWidget'
 
 const SideMenu = ({
   handleChange,
@@ -12,32 +13,6 @@ const SideMenu = ({
   imageFile,
   setImageFile
 }) => {
-  const [isHovered, setIsHovered] = useState(false)
-  const [url, setUrl] = useState('')
-
-  const handleImageUrl = (event) => {
-    setUrl(event.target.value)
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    setImageUrl(url)
-    document.querySelector('#url-input').setAttribute('hidden', true)
-  }
-
-  const handleCancel = (event) => {
-    event.preventDefault()
-    setUrl('')
-    document.querySelector('#url-input').setAttribute('hidden', true)
-  }
-
-  const handleImageSet = (event) => {
-    document.querySelector('#url-input').setAttribute('hidden', true)
-    const file = event.target.files[0]
-    setImageUrl(URL.createObjectURL(file))
-    setImageFile(file)
-  }
-
   const saveImage = async () => {
     if (imageUrl.includes('blob')) {
       console.log('saving file')
@@ -89,79 +64,12 @@ const SideMenu = ({
 
   return (
     <div className="row">
-      <div
-        id="project-img-cont"
-        className="col-12"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <img id="project-img" className="" src={imageUrl} alt="not found" />
-        {isHovered && (
-          <div id="project-img-dropdown" className="dropdown">
-            <button
-              className="btn btn-secondary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Change Image
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a
-                  className="dropdown-item"
-                  href="#"
-                  onClick={() => document.querySelector('#file-input').click()}
-                >
-                  Upload
-                </a>
-              </li>
-              <li>
-                <a
-                  className="dropdown-item"
-                  href="#"
-                  onClick={() =>
-                    document
-                      .querySelector('#url-input')
-                      .removeAttribute('hidden')
-                  }
-                >
-                  Link
-                </a>
-              </li>
-            </ul>
-          </div>
-        )}
-        <input
-          hidden
-          type="file"
-          name="avatar"
-          id="file-input"
-          accept="image/*"
-          onChange={handleImageSet}
+      <div className="col-12">
+        <ImageWidget
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+          setImageFile={setImageFile}
         />
-        <form
-          hidden
-          id="url-input"
-          className="input-group"
-          onSubmit={handleSubmit}
-        >
-          <input
-            className="form-control"
-            type="url"
-            onChange={handleImageUrl}
-          />
-          <button className="btn btn-primary" type="submit">
-            Submit
-          </button>
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={handleCancel}
-          >
-            Cancel
-          </button>
-        </form>
       </div>
       <h4 className="col-12">
         Owner: <strong>{details.owner}</strong>
