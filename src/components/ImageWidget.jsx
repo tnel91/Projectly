@@ -17,12 +17,6 @@ const ImageWidget = ({ imageUrl, setImageUrl, setImageFile }) => {
     setUrlEditMode(false)
   }
 
-  const handleCancel = (event) => {
-    event.preventDefault()
-    setUrl('')
-    setUrlEditMode(false)
-  }
-
   const handleImageSet = (event) => {
     setUrlEditMode(false)
     const file = event.target.files[0]
@@ -34,7 +28,11 @@ const ImageWidget = ({ imageUrl, setImageUrl, setImageFile }) => {
     <div
       className="position-relative"
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        setUrl('')
+        setUrlEditMode(false)
+      }}
     >
       <img className="w-100" src={imageUrl} alt="not found" />
       {isHovered && !urlEditMode && (
@@ -89,16 +87,10 @@ const ImageWidget = ({ imageUrl, setImageUrl, setImageFile }) => {
               type="url"
               placeholder="Enter image URL"
               onChange={handleImageUrl}
+              required
             />
             <button className="btn btn-primary" type="submit">
               Submit
-            </button>
-            <button
-              className="btn btn-primary"
-              type="button"
-              onClick={handleCancel}
-            >
-              Cancel
             </button>
           </form>
         </div>
