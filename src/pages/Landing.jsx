@@ -25,6 +25,20 @@ const Landing = ({ setUser, toggleAuthenticated }) => {
     navigate('/dashboard')
   }
 
+  const demoLogin = async () => {
+    const payload = await SignInUser({
+      email: 'demo@email.com',
+      password: 'password'
+    })
+    setFormState({
+      email: '',
+      password: ''
+    })
+    setUser(payload)
+    toggleAuthenticated(true)
+    navigate('/dashboard')
+  }
+
   return (
     <div className="text-center">
       <h1>Projectly</h1>
@@ -69,6 +83,12 @@ const Landing = ({ setUser, toggleAuthenticated }) => {
         </div>
         <p id="login-error-msg"> </p>
       </form>
+      <div>
+        <h3>Or, log in with a demo account!</h3>
+        <button className="btn btn-lg btn-warning" onClick={demoLogin}>
+          Demo
+        </button>
+      </div>
     </div>
   )
 }

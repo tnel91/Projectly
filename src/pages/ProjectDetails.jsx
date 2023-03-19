@@ -14,7 +14,6 @@ const ProjectDetails = ({ user, authenticated }) => {
   const [imageFile, setImageFile] = useState('')
   const [unsavedChanges, setUnsavedChanges] = useState(false)
   const [editsEnabled, setEditsEnabled] = useState(false)
-  const [checklists, setChecklists] = useState([])
   const [details, setDetails] = useState({
     owner: '',
     ownerId: '',
@@ -56,6 +55,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const getProjectDetails = async () => {
+    console.log('getting project details')
     const project = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((res) => {
         return res.data
@@ -63,44 +63,49 @@ const ProjectDetails = ({ user, authenticated }) => {
       .catch((error) => {
         console.log(error)
       })
-    if (project.image.includes('uploads')) {
-      try {
-        let uint8Array = new Uint8Array(project.image_file.data)
-        let image = new Blob([uint8Array], {
-          type: 'image/jpeg'
-        })
-        let newFile = new File([image], 'image.jpg', { type: 'image/jpeg' })
-        setImageFile(newFile)
-        setImageUrl(URL.createObjectURL(newFile))
-      } catch (error) {
-        console.log(error)
+    if (project.is_public || (user && project.owner.id === user.id)) {
+      if (project.image.includes('uploads')) {
+        try {
+          let uint8Array = new Uint8Array(project.image_file.data)
+          let image = new Blob([uint8Array], {
+            type: 'image/jpeg'
+          })
+          let newFile = new File([image], 'image.jpg', { type: 'image/jpeg' })
+          setImageFile(newFile)
+          setImageUrl(URL.createObjectURL(newFile))
+        } catch (error) {
+          console.log(error)
+        }
+      } else if (project.image) {
+        console.log('img is not a file')
+        setImageUrl(project.image)
+        setImageFile('')
+      } else {
+        console.log('no image')
+        setImageUrl('')
+        setImageFile('')
       }
-    } else if (project.image) {
-      console.log('img is not a file')
-      setImageUrl(project.image)
-      setImageFile('')
+      setDetails({
+        owner: project.owner.username,
+        ownerId: project.owner.id,
+        id: project.id,
+        projectName: project.project_name,
+        description: project.description,
+        budget: project.budget,
+        startDate: project.start_date,
+        endDate: project.end_date,
+        isPublic: project.is_public,
+        createdAt: project.created_at,
+        updatedAt: project.updated_at
+      })
+      console.log('project details set')
     } else {
-      console.log('no image')
-      setImageUrl('')
-      setImageFile('')
+      console.log('not authorized')
     }
-    setDetails({
-      owner: project.owner.username,
-      ownerId: project.owner.id,
-      id: project.id,
-      projectName: project.project_name,
-      description: project.description,
-      budget: project.budget,
-      startDate: project.start_date,
-      endDate: project.end_date,
-      isPublic: project.is_public,
-      createdAt: project.created_at,
-      updatedAt: project.updated_at
-    })
   }
 
   const saveProject = async () => {
-    if (details.id) {
+    if (details.id && editsEnabled) {
       // console.log(details)
       await Client.put(`/projects/${details.id}`, details, {})
         .then((response) => {
@@ -130,7 +135,6 @@ const ProjectDetails = ({ user, authenticated }) => {
   const inputs = document.getElementsByTagName('input')
 
   useEffect(() => {
-    console.log('editsEnabled: ', editsEnabled)
     if (editsEnabled) {
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].removeAttribute('disabled')

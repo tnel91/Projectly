@@ -34,9 +34,9 @@ const Navbar = ({ handleLogout, user, authenticated }) => {
         <Link className="btn btn-outline-primary px-2 nav-item" to="/">
           <h3>Sign In</h3>
         </Link>
-        <Link className="btn btn-outline-primary px-2 nav-item" to="/dashboard">
+        {/* <Link className="btn btn-outline-primary px-2 nav-item" to="/dashboard">
           <h3>Dashboard</h3>
-        </Link>
+        </Link> */}
       </div>
     </nav>
   )
