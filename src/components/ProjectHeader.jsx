@@ -11,7 +11,7 @@ const ProjectHeader = ({
 }) => {
   return (
     <div className="row">
-      <div className="form-floating col-5">
+      <div className="form-floating col-9 col-md-10">
         <input
           id="projectName"
           className="form-control"
@@ -24,19 +24,18 @@ const ProjectHeader = ({
         />
         <label htmlFor="projectName">Project Name</label>
       </div>
-      <div className="row col-3">
-        <label className="row align-items-center">
+      <div className="row col-3 col-md-2">
+        <label className="align-items-center">
           <input
-            className="col-2 h-50"
             id="isPublic"
             type="checkbox"
             checked={details.isPublic}
             onChange={handleCheckbox}
           />
-          <p className="col-10 align-center">Public?</p>
+          <p className="align-center">Public?</p>
         </label>
       </div>
-      <div className="col-3">
+      <div className="position-absolute top-0 end-0">
         {unsavedChanges && <img src={saveIcon} alt="saveIcon" />}
       </div>
     </div>

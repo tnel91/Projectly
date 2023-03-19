@@ -88,7 +88,7 @@ const SideMenu = ({
         />
         <label htmlFor="budget">Budget:</label>
       </div>
-      <div className="col-12 form-floating">
+      <div className="col-6 form-floating">
         <input
           type="date"
           id="startDate"
@@ -99,7 +99,7 @@ const SideMenu = ({
         />
         <label htmlFor="startDate">Start Date:</label>
       </div>
-      <div className="col-12 form-floating">
+      <div className="col-6 form-floating">
         <input
           type="date"
           id="endDate"

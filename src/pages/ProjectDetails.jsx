@@ -161,7 +161,7 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   return (
     <div className="row">
-      <section className="col-4">
+      <section className="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
         <SideMenu
           details={details}
           handleBlur={handleBlur}
@@ -174,20 +174,16 @@ const ProjectDetails = ({ user, authenticated }) => {
           editsEnabled={editsEnabled}
         />
       </section>
-      <div className="col-8">
-        <section className="row">
-          <ProjectHeader
-            details={details}
-            handleBlur={handleBlur}
-            handleChange={handleChange}
-            handleFocus={handleFocus}
-            handleCheckbox={handleCheckbox}
-            unsavedChanges={unsavedChanges}
-          />
-        </section>
-        <section className="col" id="checklist-section">
-          <Organizer projectId={projectId} editsEnabled={editsEnabled} />
-        </section>
+      <div className="col-12 col-sm-7 col-md-8 col-lg-9 col-xl-9 col-xxl-10">
+        <ProjectHeader
+          details={details}
+          handleBlur={handleBlur}
+          handleChange={handleChange}
+          handleFocus={handleFocus}
+          handleCheckbox={handleCheckbox}
+          unsavedChanges={unsavedChanges}
+        />
+        <Organizer projectId={projectId} editsEnabled={editsEnabled} />
       </div>
     </div>
   )

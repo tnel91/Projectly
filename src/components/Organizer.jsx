@@ -39,7 +39,6 @@ const Organizer = ({ projectId, editsEnabled }) => {
         className="btn btn-primary"
         id="new-checklist-button"
         onClick={createChecklist}
-        hidden
       >
         New Checklist
       </button>
@@ -47,7 +46,7 @@ const Organizer = ({ projectId, editsEnabled }) => {
         <div className="row">
           {checklists.map((checklist, i) => (
             <div
-              className="card m-1 g-2 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-2"
+              className="card p-1 g-1 col-12 col-md-6 col-lg-6 col-xxl-4"
               key={checklist.id}
             >
               <Checklist
