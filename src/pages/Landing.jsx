@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { SignInUser } from '../services/Auth'
 
-const Landing = (props) => {
+const Landing = ({ setUser, toggleAuthenticated }) => {
   const navigate = useNavigate()
   const [formState, setFormState] = useState({
     email: '',
@@ -20,8 +20,8 @@ const Landing = (props) => {
       email: '',
       password: ''
     })
-    props.setUser(payload)
-    props.toggleAuthenticated(true)
+    setUser(payload)
+    toggleAuthenticated(true)
     navigate('/dashboard')
   }
 

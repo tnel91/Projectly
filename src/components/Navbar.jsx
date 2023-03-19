@@ -10,13 +10,13 @@ const Navbar = ({ handleLogout, user, authenticated }) => {
         <Link className="btn btn-outline-primary px-2 nav-item" to="/dashboard">
           <h3>Dashboard</h3>
         </Link>
-        <Link className="btn btn-outline-primary px-2 nav-item" to="/about">
+        {/* <Link className="btn btn-outline-primary px-2 nav-item" to="/about">
           <h3>About</h3>
         </Link>
 
         <Link className="btn btn-outline-primary px-2 nav-item" to="/profile">
           <h3>Profile</h3>
-        </Link>
+        </Link> */}
         <Link
           className="btn btn-outline-primary px-2 nav-item"
           onClick={() => {

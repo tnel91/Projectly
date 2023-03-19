@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 
-const ImageWidget = ({ imageUrl, setImageUrl, setImageFile }) => {
+const ImageWidget = ({ imageUrl, setImageUrl, setImageFile, editsEnabled }) => {
   const [isHovered, setIsHovered] = useState(false)
   const [url, setUrl] = useState('')
   const [urlEditMode, setUrlEditMode] = useState(false)
@@ -35,7 +35,7 @@ const ImageWidget = ({ imageUrl, setImageUrl, setImageFile }) => {
       }}
     >
       <img className="w-100" src={imageUrl} alt="not found" />
-      {isHovered && !urlEditMode && (
+      {editsEnabled && isHovered && !urlEditMode && (
         <div className="dropdown position-absolute top-0 end-0 text-white">
           <button
             className="btn btn-secondary dropdown-toggle"
@@ -76,7 +76,7 @@ const ImageWidget = ({ imageUrl, setImageUrl, setImageFile }) => {
         accept="image/*"
         onChange={handleImageSet}
       />
-      {urlEditMode && (
+      {editsEnabled && urlEditMode && (
         <div>
           <form
             className="input-group position-absolute top-0"

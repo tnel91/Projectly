@@ -11,15 +11,16 @@ const SideMenu = ({
   imageUrl,
   setImageUrl,
   imageFile,
-  setImageFile
+  setImageFile,
+  editsEnabled
 }) => {
   const saveImage = async () => {
     if (imageUrl.includes('blob')) {
-      console.log('saving file')
+      // console.log('saving file')
       const formData = new FormData()
       formData.append('imageFile', imageFile)
       formData.append('id', details.id)
-      console.log(formData)
+      // console.log(formData)
       try {
         const res = await Client.put(
           `${BASE_URL}/projects/${details.id}/image-file`,
@@ -37,7 +38,7 @@ const SideMenu = ({
         throw err
       }
     } else if (imageUrl.includes('http', 'https', 'www')) {
-      console.log('saving url')
+      // console.log('saving url')
       try {
         const res = await Client.put(
           `${BASE_URL}/projects/${details.id}/image-url`,
@@ -46,19 +47,19 @@ const SideMenu = ({
             id: details.id
           }
         )
-        console.log(res)
+        // console.log(res)
         return res
       } catch (err) {
         console.log(err)
         throw err
       }
     } else {
-      console.log('no image to save')
+      // console.log('no image to save')
     }
   }
 
   useEffect(() => {
-    console.log('image url changed')
+    // console.log('image url changed')
     saveImage()
   }, [imageUrl])
 
@@ -69,6 +70,7 @@ const SideMenu = ({
           imageUrl={imageUrl}
           setImageUrl={setImageUrl}
           setImageFile={setImageFile}
+          editsEnabled={editsEnabled}
         />
       </div>
       <h4 className="col-12">

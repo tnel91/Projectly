@@ -147,15 +147,15 @@ const ProjectDetails = ({ user, authenticated }) => {
     }
   }
 
-  const enableEditMode = () => {
-    showNewChecklistButton()
-    setEditsEnabled(true)
-  }
+  // const enableEditMode = () => {
+  //   showNewChecklistButton()
+  //   setEditsEnabled(true)
+  // }
 
-  const showNewChecklistButton = () => {
-    let button = document.getElementById('new-checklist-button')
-    button.removeAttribute('hidden')
-  }
+  // const showNewChecklistButton = () => {
+  //   let button = document.getElementById('new-checklist-button')
+  //   button.removeAttribute('hidden')
+  // }
 
   useEffect(() => {
     saveProject()
@@ -168,10 +168,25 @@ const ProjectDetails = ({ user, authenticated }) => {
     if (!details.id) {
       getProjectDetails()
     }
-    if (user && user.id === details.ownerId) {
-      enableEditMode()
+    if (user && authenticated && user.id === details.ownerId) {
+      setEditsEnabled(true)
     }
   }, [user, details.id])
+
+  const inputs = document.getElementsByTagName('input')
+
+  useEffect(() => {
+    console.log('editsEnabled: ', editsEnabled)
+    if (editsEnabled) {
+      for (let i = 0; i < inputs.length; i++) {
+        inputs[i].removeAttribute('disabled')
+      }
+    } else {
+      for (let i = 0; i < inputs.length; i++) {
+        inputs[i].setAttribute('disabled', 'disabled')
+      }
+    }
+  }, [editsEnabled])
 
   return (
     <div className="row">
@@ -185,6 +200,7 @@ const ProjectDetails = ({ user, authenticated }) => {
           setImageUrl={setImageUrl}
           imageFile={imageFile}
           setImageFile={setImageFile}
+          editsEnabled={editsEnabled}
         />
       </section>
       <div className="col-8">
@@ -198,7 +214,7 @@ const ProjectDetails = ({ user, authenticated }) => {
             unsavedChanges={unsavedChanges}
           />
         </section>
-        <section className="col-" id="checklist-section">
+        <section className="col" id="checklist-section">
           <h5>Checklists</h5>
           <button
             className="btn btn-primary"
