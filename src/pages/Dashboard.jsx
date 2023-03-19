@@ -12,6 +12,7 @@ const Dashboard = ({ user, authenticated }) => {
   const getPublicProjects = async () => {
     await Client.get(`${BASE_URL}/projects`)
       .then((response) => {
+        console.log(response.data)
         setPublicProjects(response.data)
       })
       .catch((error) => {
@@ -36,7 +37,7 @@ const Dashboard = ({ user, authenticated }) => {
 
   const createNewProject = async () => {
     let newProject = {
-      userId: user.id
+      user_id: user.id
     }
     await Client.post('/projects', newProject)
       .then((response) => {
@@ -69,7 +70,7 @@ const Dashboard = ({ user, authenticated }) => {
               <div key={project.id}>
                 <ProjectCard
                   id={project.id}
-                  name={project.projectName}
+                  name={project.project_name}
                   owner={project.owner.username}
                   onClick={navProjectDetails}
                 />
@@ -84,7 +85,7 @@ const Dashboard = ({ user, authenticated }) => {
               <div key={project.id}>
                 <ProjectCard
                   id={project.id}
-                  name={project.projectName}
+                  name={project.project_name}
                   owner={project.owner.username}
                   onClick={navProjectDetails}
                 />

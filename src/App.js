@@ -1,11 +1,10 @@
-import './index.css'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Landing from './pages/Landing'
-import About from './pages/About'
+// import About from './pages/About'
 import Dashboard from './pages/Dashboard'
-import Profile from './pages/Profile'
+// import Profile from './pages/Profile'
 import ProjectDetails from './pages/ProjectDetails'
 import Signup from './pages/Signup'
 import { CheckSession } from './services/Auth'
@@ -54,8 +53,8 @@ function App() {
             }
           />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/profile" element={<Profile />} />
+          {/* <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profile />} /> */}
           <Route
             path="/dashboard"
             element={<Dashboard user={user} authenticated={authenticated} />}

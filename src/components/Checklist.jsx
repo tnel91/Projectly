@@ -80,7 +80,7 @@ const Checklist = ({
 
   const saveChecklist = async () => {
     await Client.put(`${BASE_URL}/checklists/${id}`, {
-      listItems: {
+      list_items: {
         items: items
       }
     })

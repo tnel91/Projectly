@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { SignInUser } from '../services/Auth'
 
-const Landing = (props) => {
+const Landing = ({ setUser, toggleAuthenticated }) => {
   const navigate = useNavigate()
   const [formState, setFormState] = useState({
     email: '',
@@ -20,8 +20,22 @@ const Landing = (props) => {
       email: '',
       password: ''
     })
-    props.setUser(payload)
-    props.toggleAuthenticated(true)
+    setUser(payload)
+    toggleAuthenticated(true)
+    navigate('/dashboard')
+  }
+
+  const demoLogin = async () => {
+    const payload = await SignInUser({
+      email: 'demo@email.com',
+      password: 'password'
+    })
+    setFormState({
+      email: '',
+      password: ''
+    })
+    setUser(payload)
+    toggleAuthenticated(true)
     navigate('/dashboard')
   }
 
@@ -69,6 +83,12 @@ const Landing = (props) => {
         </div>
         <p id="login-error-msg"> </p>
       </form>
+      <div>
+        <h3>Or, log in with a demo account!</h3>
+        <button className="btn btn-lg btn-warning" onClick={demoLogin}>
+          Demo
+        </button>
+      </div>
     </div>
   )
 }
