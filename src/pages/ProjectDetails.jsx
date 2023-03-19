@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
-import Checklist from '../components/Checklist'
 import SideMenu from '../components/SideMenu'
 import ProjectHeader from '../components/ProjectHeader'
+import Organizer from '../components/Organizer'
 
 const ProjectDetails = ({ user, authenticated }) => {
   let navigate = useNavigate()
@@ -99,26 +99,6 @@ const ProjectDetails = ({ user, authenticated }) => {
     })
   }
 
-  const getChecklists = async () => {
-    await Client.get(`${BASE_URL}/checklists/${projectId}`)
-      .then((response) => {
-        setChecklists(response.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
-  const createChecklist = async () => {
-    await Client.post(`${BASE_URL}/checklists/${projectId}`)
-      .then((response) => {
-        setChecklists([...checklists, response.data])
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   const saveProject = async () => {
     if (details.id) {
       // console.log(details)
@@ -147,32 +127,6 @@ const ProjectDetails = ({ user, authenticated }) => {
     }
   }
 
-  // const enableEditMode = () => {
-  //   showNewChecklistButton()
-  //   setEditsEnabled(true)
-  // }
-
-  // const showNewChecklistButton = () => {
-  //   let button = document.getElementById('new-checklist-button')
-  //   button.removeAttribute('hidden')
-  // }
-
-  useEffect(() => {
-    saveProject()
-  }, [details.isPublic, details.startDate, details.endDate])
-
-  useEffect(() => {
-    if (checklists.length === 0) {
-      getChecklists()
-    }
-    if (!details.id) {
-      getProjectDetails()
-    }
-    if (user && authenticated && user.id === details.ownerId) {
-      setEditsEnabled(true)
-    }
-  }, [user, details.id])
-
   const inputs = document.getElementsByTagName('input')
 
   useEffect(() => {
@@ -187,6 +141,19 @@ const ProjectDetails = ({ user, authenticated }) => {
       }
     }
   }, [editsEnabled])
+
+  useEffect(() => {
+    saveProject()
+  }, [details.isPublic, details.startDate, details.endDate])
+
+  useEffect(() => {
+    if (!details.id) {
+      getProjectDetails()
+    }
+    if (user && authenticated && user.id === details.ownerId) {
+      setEditsEnabled(true)
+    }
+  }, [user, details.id])
 
   return (
     <div className="row">
@@ -215,34 +182,7 @@ const ProjectDetails = ({ user, authenticated }) => {
           />
         </section>
         <section className="col" id="checklist-section">
-          <h5>Checklists</h5>
-          <button
-            className="btn btn-primary"
-            id="new-checklist-button"
-            onClick={createChecklist}
-            hidden
-          >
-            New Checklist
-          </button>
-          <div className="container">
-            <div className="row">
-              {checklists.map((checklist, i) => (
-                <div
-                  className="card m-1 g-2 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-2"
-                  key={checklist.id}
-                >
-                  <Checklist
-                    i={i}
-                    editsEnabled={editsEnabled}
-                    id={checklist.id}
-                    listItems={checklist.list_items}
-                    setChecklists={setChecklists}
-                    checklists={checklists}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          <Organizer projectId={projectId} editsEnabled={editsEnabled} />
         </section>
       </div>
     </div>
