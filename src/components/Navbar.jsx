@@ -4,9 +4,9 @@ const Navbar = ({ handleLogout, user, authenticated }) => {
   return user && authenticated ? (
     <nav className="navbar bg-dark border-bottom border-secondary nav-container">
       <div className="btn-group">
-        <Link className="btn btn-outline-primary px-2 nav-item" to="/">
+        {/* <Link className="btn btn-outline-primary px-2 nav-item" to="/">
           <h3>Home</h3>
-        </Link>
+        </Link> */}
         <Link className="btn btn-outline-primary px-2 nav-item" to="/dashboard">
           <h3>Dashboard</h3>
         </Link>

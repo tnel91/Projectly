@@ -36,3 +36,10 @@ main {
 #description {
   height: 100px;
 }
+
+.ImageWidget {
+  width: 100%;
+  min-height: 100px;
+  background-color: rgba(200, 200, 200, 0.5);
+  /* object-fit: cover; */
+}

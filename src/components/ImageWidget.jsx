@@ -26,7 +26,7 @@ const ImageWidget = ({ imageUrl, setImageUrl, setImageFile, editsEnabled }) => {
 
   return (
     <div
-      className="position-relative"
+      className="ImageWidget position-relative container"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false)
@@ -34,7 +34,7 @@ const ImageWidget = ({ imageUrl, setImageUrl, setImageFile, editsEnabled }) => {
         setUrlEditMode(false)
       }}
     >
-      <img className="w-100" src={imageUrl} alt="not found" />
+      <img className="w-100" src={imageUrl} alt="No Image!" />
       {editsEnabled && isHovered && !urlEditMode && (
         <div className="dropdown position-absolute top-0 end-0 text-white">
           <button
