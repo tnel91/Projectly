@@ -96,7 +96,8 @@ const Checklist = ({
   }
 
   const deleteChecklist = async () => {
-    let res = window.confirm('Delete Checklist?')
+    // let res = window.confirm('Delete Checklist?')
+    let res = true
     if (res) {
       await Client.delete(`${BASE_URL}/checklists/${id}`)
         .then(() => {

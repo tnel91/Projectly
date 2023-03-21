@@ -42,25 +42,20 @@ const Organizer = ({ projectId, editsEnabled }) => {
       >
         New Checklist
       </button>
-      <div className="container">
-        <div className="row">
-          {checklists.map((checklist, i) => (
-            <div
-              className="card p-1 g-1 col-12 col-md-6 col-lg-6 col-xxl-4"
-              key={checklist.id}
-            >
-              <Checklist
-                i={i}
-                editsEnabled={editsEnabled}
-                id={checklist.id}
-                listItems={checklist.list_items}
-                setChecklists={setChecklists}
-                checklists={checklists}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+      <section id="tile-section">
+        {checklists.map((checklist, i) => (
+          <div className="card p-1 g-1 project-tile" key={checklist.id}>
+            <Checklist
+              i={i}
+              editsEnabled={editsEnabled}
+              id={checklist.id}
+              listItems={checklist.list_items}
+              setChecklists={setChecklists}
+              checklists={checklists}
+            />
+          </div>
+        ))}
+      </section>
     </div>
   )
 }

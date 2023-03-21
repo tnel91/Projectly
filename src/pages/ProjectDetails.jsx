@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
-import SideMenu from '../components/SideMenu'
+import SideBar from '../components/SideBar'
 import ProjectHeader from '../components/ProjectHeader'
 import Organizer from '../components/Organizer'
 
@@ -133,6 +133,12 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const inputs = document.getElementsByTagName('input')
+  const textareas = document.getElementsByTagName('textarea')
+  //
+  // console.log(textareas)
+  //
+
+  console.log(inputs)
 
   useEffect(() => {
     if (editsEnabled) {
@@ -160,9 +166,13 @@ const ProjectDetails = ({ user, authenticated }) => {
   }, [user, details.id])
 
   return (
-    <div className="row">
-      <section className="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
-        <SideMenu
+    <div id="project-page" className="row">
+      {/* <section className="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-3 col-xxl-2"> */}
+      <section
+        id="project-sidebar"
+        className="col-12 col-sm-8 col-md-4 col-lg-3 col-xl-3 col-xxl-2"
+      >
+        <SideBar
           details={details}
           handleBlur={handleBlur}
           handleChange={handleChange}
@@ -174,7 +184,11 @@ const ProjectDetails = ({ user, authenticated }) => {
           editsEnabled={editsEnabled}
         />
       </section>
-      <div className="col-12 col-sm-7 col-md-8 col-lg-9 col-xl-9 col-xxl-10">
+      {/* <section className="col-12 col-sm-7 col-md-8 col-lg-9 col-xl-9 col-xxl-10"> */}
+      <section
+        id="project-body"
+        className="col-12 col-sm-12 col-md-8 col-lg-9 col-xl-9 col-xxl-10"
+      >
         <ProjectHeader
           details={details}
           handleBlur={handleBlur}
@@ -184,7 +198,7 @@ const ProjectDetails = ({ user, authenticated }) => {
           unsavedChanges={unsavedChanges}
         />
         <Organizer projectId={projectId} editsEnabled={editsEnabled} />
-      </div>
+      </section>
     </div>
   )
 }

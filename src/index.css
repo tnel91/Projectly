@@ -43,3 +43,21 @@ main {
   background-color: rgba(200, 200, 200, 0.5);
   /* object-fit: cover; */
 }
+
+#project-page {
+  overflow: hidden;
+}
+
+#project-sidebar {
+}
+
+#tile-section {
+  display: flex;
+  overflow: auto;
+}
+
+.project-tile {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 300px;
+}

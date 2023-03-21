@@ -3,7 +3,7 @@ import Client from '../services/api'
 import { BASE_URL } from '../globals'
 import ImageWidget from './ImageWidget'
 
-const SideMenu = ({
+const SideBar = ({
   handleChange,
   handleFocus,
   handleBlur,
@@ -126,4 +126,4 @@ const SideMenu = ({
   )
 }
 
-export default SideMenu
+export default SideBar
