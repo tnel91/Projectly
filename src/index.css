@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
@@ -14,7 +15,7 @@ code {
 }
 
 main {
-  margin: 1em;
+  margin: 0.5em;
 }
 
 #form-signin {
@@ -30,7 +31,7 @@ main {
 }
 
 [class^='col-'] {
-  /* border: 1px solid red; */
+  /* padding: 0 12px; */
 }
 
 #description {
@@ -60,4 +61,10 @@ main {
   min-width: 250px;
   max-width: 250px;
   min-height: 300px;
+}
+
+#new-checklist-button {
+  margin: 0.5em;
+  height: 40px;
+  min-width: 250px;
 }

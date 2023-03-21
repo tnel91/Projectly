@@ -27,36 +27,38 @@ const Organizer = ({ projectId, editsEnabled }) => {
   }
 
   useEffect(() => {
+    console.log('editsEnabled', editsEnabled)
+  }, [editsEnabled])
+
+  useEffect(() => {
     if (checklists.length === 0) {
       getChecklists()
     }
   }, [])
 
   return (
-    <div>
-      <h5>Checklists</h5>
+    <section id="tile-section">
+      {checklists.map((checklist, i) => (
+        <div className="card p-1 g-1 project-tile" key={checklist.id}>
+          <Checklist
+            i={i}
+            editsEnabled={editsEnabled}
+            id={checklist.id}
+            listItems={checklist.list_items}
+            setChecklists={setChecklists}
+            checklists={checklists}
+          />
+        </div>
+      ))}
       <button
+        hidden={!editsEnabled}
         className="btn btn-primary"
         id="new-checklist-button"
         onClick={createChecklist}
       >
         New Checklist
       </button>
-      <section id="tile-section">
-        {checklists.map((checklist, i) => (
-          <div className="card p-1 g-1 project-tile" key={checklist.id}>
-            <Checklist
-              i={i}
-              editsEnabled={editsEnabled}
-              id={checklist.id}
-              listItems={checklist.list_items}
-              setChecklists={setChecklists}
-              checklists={checklists}
-            />
-          </div>
-        ))}
-      </section>
-    </div>
+    </section>
   )
 }
 
