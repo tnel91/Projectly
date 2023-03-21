@@ -11,7 +11,7 @@ const ProjectHeader = ({
 }) => {
   return (
     <div className="row">
-      <div className="form-floating col-9 col-md-10">
+      <div className="form-floating col-9 col-lg-7 col-xl-6 col-xxl-5">
         <input
           id="projectName"
           className="form-control"
@@ -24,7 +24,7 @@ const ProjectHeader = ({
         />
         <label htmlFor="projectName">Project Name</label>
       </div>
-      <div className="row col-3 col-md-2">
+      <div className="row col-3 col-lg-2">
         <label className="align-items-center">
           <input
             id="isPublic"

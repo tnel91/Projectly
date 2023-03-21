@@ -36,7 +36,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const handleFocus = (e) => {
-    console.log('holding set')
+    // console.log('holding set')
     setHolding(e.target.value)
   }
 
@@ -55,7 +55,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const getProjectDetails = async () => {
-    console.log('getting project details')
+    // console.log('getting project details')
     const project = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((res) => {
         return res.data
@@ -98,7 +98,7 @@ const ProjectDetails = ({ user, authenticated }) => {
         createdAt: project.created_at,
         updatedAt: project.updated_at
       })
-      console.log('project details set')
+      // console.log('project details set')
     } else {
       console.log('not authorized')
     }
@@ -109,7 +109,7 @@ const ProjectDetails = ({ user, authenticated }) => {
       // console.log(details)
       await Client.put(`/projects/${details.id}`, details, {})
         .then((response) => {
-          console.log('saved')
+          console.log('details saved')
           setUnsavedChanges(false)
         })
         .catch((error) => {
@@ -134,11 +134,6 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   const inputs = document.getElementsByTagName('input')
   const textareas = document.getElementsByTagName('textarea')
-  //
-  // console.log(textareas)
-  //
-
-  console.log(inputs)
 
   useEffect(() => {
     if (editsEnabled) {
@@ -167,7 +162,6 @@ const ProjectDetails = ({ user, authenticated }) => {
 
   return (
     <div id="project-page" className="row">
-      {/* <section className="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-3 col-xxl-2"> */}
       <section
         id="project-sidebar"
         className="col-12 col-sm-8 col-md-4 col-lg-3 col-xl-3 col-xxl-2"
@@ -184,7 +178,6 @@ const ProjectDetails = ({ user, authenticated }) => {
           editsEnabled={editsEnabled}
         />
       </section>
-      {/* <section className="col-12 col-sm-7 col-md-8 col-lg-9 col-xl-9 col-xxl-10"> */}
       <section
         id="project-body"
         className="col-12 col-sm-12 col-md-8 col-lg-9 col-xl-9 col-xxl-10"
