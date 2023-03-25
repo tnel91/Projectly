@@ -95,3 +95,5 @@ A user will be able to log in and create new projects which will store informati
 ##### Stack Overflow [StackOverflow](https://stackoverflow.com/)
 
 ##### Bootstrap Docs [Bootstrap](https://getbootstrap.com/docs/)
+
+##### Hello-Pangea/dnd [@hello-pangea/dnd](https://github.com/hello-pangea/dnd)
