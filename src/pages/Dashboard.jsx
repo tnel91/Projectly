@@ -12,7 +12,6 @@ const Dashboard = ({ user, authenticated }) => {
   const getPublicProjects = async () => {
     await Client.get(`${BASE_URL}/projects`)
       .then((response) => {
-        console.log(response.data)
         setPublicProjects(response.data)
       })
       .catch((error) => {
@@ -52,7 +51,7 @@ const Dashboard = ({ user, authenticated }) => {
     if (publicProjects.length === 0) {
       getPublicProjects()
     }
-    if (user) {
+    if (user && authenticated) {
       getUserProjects()
     }
   }, [user])

@@ -4,7 +4,13 @@ import Client from '../services/api'
 import { BASE_URL } from '../globals'
 import { Draggable, Droppable } from '@hello-pangea/dnd'
 
-const Organizer = ({ projectId, editsEnabled, dragged, setDragged }) => {
+const Organizer = ({
+  projectId,
+  editsEnabled,
+  dragged,
+  setDragged,
+  ownerId
+}) => {
   const [checklists, setChecklists] = useState([])
 
   const getChecklists = async () => {
@@ -28,8 +34,11 @@ const Organizer = ({ projectId, editsEnabled, dragged, setDragged }) => {
       })
   }
 
-  const updateOrder = async (req) => {
-    await Client.put(`${BASE_URL}/checklists/order`, req)
+  const updateOrder = async (idArr) => {
+    await Client.put(`${BASE_URL}/checklists/order`, {
+      ownerId: ownerId,
+      idArr: idArr
+    })
       .then((response) => {
         console.log(response.data)
       })
@@ -47,13 +56,13 @@ const Organizer = ({ projectId, editsEnabled, dragged, setDragged }) => {
       let newChecklists = [...checklists]
       const [draggedList] = newChecklists.splice(source.index, 1)
       newChecklists.splice(destination.index, 0, draggedList)
-      let req = []
+      let idArr = []
       let updatedChecklists = newChecklists.map((checklist, i) => {
         checklist.order_index = i
-        req.push(checklist.id)
+        idArr.push(checklist.id)
         return checklist
       })
-      updateOrder(req)
+      updateOrder(idArr)
       setChecklists(updatedChecklists)
       setDragged(null)
     }

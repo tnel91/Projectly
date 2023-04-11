@@ -36,7 +36,6 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   }
 
   const handleFocus = (e) => {
-    // console.log('holding set')
     setHolding(e.target.value)
   }
 
@@ -55,7 +54,6 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   }
 
   const getProjectDetails = async () => {
-    // console.log('getting project details')
     const project = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((res) => {
         return res.data
@@ -77,11 +75,9 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
           console.log(error)
         }
       } else if (project.image) {
-        console.log('img is not a file')
         setImageUrl(project.image)
         setImageFile('')
       } else {
-        console.log('no image')
         setImageUrl('')
         setImageFile('')
       }
@@ -195,6 +191,7 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
           editsEnabled={editsEnabled}
           dragged={dragged}
           setDragged={setDragged}
+          ownerId={details.ownerId}
         />
       </section>
     </div>
