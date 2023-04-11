@@ -10,6 +10,7 @@ const Organizer = ({ projectId, editsEnabled, dragged, setDragged }) => {
   const getChecklists = async () => {
     await Client.get(`${BASE_URL}/checklists/${projectId}`)
       .then((response) => {
+        // console.log(response.data)
         setChecklists(response.data)
       })
       .catch((error) => {
@@ -27,6 +28,16 @@ const Organizer = ({ projectId, editsEnabled, dragged, setDragged }) => {
       })
   }
 
+  const updateOrder = async (req) => {
+    await Client.put(`${BASE_URL}/checklists/order`, req)
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   useEffect(() => {
     if (
       dragged?.source?.droppableId === 'organizer' &&
@@ -36,12 +47,14 @@ const Organizer = ({ projectId, editsEnabled, dragged, setDragged }) => {
       let newChecklists = [...checklists]
       const [draggedList] = newChecklists.splice(source.index, 1)
       newChecklists.splice(destination.index, 0, draggedList)
+      let req = []
       let updatedChecklists = newChecklists.map((checklist, i) => {
         checklist.order_index = i
+        req.push(checklist.id)
         return checklist
       })
-      console.log(updatedChecklists)
-      setChecklists(newChecklists)
+      updateOrder(req)
+      setChecklists(updatedChecklists)
       setDragged(null)
     }
   }, [dragged])
