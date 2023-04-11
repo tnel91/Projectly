@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
-import SideMenu from '../components/SideMenu'
+import SideBar from '../components/SideBar'
 import ProjectHeader from '../components/ProjectHeader'
 import Organizer from '../components/Organizer'
 
-const ProjectDetails = ({ user, authenticated }) => {
+const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
 
@@ -36,7 +36,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const handleFocus = (e) => {
-    console.log('holding set')
+    // console.log('holding set')
     setHolding(e.target.value)
   }
 
@@ -55,7 +55,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const getProjectDetails = async () => {
-    console.log('getting project details')
+    // console.log('getting project details')
     const project = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((res) => {
         return res.data
@@ -98,7 +98,7 @@ const ProjectDetails = ({ user, authenticated }) => {
         createdAt: project.created_at,
         updatedAt: project.updated_at
       })
-      console.log('project details set')
+      // console.log('project details set')
     } else {
       console.log('not authorized')
     }
@@ -109,7 +109,7 @@ const ProjectDetails = ({ user, authenticated }) => {
       // console.log(details)
       await Client.put(`/projects/${details.id}`, details, {})
         .then((response) => {
-          console.log('saved')
+          console.log('details saved')
           setUnsavedChanges(false)
         })
         .catch((error) => {
@@ -133,6 +133,7 @@ const ProjectDetails = ({ user, authenticated }) => {
   }
 
   const inputs = document.getElementsByTagName('input')
+  const textareas = document.getElementsByTagName('textarea')
 
   useEffect(() => {
     if (editsEnabled) {
@@ -160,9 +161,12 @@ const ProjectDetails = ({ user, authenticated }) => {
   }, [user, details.id])
 
   return (
-    <div className="row">
-      <section className="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
-        <SideMenu
+    <div id="project-page" className="row">
+      <section
+        id="project-sidebar"
+        className="col-12 col-sm-8 col-md-4 col-lg-3 col-xl-3 col-xxl-2"
+      >
+        <SideBar
           details={details}
           handleBlur={handleBlur}
           handleChange={handleChange}
@@ -174,7 +178,10 @@ const ProjectDetails = ({ user, authenticated }) => {
           editsEnabled={editsEnabled}
         />
       </section>
-      <div className="col-12 col-sm-7 col-md-8 col-lg-9 col-xl-9 col-xxl-10">
+      <section
+        id="project-body"
+        className="col-12 col-sm-12 col-md-8 col-lg-9 col-xl-9 col-xxl-10"
+      >
         <ProjectHeader
           details={details}
           handleBlur={handleBlur}
@@ -183,8 +190,13 @@ const ProjectDetails = ({ user, authenticated }) => {
           handleCheckbox={handleCheckbox}
           unsavedChanges={unsavedChanges}
         />
-        <Organizer projectId={projectId} editsEnabled={editsEnabled} />
-      </div>
+        <Organizer
+          projectId={projectId}
+          editsEnabled={editsEnabled}
+          dragged={dragged}
+          setDragged={setDragged}
+        />
+      </section>
     </div>
   )
 }

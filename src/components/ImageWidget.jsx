@@ -1,6 +1,12 @@
 import { useState, useRef } from 'react'
 
-const ImageWidget = ({ imageUrl, setImageUrl, setImageFile, editsEnabled }) => {
+const ImageWidget = ({
+  imageUrl,
+  setImageUrl,
+  setImageFile,
+  editsEnabled,
+  setUnsavedChanges
+}) => {
   const [isHovered, setIsHovered] = useState(false)
   const [url, setUrl] = useState('')
   const [urlEditMode, setUrlEditMode] = useState(false)
@@ -13,6 +19,10 @@ const ImageWidget = ({ imageUrl, setImageUrl, setImageFile, editsEnabled }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    if (setUnsavedChanges) {
+      setUnsavedChanges(true)
+    }
+    setUnsavedChanges(true)
     setImageUrl(url)
     setUrlEditMode(false)
   }
@@ -20,6 +30,9 @@ const ImageWidget = ({ imageUrl, setImageUrl, setImageFile, editsEnabled }) => {
   const handleImageSet = (event) => {
     setUrlEditMode(false)
     const file = event.target.files[0]
+    if (setUnsavedChanges) {
+      setUnsavedChanges(true)
+    }
     setImageUrl(URL.createObjectURL(file))
     setImageFile(file)
   }

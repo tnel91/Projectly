@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
@@ -14,7 +15,7 @@ code {
 }
 
 main {
-  margin: 1em;
+  margin: 0.5em;
 }
 
 #form-signin {
@@ -30,7 +31,7 @@ main {
 }
 
 [class^='col-'] {
-  /* border: 1px solid red; */
+  /* padding: 0 12px; */
 }
 
 #description {
@@ -42,4 +43,33 @@ main {
   min-height: 100px;
   background-color: rgba(200, 200, 200, 0.5);
   /* object-fit: cover; */
+}
+
+#project-page {
+  overflow: hidden;
+}
+
+#project-sidebar {
+}
+
+#tile-section {
+  display: flex;
+  overflow: auto;
+}
+
+.project-tile {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 300px;
+}
+
+#new-checklist-button {
+  margin: 0.5em;
+  height: 40px;
+  min-width: 250px;
+}
+
+#organizer {
+  display: flex;
+  overflow: auto;
 }

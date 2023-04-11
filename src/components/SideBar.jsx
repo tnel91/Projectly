@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
 import ImageWidget from './ImageWidget'
 
-const SideMenu = ({
+const SideBar = ({
   handleChange,
   handleFocus,
   handleBlur,
@@ -14,47 +14,52 @@ const SideMenu = ({
   setImageFile,
   editsEnabled
 }) => {
+  const [unsavedChanges, setUnsavedChanges] = useState(false)
+
   const saveImage = async () => {
-    if (imageUrl.includes('blob')) {
-      // console.log('saving file')
-      const formData = new FormData()
-      formData.append('imageFile', imageFile)
-      formData.append('id', details.id)
-      // console.log(formData)
-      try {
-        const res = await Client.put(
-          `${BASE_URL}/projects/${details.id}/image-file`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
+    if (details.id && editsEnabled && unsavedChanges) {
+      console.log('saving image')
+      if (imageUrl.includes('blob')) {
+        // console.log('saving file')
+        const formData = new FormData()
+        formData.append('imageFile', imageFile)
+        formData.append('id', details.id)
+        try {
+          const res = await Client.put(
+            `${BASE_URL}/projects/${details.id}/image-file`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
             }
-          }
-        )
-        // console.log(res)
-        return res
-      } catch (err) {
-        console.log(err)
-        throw err
+          )
+          console.log('image file saved')
+          setUnsavedChanges(false)
+          return res
+        } catch (err) {
+          console.log(err)
+          throw err
+        }
+      } else if (imageUrl.includes('http', 'https', 'www')) {
+        try {
+          const res = await Client.put(
+            `${BASE_URL}/projects/${details.id}/image-url`,
+            {
+              imageUrl: imageUrl,
+              id: details.id
+            }
+          )
+          console.log('image url saved')
+          setUnsavedChanges(false)
+          return res
+        } catch (err) {
+          console.log(err)
+          throw err
+        }
+      } else {
+        console.log('no image to save')
       }
-    } else if (imageUrl.includes('http', 'https', 'www')) {
-      // console.log('saving url')
-      try {
-        const res = await Client.put(
-          `${BASE_URL}/projects/${details.id}/image-url`,
-          {
-            imageUrl: imageUrl,
-            id: details.id
-          }
-        )
-        // console.log(res)
-        return res
-      } catch (err) {
-        console.log(err)
-        throw err
-      }
-    } else {
-      // console.log('no image to save')
     }
   }
 
@@ -71,6 +76,7 @@ const SideMenu = ({
           setImageUrl={setImageUrl}
           setImageFile={setImageFile}
           editsEnabled={editsEnabled}
+          setUnsavedChanges={setUnsavedChanges}
         />
       </div>
       <h4 className="col-12">
@@ -88,7 +94,7 @@ const SideMenu = ({
         />
         <label htmlFor="budget">Budget:</label>
       </div>
-      <div className="col-6 form-floating">
+      <div className="col-12 form-floating">
         <input
           type="date"
           id="startDate"
@@ -99,7 +105,7 @@ const SideMenu = ({
         />
         <label htmlFor="startDate">Start Date:</label>
       </div>
-      <div className="col-6 form-floating">
+      <div className="col-12 form-floating">
         <input
           type="date"
           id="endDate"
@@ -126,4 +132,4 @@ const SideMenu = ({
   )
 }
 
-export default SideMenu
+export default SideBar

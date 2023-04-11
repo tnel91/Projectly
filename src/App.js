@@ -8,10 +8,12 @@ import Dashboard from './pages/Dashboard'
 import ProjectDetails from './pages/ProjectDetails'
 import Signup from './pages/Signup'
 import { CheckSession } from './services/Auth'
+import { DragDropContext } from '@hello-pangea/dnd'
 
 function App() {
   const [authenticated, toggleAuthenticated] = useState(false)
   const [user, setUser] = useState(null)
+  const [dragged, setDragged] = useState(null)
 
   const handleLogout = () => {
     setUser(null)
@@ -25,6 +27,23 @@ function App() {
     toggleAuthenticated(true)
   }
 
+  const onDragEnd = (result, k) => {
+    const { destination, source, draggableId } = result
+    if (!destination) {
+      console.log('no destination')
+      return
+    }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      console.log('no change')
+      return
+    }
+    console.log('dragged')
+    setDragged(result)
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -34,39 +53,46 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <Navbar
-          user={user}
-          authenticated={authenticated}
-          handleLogout={handleLogout}
-        />
-      </header>
-      <main>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Landing
-                setUser={setUser}
-                toggleAuthenticated={toggleAuthenticated}
-              />
-            }
+      <DragDropContext onDragEnd={onDragEnd}>
+        <header>
+          <Navbar
+            user={user}
+            authenticated={authenticated}
+            handleLogout={handleLogout}
           />
-          <Route path="/signup" element={<Signup />} />
-          {/* <Route path="/about" element={<About />} />
+        </header>
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Landing
+                  setUser={setUser}
+                  toggleAuthenticated={toggleAuthenticated}
+                />
+              }
+            />
+            <Route path="/signup" element={<Signup />} />
+            {/* <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} /> */}
-          <Route
-            path="/dashboard"
-            element={<Dashboard user={user} authenticated={authenticated} />}
-          />
-          <Route
-            path="/project/:projectId"
-            element={
-              <ProjectDetails user={user} authenticated={authenticated} />
-            }
-          />
-        </Routes>
-      </main>
+            <Route
+              path="/dashboard"
+              element={<Dashboard user={user} authenticated={authenticated} />}
+            />
+            <Route
+              path="/project/:projectId"
+              element={
+                <ProjectDetails
+                  user={user}
+                  authenticated={authenticated}
+                  dragged={dragged}
+                  setDragged={setDragged}
+                />
+              }
+            />
+          </Routes>
+        </main>
+      </DragDropContext>
     </div>
   )
 }
