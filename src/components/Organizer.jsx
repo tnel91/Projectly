@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import Checklist from '../components/Checklist'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
-import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
+import { Draggable, Droppable } from '@hello-pangea/dnd'
 
-const Organizer = ({ projectId, editsEnabled }) => {
+const Organizer = ({ projectId, editsEnabled, dragged, setDragged }) => {
   const [checklists, setChecklists] = useState([])
 
   const getChecklists = async () => {
@@ -28,24 +28,53 @@ const Organizer = ({ projectId, editsEnabled }) => {
   }
 
   useEffect(() => {
-    console.log('editsEnabled', editsEnabled)
-  }, [editsEnabled])
+    if (
+      dragged?.source?.droppableId === 'organizer' &&
+      dragged?.destination?.droppableId === 'organizer'
+    ) {
+      const { source, destination } = dragged
+      let newChecklists = [...checklists]
+      const [draggedList] = newChecklists.splice(source.index, 1)
+      newChecklists.splice(destination.index, 0, draggedList)
+      let updatedChecklists = newChecklists.map((checklist, i) => {
+        checklist.order_index = i
+        return checklist
+      })
+      console.log(updatedChecklists)
+      setChecklists(newChecklists)
+      setDragged(null)
+    }
+  }, [dragged])
 
   useEffect(() => {
     if (checklists.length === 0) {
       getChecklists()
     }
-  }, [])
+  }, [checklists])
 
   return (
-    <DragDropContext>
-      <Droppable>
-        {(provided) => (
-          <div id="tile-section" className="border border-danger">
-            {checklists.map((checklist, i) => (
-              <Draggable key={checklist.id}>
-                {(provided) => (
-                  <div className="card p-1 g-1 project-tile" key={checklist.id}>
+    <Droppable droppableId="organizer" direction="horizontal">
+      {(provided) => (
+        <div
+          id="tile-section"
+          className="border border-danger"
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+        >
+          {checklists.map((checklist, i) => (
+            <Draggable
+              key={checklist.id}
+              draggableId={`${checklist.id}`}
+              index={i}
+            >
+              {(provided) => (
+                <div
+                  className="card p-1 g-1 project-tile"
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                >
+                  {
                     <Checklist
                       i={i}
                       editsEnabled={editsEnabled}
@@ -54,22 +83,23 @@ const Organizer = ({ projectId, editsEnabled }) => {
                       setChecklists={setChecklists}
                       checklists={checklists}
                     />
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            <button
-              hidden={!editsEnabled}
-              className="btn btn-primary"
-              id="new-checklist-button"
-              onClick={createChecklist}
-            >
-              New Checklist
-            </button>
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+                  }
+                </div>
+              )}
+            </Draggable>
+          ))}
+          <button
+            hidden={!editsEnabled}
+            className="btn btn-primary"
+            id="new-checklist-button"
+            onClick={createChecklist}
+          >
+            New Checklist
+          </button>
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
   )
 }
 

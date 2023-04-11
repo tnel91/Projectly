@@ -68,3 +68,8 @@ main {
   height: 40px;
   min-width: 250px;
 }
+
+#organizer {
+  display: flex;
+  overflow: auto;
+}

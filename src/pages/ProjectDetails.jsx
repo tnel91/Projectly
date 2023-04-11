@@ -6,7 +6,7 @@ import SideBar from '../components/SideBar'
 import ProjectHeader from '../components/ProjectHeader'
 import Organizer from '../components/Organizer'
 
-const ProjectDetails = ({ user, authenticated }) => {
+const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   let navigate = useNavigate()
   let { projectId } = useParams()
 
@@ -190,7 +190,12 @@ const ProjectDetails = ({ user, authenticated }) => {
           handleCheckbox={handleCheckbox}
           unsavedChanges={unsavedChanges}
         />
-        <Organizer projectId={projectId} editsEnabled={editsEnabled} />
+        <Organizer
+          projectId={projectId}
+          editsEnabled={editsEnabled}
+          dragged={dragged}
+          setDragged={setDragged}
+        />
       </section>
     </div>
   )
