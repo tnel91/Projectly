@@ -102,10 +102,8 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
 
   const saveProject = async () => {
     if (details.id && editsEnabled) {
-      // console.log(details)
       await Client.put('/projects', details, {})
         .then((response) => {
-          console.log('details saved')
           setUnsavedChanges(false)
         })
         .catch((error) => {
@@ -128,15 +126,17 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
     }
   }
 
-  const inputs = document.getElementsByTagName('input')
-  const textareas = document.getElementsByTagName('textarea')
-
   useEffect(() => {
+    const inputs = document.getElementsByTagName('input')
+    const description = document.getElementById('description')
     if (editsEnabled) {
+      description.removeAttribute('disabled')
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].removeAttribute('disabled')
       }
     } else {
+      console.log(description)
+      description.setAttribute('disabled', 'disabled')
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].setAttribute('disabled', 'disabled')
       }
@@ -185,6 +185,7 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
           handleFocus={handleFocus}
           handleCheckbox={handleCheckbox}
           unsavedChanges={unsavedChanges}
+          deleteProject={deleteProject}
         />
         <Organizer
           projectId={projectId}

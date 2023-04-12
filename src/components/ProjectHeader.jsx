@@ -1,5 +1,4 @@
 import saveIcon from '../assets/save-64.png'
-import { useEffect } from 'react'
 
 const ProjectHeader = ({
   handleChange,
@@ -7,11 +6,12 @@ const ProjectHeader = ({
   handleBlur,
   handleCheckbox,
   details,
-  unsavedChanges
+  unsavedChanges,
+  deleteProject
 }) => {
   return (
     <div className="row">
-      <div className="form-floating col-9 col-lg-7 col-xl-6 col-xxl-5">
+      <div className="form-floating col-6 col-lg-7 col-xl-6 col-xxl-5">
         <input
           id="projectName"
           className="form-control"
@@ -34,6 +34,11 @@ const ProjectHeader = ({
           />
           <p className="align-center">Public?</p>
         </label>
+      </div>
+      <div className="col-2 col-lg-2">
+        <button className="btn btn-danger" onClick={deleteProject}>
+          Delete Project
+        </button>
       </div>
       <div className="position-absolute top-0 end-0">
         {unsavedChanges && <img src={saveIcon} alt="saveIcon" />}

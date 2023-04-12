@@ -116,7 +116,7 @@ const SideBar = ({
         />
         <label htmlFor="endDate">End Date:</label>
       </div>
-      <div id="description" className="col-12 form-floating">
+      <div className="col-12 form-floating">
         <textarea
           id="description"
           className="form-control"
