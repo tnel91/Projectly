@@ -21,7 +21,7 @@ const Dashboard = ({ user, authenticated }) => {
 
   const getUserProjects = async () => {
     document.getElementById('my-projects-section').removeAttribute('hidden')
-    await Client.get(`${BASE_URL}/projects/user/${user.id}`)
+    await Client.get(`${BASE_URL}/projects/user`)
       .then((response) => {
         setUserProjects(response.data)
       })
@@ -35,10 +35,7 @@ const Dashboard = ({ user, authenticated }) => {
   }
 
   const createNewProject = async () => {
-    let newProject = {
-      user_id: user.id
-    }
-    await Client.post('/projects', newProject)
+    await Client.post('/projects')
       .then((response) => {
         navProjectDetails(response.data.id)
       })

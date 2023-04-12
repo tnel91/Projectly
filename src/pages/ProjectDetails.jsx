@@ -53,6 +53,7 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
     setDetails({ ...details, [e.target.id]: e.target.checked })
   }
 
+  // handle this security on the back end
   const getProjectDetails = async () => {
     const project = await Client.get(`${BASE_URL}/projects/${projectId}`)
       .then((res) => {
@@ -94,7 +95,6 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
         createdAt: project.created_at,
         updatedAt: project.updated_at
       })
-      // console.log('project details set')
     } else {
       console.log('not authorized')
     }
@@ -103,7 +103,7 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   const saveProject = async () => {
     if (details.id && editsEnabled) {
       // console.log(details)
-      await Client.put(`/projects/${details.id}`, details, {})
+      await Client.put('/projects', details, {})
         .then((response) => {
           console.log('details saved')
           setUnsavedChanges(false)

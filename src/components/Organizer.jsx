@@ -11,12 +11,11 @@ const Organizer = ({
   setDragged,
   ownerId
 }) => {
-  const [checklists, setChecklists] = useState([])
+  const [checklists, setChecklists] = useState(null)
 
   const getChecklists = async () => {
     await Client.get(`${BASE_URL}/checklists/${projectId}`)
       .then((response) => {
-        // console.log(response.data)
         setChecklists(response.data)
       })
       .catch((error) => {
@@ -69,7 +68,7 @@ const Organizer = ({
   }, [dragged])
 
   useEffect(() => {
-    if (checklists.length === 0) {
+    if (!checklists) {
       getChecklists()
     }
   }, [checklists])
@@ -83,33 +82,34 @@ const Organizer = ({
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
-          {checklists.map((checklist, i) => (
-            <Draggable
-              key={checklist.id}
-              draggableId={`${checklist.id}`}
-              index={i}
-            >
-              {(provided) => (
-                <div
-                  className="card p-1 g-1 project-tile"
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                >
-                  {
-                    <Checklist
-                      i={i}
-                      editsEnabled={editsEnabled}
-                      id={checklist.id}
-                      listItems={checklist.list_items}
-                      setChecklists={setChecklists}
-                      checklists={checklists}
-                    />
-                  }
-                </div>
-              )}
-            </Draggable>
-          ))}
+          {checklists &&
+            checklists.map((checklist, i) => (
+              <Draggable
+                key={checklist.id}
+                draggableId={`${checklist.id}`}
+                index={i}
+              >
+                {(provided) => (
+                  <div
+                    className="card p-1 g-1 project-tile"
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    {
+                      <Checklist
+                        i={i}
+                        editsEnabled={editsEnabled}
+                        id={checklist.id}
+                        listItems={checklist.list_items}
+                        setChecklists={setChecklists}
+                        checklists={checklists}
+                      />
+                    }
+                  </div>
+                )}
+              </Draggable>
+            ))}
           <button
             hidden={!editsEnabled}
             className="btn btn-primary"
