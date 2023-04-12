@@ -4,7 +4,7 @@
 
 ---
 
-#### [Frontend-Repo](https://github.com/tnel91/project-planner-frontend) | [Backend-Repo](https://github.com/tnel91/project-planner-backend) | [Trello](https://trello.com/b/uhNfbuGR/project-planner) | [Heroku Deployment](https://project-planner.herokuapp.com/)
+#### [Frontend-Repo](https://github.com/tnel91/project-planner-frontend) | [Backend-Repo](https://github.com/tnel91/project-planner-backend) | [Trello](https://trello.com/b/uhNfbuGR/project-planner) | [Netlify Deployment](https://projectly-app.netlify.app/)
 
 ---
 
