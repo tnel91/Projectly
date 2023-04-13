@@ -19,7 +19,7 @@ const Organizer = ({
         setChecklists(response.data)
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error.response.data)
       })
   }
 
@@ -29,7 +29,7 @@ const Organizer = ({
         setChecklists([...checklists, response.data])
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error.response.data)
       })
   }
 
@@ -42,7 +42,7 @@ const Organizer = ({
         console.log(response.data)
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error.response.data)
       })
   }
 

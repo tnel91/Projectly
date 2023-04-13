@@ -13,7 +13,7 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   const [imageUrl, setImageUrl] = useState('')
   const [imageFile, setImageFile] = useState('')
   const [unsavedChanges, setUnsavedChanges] = useState(false)
-  const [editsEnabled, setEditsEnabled] = useState(false)
+  const [editsEnabled, setEditsEnabled] = useState(null)
   const [details, setDetails] = useState({
     owner: '',
     ownerId: '',
@@ -62,48 +62,45 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
       .catch((error) => {
         console.log(error)
       })
-    if (project.is_public || (user && project.owner.id === user.id)) {
-      if (project.image.includes('uploads')) {
-        try {
-          let uint8Array = new Uint8Array(project.image_file.data)
-          let image = new Blob([uint8Array], {
-            type: 'image/jpeg'
-          })
-          let newFile = new File([image], 'image.jpg', { type: 'image/jpeg' })
-          setImageFile(newFile)
-          setImageUrl(URL.createObjectURL(newFile))
-        } catch (error) {
-          console.log(error)
-        }
-      } else if (project.image) {
-        setImageUrl(project.image)
-        setImageFile('')
-      } else {
-        setImageUrl('')
-        setImageFile('')
+    if (project.image.includes('uploads')) {
+      try {
+        let uint8Array = new Uint8Array(project.image_file.data)
+        let image = new Blob([uint8Array], {
+          type: 'image/jpeg'
+        })
+        let newFile = new File([image], 'image.jpg', { type: 'image/jpeg' })
+        setImageFile(newFile)
+        setImageUrl(URL.createObjectURL(newFile))
+      } catch (error) {
+        console.log(error)
       }
-      setDetails({
-        owner: project.owner.username,
-        ownerId: project.owner.id,
-        id: project.id,
-        projectName: project.project_name,
-        description: project.description,
-        budget: project.budget,
-        startDate: project.start_date,
-        endDate: project.end_date,
-        isPublic: project.is_public,
-        createdAt: project.created_at,
-        updatedAt: project.updated_at
-      })
+    } else if (project.image) {
+      setImageUrl(project.image)
+      setImageFile('')
     } else {
-      console.log('not authorized')
+      setImageUrl('')
+      setImageFile('')
     }
+    setDetails({
+      owner: project.owner.username,
+      ownerId: project.user_id,
+      id: project.id,
+      projectName: project.project_name,
+      description: project.description,
+      budget: project.budget,
+      startDate: project.start_date,
+      endDate: project.end_date,
+      isPublic: project.is_public,
+      createdAt: project.created_at,
+      updatedAt: project.updated_at
+    })
+    setEditsEnabled(project.canEdit)
   }
 
   const saveProject = async () => {
     if (details.id && editsEnabled) {
       await Client.put('/projects', details, {})
-        .then((response) => {
+        .then(() => {
           setUnsavedChanges(false)
         })
         .catch((error) => {
@@ -117,11 +114,11 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
     if (res) {
       await Client.delete(`/projects/${details.id}`)
         .then((response) => {
-          console.log(response)
+          console.log(response.data)
           navigate('/dashboard')
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error.response.data)
         })
     }
   }
@@ -135,7 +132,6 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
         inputs[i].removeAttribute('disabled')
       }
     } else {
-      console.log(description)
       description.setAttribute('disabled', 'disabled')
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].setAttribute('disabled', 'disabled')
@@ -148,13 +144,10 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   }, [details.isPublic, details.startDate, details.endDate])
 
   useEffect(() => {
-    if (!details.id) {
+    if (user && !details.id) {
       getProjectDetails()
     }
-    if (user && authenticated && user.id === details.ownerId) {
-      setEditsEnabled(true)
-    }
-  }, [user, details.id])
+  }, [user])
 
   return (
     <div id="project-page" className="row">
