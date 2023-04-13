@@ -100,7 +100,7 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   const saveProject = async () => {
     if (details.id && editsEnabled) {
       await Client.put('/projects', details, {})
-        .then(() => {
+        .then((res) => {
           setUnsavedChanges(false)
         })
         .catch((error) => {
@@ -126,9 +126,6 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   useEffect(() => {
     const inputs = document.getElementsByTagName('input')
     const description = document.getElementById('description')
-    const draggedBoxes = document.getElementById('potato')
-    // console.log(draggedBoxes)
-    // console.log(inputs)
     if (editsEnabled) {
       description.removeAttribute('disabled')
       for (let i = 0; i < inputs.length; i++) {
@@ -182,6 +179,7 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
           handleCheckbox={handleCheckbox}
           unsavedChanges={unsavedChanges}
           deleteProject={deleteProject}
+          editsEnabled={editsEnabled}
         />
         <Organizer
           projectId={projectId}

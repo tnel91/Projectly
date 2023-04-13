@@ -7,7 +7,8 @@ const ProjectHeader = ({
   handleCheckbox,
   details,
   unsavedChanges,
-  deleteProject
+  deleteProject,
+  editsEnabled
 }) => {
   return (
     <div className="row">
@@ -24,7 +25,7 @@ const ProjectHeader = ({
         />
         <label htmlFor="projectName">Project Name</label>
       </div>
-      <div className="row col-3 col-lg-2">
+      <div className="row col-3 col-lg-2" hidden={!editsEnabled}>
         <label className="align-items-center">
           <input
             id="isPublic"
@@ -35,7 +36,7 @@ const ProjectHeader = ({
           <p className="align-center">Public?</p>
         </label>
       </div>
-      <div className="col-2 col-lg-2">
+      <div className="col-2 col-lg-2" hidden={!editsEnabled}>
         <button className="btn btn-danger" onClick={deleteProject}>
           Delete Project
         </button>
