@@ -37,13 +37,9 @@ const Organizer = ({
     await Client.put(`${BASE_URL}/checklists/order`, {
       ownerId: ownerId,
       idArr: idArr
+    }).catch((error) => {
+      console.log(error.response.data)
     })
-      .then((response) => {
-        console.log(response.data)
-      })
-      .catch((error) => {
-        console.log(error.response.data)
-      })
   }
 
   useEffect(() => {
@@ -85,6 +81,7 @@ const Organizer = ({
           {checklists &&
             checklists.map((checklist, i) => (
               <Draggable
+                isDragDisabled={!editsEnabled}
                 key={checklist.id}
                 draggableId={`${checklist.id}`}
                 index={i}

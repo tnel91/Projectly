@@ -126,6 +126,9 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
   useEffect(() => {
     const inputs = document.getElementsByTagName('input')
     const description = document.getElementById('description')
+    const draggedBoxes = document.getElementById('potato')
+    // console.log(draggedBoxes)
+    // console.log(inputs)
     if (editsEnabled) {
       description.removeAttribute('disabled')
       for (let i = 0; i < inputs.length; i++) {

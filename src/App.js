@@ -30,17 +30,14 @@ function App() {
   const onDragEnd = (result, k) => {
     const { destination, source, draggableId } = result
     if (!destination) {
-      console.log('no destination')
       return
     }
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
-      console.log('no change')
       return
     }
-    console.log('dragged')
     setDragged(result)
   }
 
