@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Client from '../services/api'
 import { BASE_URL } from '../globals'
 import ImageWidget from './ImageWidget'
+import saveIcon from '../assets/save-64.png'
 
 const SideBar = ({
   handleChange,
@@ -12,15 +13,17 @@ const SideBar = ({
   setImageUrl,
   imageFile,
   setImageFile,
-  editsEnabled
+  editsEnabled,
+  deleteProject,
+  handleCheckbox,
+  unsavedChanges
 }) => {
-  const [unsavedChanges, setUnsavedChanges] = useState(false)
+  const [unsavedImage, setUnsavedImage] = useState(false)
 
   const saveImage = async () => {
-    if (details.id && editsEnabled && unsavedChanges) {
+    if (details.id && editsEnabled && unsavedImage) {
       console.log('saving image')
       if (imageUrl.includes('blob')) {
-        // console.log('saving file')
         const formData = new FormData()
         formData.append('imageFile', imageFile)
         formData.append('id', details.id)
@@ -34,9 +37,11 @@ const SideBar = ({
               }
             }
           )
-          console.log('image file saved')
-          setUnsavedChanges(false)
-          return res
+          if (res) {
+            console.log('image file saved')
+            setUnsavedImage(false)
+            return res
+          }
         } catch (err) {
           console.log(err)
           throw err
@@ -50,9 +55,11 @@ const SideBar = ({
               id: details.id
             }
           )
-          console.log('image url saved')
-          setUnsavedChanges(false)
-          return res
+          if (res) {
+            console.log('image url saved')
+            setUnsavedImage(false)
+            return res
+          }
         } catch (err) {
           console.log(err)
           throw err
@@ -64,19 +71,41 @@ const SideBar = ({
   }
 
   useEffect(() => {
-    // console.log('image url changed')
     saveImage()
   }, [imageUrl])
 
   return (
     <div className="row">
+      {editsEnabled && (
+        <div className="col-12 row">
+          <div className="col-4">
+            <label className="align-items-center">
+              <input
+                id="isPublic"
+                type="checkbox"
+                checked={details.isPublic}
+                onChange={handleCheckbox}
+              />
+              <p className="align-center">Public?</p>
+            </label>
+          </div>
+          <div className="col-4">
+            <button className="btn btn-danger" onClick={deleteProject}>
+              Delete Project
+            </button>
+          </div>
+          <div className="col-4">
+            {unsavedChanges && <img src={saveIcon} alt="saveIcon" />}
+          </div>
+        </div>
+      )}
       <div className="col-12">
         <ImageWidget
           imageUrl={imageUrl}
           setImageUrl={setImageUrl}
           setImageFile={setImageFile}
           editsEnabled={editsEnabled}
-          setUnsavedChanges={setUnsavedChanges}
+          setUnsavedImage={setUnsavedImage}
         />
       </div>
       <h4 className="col-12">

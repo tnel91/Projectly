@@ -45,6 +45,7 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
     } else {
       console.log('value is 0')
       setDetails({ ...details, [e.target.id]: holding })
+      setUnsavedChanges(false)
     }
     setHolding('')
   }
@@ -165,6 +166,9 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
           imageFile={imageFile}
           setImageFile={setImageFile}
           editsEnabled={editsEnabled}
+          handleCheckbox={handleCheckbox}
+          deleteProject={deleteProject}
+          unsavedChanges={unsavedChanges}
         />
       </section>
       <section
@@ -176,9 +180,7 @@ const ProjectDetails = ({ user, authenticated, dragged, setDragged }) => {
           handleBlur={handleBlur}
           handleChange={handleChange}
           handleFocus={handleFocus}
-          handleCheckbox={handleCheckbox}
           unsavedChanges={unsavedChanges}
-          deleteProject={deleteProject}
           editsEnabled={editsEnabled}
         />
         <Organizer

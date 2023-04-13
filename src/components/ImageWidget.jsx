@@ -5,7 +5,7 @@ const ImageWidget = ({
   setImageUrl,
   setImageFile,
   editsEnabled,
-  setUnsavedChanges
+  setUnsavedImage
 }) => {
   const [isHovered, setIsHovered] = useState(false)
   const [url, setUrl] = useState('')
@@ -19,10 +19,9 @@ const ImageWidget = ({
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (setUnsavedChanges) {
-      setUnsavedChanges(true)
+    if (setUnsavedImage) {
+      setUnsavedImage(true)
     }
-    setUnsavedChanges(true)
     setImageUrl(url)
     setUrlEditMode(false)
   }
@@ -30,8 +29,8 @@ const ImageWidget = ({
   const handleImageSet = (event) => {
     setUrlEditMode(false)
     const file = event.target.files[0]
-    if (setUnsavedChanges) {
-      setUnsavedChanges(true)
+    if (setUnsavedImage) {
+      setUnsavedImage(true)
     }
     setImageUrl(URL.createObjectURL(file))
     setImageFile(file)
